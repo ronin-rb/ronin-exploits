@@ -20,4 +20,4 @@
 #
 
 require 'ronin/payloads/payload'
-require 'ronin/payloads/targetedpayload'
+require 'ronin/payloads/targeted_payload'
