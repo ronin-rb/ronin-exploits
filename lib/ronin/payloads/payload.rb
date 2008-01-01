@@ -20,10 +20,9 @@
 #
 
 require 'ronin/payloads/payloadauthor'
+require 'ronin/repo/object_context'
 require 'ronin/parameters'
 require 'ronin/license'
-
-require 'og'
 
 module Ronin
   module Payloads
@@ -50,6 +49,8 @@ module Ronin
       has_one :license, License
 
       schema_inheritance
+
+      object_contextify :payload
 
       def initialize(name=nil,version=nil,&block)
         super()

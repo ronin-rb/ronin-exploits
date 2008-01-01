@@ -29,6 +29,8 @@ module Ronin
       # Target of the payload
       has_one :target, PayloadTarget
 
+      object_contextify :targeted_payload
+
       def initialize(name=nil,version=nil,&block)
         super(name,version,&block)
       end
