@@ -26,14 +26,10 @@ module Ronin
   module Payloads
     class TargetedPayload < Payload
 
-      # Target of the payload
-      has_one :target, PayloadTarget
-
       object_contextify :targeted_payload
 
-      def initialize(name=nil,version=nil,&block)
-        super(name,version,&block)
-      end
+      # Target of the payload
+      has 0..n, :target, :class_name => 'Ronin::Payloads::PayloadTarget'
 
     end
   end

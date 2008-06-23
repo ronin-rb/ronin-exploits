@@ -19,8 +19,8 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/payloads/payloadauthor'
-require 'ronin/repo/object_context'
+require 'ronin/payloads/payload_author'
+require 'ronin/cache/object_context'
 require 'ronin/parameters'
 require 'ronin/license'
 
@@ -28,41 +28,31 @@ module Ronin
   module Payloads
     class Payload
 
+      include Cache::ObjectContext
       include Parameters
-
-      # Name of the specific payload
-      attr_accessor :name, String
-
-      # Version of the payload
-      attr_accessor :version, String
-
-      # Description of the payload
-      attr_accessor :description, String
-
-      # Payload data
-      attr_accessor :data
-
-      # Author(s) of the payload
-      has_many :authors, PayloadAuthor
-
-      # Content license
-      has_one :license, License
-
-      schema_inheritance
 
       object_contextify :payload
 
-      def initialize(name=nil,version=nil,&block)
-        super()
+      # Name of the specific payload
+      property :name, String
 
-        @name = name
-        @version = version
+      # Version of the payload
+      property :version, String
 
-        instance_eval(&block) if block
-      end
+      # Description of the payload
+      property :description, String
 
-      def author(name=ANONYMOUSE,info={:organization=> nil, :pgp_signature => nil, :address => nil, :phone => nil, :email => nil, :site => nil, :biography => nil},&block)
-        @authors << PayloadAuthor.new(name,info,&block)
+      # Author(s) of the payload
+      has 0..n, :authors, :class_name => 'Ronin::Payloads::PayloadAuthor'
+
+      # Content license
+      belongs_to :license, :class_name => 'Ronin::License'
+
+      # Payload package
+      attr_accessor :package
+
+      def author(options={},&block)
+        @authors << PayloadAuthor.new(options,&block)
       end
 
       def prepare(exploit)
@@ -72,11 +62,11 @@ module Ronin
       end
 
       def is_built?
-        !(@data.nil? || @data.empty?)
+        !(@package.nil? || @package.empty?)
       end
 
       def build
-        @data = ''
+        @package = ''
 
         builder
       end
@@ -85,21 +75,18 @@ module Ronin
       end
 
       def is_clean?
-        @data.nil?
+        @package.nil?
       end
 
       def clean
         cleaner
 
-        @data = nil
+        @package = nil
       end
 
       def to_s
-        if @version
-          return "#{@name}-#{@version}"
-        else
-          return @name.to_s
-        end
+        return "#{@name}-#{@version}" if @version
+        return @name.to_s
       end
 
     end

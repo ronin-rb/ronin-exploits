@@ -25,11 +25,7 @@ module Ronin
   module Payloads
     class PayloadTarget < Target
 
-      belongs_to :targeted_payload
-
-      def initialize(platform=nil,arch=nil)
-        super(platform,arch)
-      end
+      belongs_to :payload, :class_name => 'Ronin::Payloads::TargetedPayload'
 
     end
   end
