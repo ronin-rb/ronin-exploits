@@ -1,8 +1,9 @@
 #
-# Ronin - A decentralized repository for the storage and sharing of computer
-# security advisories, exploits and payloads.
+#--
+# Ronin Exploits - A Ruby library for Ronin that provides exploitation and
+# payload crafting functionality.
 #
-# Copyright (c) 2007 Hal Brodigan (postmodern at users.sourceforge.net)
+# Copyright (c) 2007-2008 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,6 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#++
 #
 
 require 'ronin/payloads/payload_author'
@@ -51,39 +53,68 @@ module Ronin
       # Payload package
       attr_accessor :package
 
+      #
+      # Adds a new PayloadAuthor with the given _options_ and _block_.
+      #
       def author(options={},&block)
         @authors << PayloadAuthor.new(options,&block)
       end
 
+      #
+      # Default prepare method.
+      #
       def prepare(exploit)
       end
 
+      #
+      # Default builder method.
+      #
       def builder
       end
 
+      #
+      # Returns +true+ if the payload is built, returns +false+ otherwise.
+      #
       def is_built?
         !(@package.nil? || @package.empty?)
       end
 
+      #
+      # Performs a clean build of the payload.
+      #
       def build
         @package = ''
 
         builder
       end
 
+      #
+      # Default cleaner method.
+      #
       def cleaner
       end
 
+      #
+      # Returns +true+ if the payload has been cleaned, returns false
+      # otherwise.
+      #
       def is_clean?
         @package.nil?
       end
 
+      #
+      # Cleans the payload.
+      #
       def clean
         cleaner
 
         @package = nil
       end
 
+      #
+      # Returns a String form of the payload containing the payload's name
+      # and version.
+      #
       def to_s
         return "#{@name}-#{@version}" if @version
         return @name.to_s
