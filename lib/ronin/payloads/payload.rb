@@ -22,7 +22,7 @@
 #
 
 require 'ronin/payloads/payload_author'
-require 'ronin/cache/object_context'
+require 'ronin/object_context'
 require 'ronin/parameters'
 require 'ronin/license'
 
@@ -30,7 +30,7 @@ module Ronin
   module Payloads
     class Payload
 
-      include Cache::ObjectContext
+      include ObjectContext
       include Parameters
 
       object_contextify :payload
