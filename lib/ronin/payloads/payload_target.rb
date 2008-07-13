@@ -27,7 +27,7 @@ module Ronin
   module Payloads
     class PayloadTarget < Target
 
-      belongs_to :payload, :class_name => 'Ronin::Payloads::TargetedPayload'
+      belongs_to :payload
 
     end
   end

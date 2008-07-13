@@ -31,7 +31,7 @@ module Ronin
       object_contextify :targeted_payload
 
       # Target of the payload
-      has 0..n, :target, :class_name => 'Ronin::Payloads::PayloadTarget'
+      has n, :targets, :class_name => 'PayloadTarget'
 
     end
   end

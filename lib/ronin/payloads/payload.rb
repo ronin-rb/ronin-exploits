@@ -45,19 +45,19 @@ module Ronin
       property :description, String
 
       # Author(s) of the payload
-      has 0..n, :authors, :class_name => 'Ronin::Payloads::PayloadAuthor'
+      has n, :authors, :class_name => 'PayloadAuthor'
 
       # Content license
-      belongs_to :license, :class_name => 'Ronin::License'
+      belongs_to :license
 
       # Payload package
       attr_accessor :package
 
       #
-      # Adds a new PayloadAuthor with the given _options_ and _block_.
+      # Adds a new PayloadAuthor with the given _attribs_ and _block_.
       #
-      def author(options={},&block)
-        @authors << PayloadAuthor.new(options,&block)
+      def author(attribs={},&block)
+        authors << PayloadAuthor.first_or_create(attribs,&block)
       end
 
       #
