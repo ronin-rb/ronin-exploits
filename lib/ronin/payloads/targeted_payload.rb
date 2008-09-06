@@ -33,6 +33,10 @@ module Ronin
       # Target of the payload
       has n, :targets, :class_name => 'PayloadTarget'
 
+      def target(attributes={},&block)
+        targets << PayloadTarget.first_or_create(attributes,&block)
+      end
+
     end
   end
 end

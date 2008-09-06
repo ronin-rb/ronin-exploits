@@ -39,10 +39,10 @@ module Ronin
       property :name, String
 
       # Version of the payload
-      property :version, String
+      property :version, String, :default => '0.1'
 
       # Description of the payload
-      property :description, String
+      property :description, Text
 
       # Author(s) of the payload
       has n, :authors, :class_name => 'PayloadAuthor'
@@ -50,14 +50,66 @@ module Ronin
       # Content license
       belongs_to :license
 
+      # Validations
+      validates_present :name
+      validates_is_unique :version, :scope => [:name]
+
+      # Encoders to apply to the payload
+      attr_reader :encoders
+
       # Payload package
       attr_accessor :package
+
+      # Encoded payload package
+      attr_reader :encoded_package
+
+      #
+      # Creates a new Payload object with the given _options_. If a
+      # _block_ is given, it will be passed the newly created Payload
+      # object.
+      #
+      def initialize(options={},&block)
+        super(options)
+
+        @encoders = []
+
+        block.call(self) if block
+      end
+
+      #
+      # Finds all payloads with names like the specified _name_.
+      #
+      def self.named(name)
+        self.all(:name.like => "%#{name}%")
+      end
+
+      #
+      # Finds all payloads with descriptions like the specified
+      # _description_.
+      #
+      def self.describing(description)
+        self.all(:description.like => "%#{description}%")
+      end
+
+      #
+      # Finds the payload with the most recent vesion.
+      #
+      def self.latest
+        self.first(:order => [:version.desc])
+      end
 
       #
       # Adds a new PayloadAuthor with the given _attribs_ and _block_.
       #
       def author(attribs={},&block)
         authors << PayloadAuthor.first_or_create(attribs,&block)
+      end
+
+      #
+      # Add the specified _encoder_object_ to the encoders.
+      #
+      def encoder(encoder_object)
+        @encoders << encoder_object
       end
 
       #
@@ -80,12 +132,22 @@ module Ronin
       end
 
       #
-      # Performs a clean build of the payload.
+      # Performs a clean build of the payload. If a _block_ is given, it
+      # will be passed the built and encoded package.
       #
-      def build
+      def build(&block)
         @package = ''
 
         builder
+
+        @encoded_package = @package
+
+        @encoders.each do |enc|
+          @encoded_package = encode(@encoded_package)
+        end
+
+        block.call(@encoded_package) if block
+        return @encoded_package
       end
 
       #
@@ -99,7 +161,7 @@ module Ronin
       # otherwise.
       #
       def is_clean?
-        @package.nil?
+        (@encoded_package.nil? && @package.nil?)
       end
 
       #
@@ -108,7 +170,14 @@ module Ronin
       def clean
         cleaner
 
+        @encoded_package = nil
         @package = nil
+      end
+
+      #
+      # Default method to call after the payload has been launched.
+      #
+      def launch(&block)
       end
 
       #
@@ -116,7 +185,7 @@ module Ronin
       # and version.
       #
       def to_s
-        return "#{@name}-#{@version}" if @version
+        return "#{@name} #{@version}" if @version
         return @name.to_s
       end
 
