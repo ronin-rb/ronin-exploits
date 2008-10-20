@@ -36,10 +36,10 @@ module Ronin
       object_contextify :payload
 
       # Name of the specific payload
-      property :name, String
+      property :name, String, :index => true
 
       # Version of the payload
-      property :version, String, :default => '0.1'
+      property :version, String, :default => '0.1', :index => true
 
       # Description of the payload
       property :description, Text
