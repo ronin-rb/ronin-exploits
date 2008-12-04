@@ -22,4 +22,21 @@
 #
 
 require 'ronin/payloads/payload'
-require 'ronin/payloads/targeted_payload'
+require 'ronin/payloads/payload_target'
+
+module Ronin
+  module Payloads
+    class BinaryPayload < Payload
+
+      object_contextify :binary_payload
+
+      # Target of the payload
+      has n, :targets, :class_name => 'PayloadTarget'
+
+      def target(attributes={},&block)
+        targets << PayloadTarget.first_or_create(attributes,&block)
+      end
+
+    end
+  end
+end
