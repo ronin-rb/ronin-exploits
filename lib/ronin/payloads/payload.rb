@@ -138,7 +138,7 @@ module Ronin
       def build(&block)
         @package = ''
 
-        builder
+        builder()
 
         @encoded_package = @package
 
@@ -151,33 +151,9 @@ module Ronin
       end
 
       #
-      # Default cleaner method.
+      # Default method to call after the payload has been deployed.
       #
-      def cleaner
-      end
-
-      #
-      # Returns +true+ if the payload has been cleaned, returns false
-      # otherwise.
-      #
-      def is_clean?
-        (@encoded_package.nil? && @package.nil?)
-      end
-
-      #
-      # Cleans the payload.
-      #
-      def clean
-        cleaner
-
-        @encoded_package = nil
-        @package = nil
-      end
-
-      #
-      # Default method to call after the payload has been launched.
-      #
-      def launch(&block)
+      def deploy(&block)
       end
 
       #
