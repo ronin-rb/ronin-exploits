@@ -22,6 +22,7 @@
 #
 
 require 'ronin/payloads/payload_author'
+require 'ronin/payloads/ability'
 require 'ronin/object_context'
 require 'ronin/parameters'
 require 'ronin/license'
@@ -46,6 +47,9 @@ module Ronin
 
       # Author(s) of the payload
       has n, :authors, :class_name => 'PayloadAuthor'
+
+      # Abilities the payload provides
+      has n, :abilities
 
       # Content license
       belongs_to :license
