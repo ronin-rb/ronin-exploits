@@ -154,14 +154,16 @@ module Ronin
       # will be passed the built and encoded payload.
       #
       def build(&block)
+        @is_built = false
         @built_payload = ''
 
         builder()
 
+        @is_built = true
         @encoded_payload = @built_payload
 
-        @encoders.each do |enc|
-          @encoded_payload = encode(@encoded_payload)
+        @encoders.each do |encoder|
+          @encoded_payload = encoder.encode(@encoded_payload)
         end
 
         block.call(@encoded_payload) if block
