@@ -28,7 +28,7 @@ module Ronin
   module Payloads
     class BinaryPayload < Payload
 
-      object_contextify :binary_payload
+      objectify :binary_payload
 
       # Target of the payload
       has n, :targets, :class_name => 'PayloadTarget'
