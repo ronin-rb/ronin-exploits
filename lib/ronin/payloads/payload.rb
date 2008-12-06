@@ -45,14 +45,14 @@ module Ronin
       # Description of the payload
       property :description, Text
 
-      # Abilities the payload provides
-      has n, :abilities
+      # Content license
+      belongs_to :license
 
       # Author(s) of the payload
       has n, :authors, :class_name => 'PayloadAuthor'
 
-      # Content license
-      belongs_to :license
+      # Abilities the payload provides
+      has n, :abilities
 
       # Validations
       validates_present :name
