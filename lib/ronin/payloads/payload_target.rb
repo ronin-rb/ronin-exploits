@@ -27,7 +27,8 @@ module Ronin
   module Payloads
     class PayloadTarget < Target
 
-      belongs_to :targeted_payload
+      # The binary payload the target belongs for
+      belongs_to :binary_payload
 
     end
   end
