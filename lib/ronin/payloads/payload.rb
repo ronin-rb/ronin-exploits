@@ -62,10 +62,10 @@ module Ronin
       attr_reader :encoders
 
       # Payload package
-      attr_accessor :package
+      attr_accessor :built_payload
 
       # Encoded payload package
-      attr_reader :encoded_package
+      attr_accessor :encoded_payload
 
       #
       # Creates a new Payload object with the given _options_. If a
@@ -76,6 +76,7 @@ module Ronin
         super(options)
 
         @encoders = []
+        @is_built = false
 
         block.call(self) if block
       end
@@ -145,26 +146,26 @@ module Ronin
       # Returns +true+ if the payload is built, returns +false+ otherwise.
       #
       def is_built?
-        !(@package.nil? || @package.empty?)
+        @is_built == true
       end
 
       #
       # Performs a clean build of the payload. If a _block_ is given, it
-      # will be passed the built and encoded package.
+      # will be passed the built and encoded payload.
       #
       def build(&block)
-        @package = ''
+        @built_payload = ''
 
         builder()
 
-        @encoded_package = @package
+        @encoded_payload = @built_payload
 
         @encoders.each do |enc|
-          @encoded_package = encode(@encoded_package)
+          @encoded_payload = encode(@encoded_payload)
         end
 
-        block.call(@encoded_package) if block
-        return @encoded_package
+        block.call(@encoded_payload) if block
+        return @encoded_payload
       end
 
       #
