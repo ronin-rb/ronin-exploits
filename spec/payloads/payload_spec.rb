@@ -12,7 +12,7 @@ describe Payloads::Payload do
   end
 
   it "should have a unique name and version" do
-    @first_payload = Payloads::Payload.new(
+    @first_payload = Payloads::Payload.create(
       :object_path => 'test.rb',
       :name => 'test',
       :version => '0.0.1'
