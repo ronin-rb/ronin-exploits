@@ -103,6 +103,19 @@ module Ronin
       end
 
       #
+      # Adds a new Ability to the payload that provides the behavior
+      # with the specified _name_.
+      #
+      def provides(name)
+        self.abilities << Ability.new(
+          :behavior => Vulnerability::Behavior.first_or_create(
+            :name => name.to_s
+          ),
+          :payload => self
+        )
+      end
+
+      #
       # Adds a new PayloadAuthor with the given _attribs_ and _block_.
       #
       def author(attribs={},&block)
