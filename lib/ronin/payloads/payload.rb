@@ -68,12 +68,12 @@ module Ronin
       attr_accessor :encoded_payload
 
       #
-      # Creates a new Payload object with the given _options_. If a
+      # Creates a new Payload object with the given _attributes_. If a
       # _block_ is given, it will be passed the newly created Payload
       # object.
       #
-      def initialize(options={},&block)
-        super(options)
+      def initialize(attributes={},&block)
+        super(attributes)
 
         @encoders = []
         @is_built = false
