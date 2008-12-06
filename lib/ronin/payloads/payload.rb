@@ -34,7 +34,7 @@ module Ronin
       include ObjectContext
       include Parameters
 
-      object_contextify :payload
+      objectify :payload
 
       # Name of the specific payload
       property :name, String, :index => true
