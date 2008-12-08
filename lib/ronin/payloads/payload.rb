@@ -24,7 +24,6 @@
 require 'ronin/payloads/ability'
 require 'ronin/payloads/payload_author'
 require 'ronin/object_context'
-require 'ronin/parameters'
 require 'ronin/license'
 
 module Ronin
@@ -32,7 +31,6 @@ module Ronin
     class Payload
 
       include ObjectContext
-      include Parameters
 
       objectify :payload
 
