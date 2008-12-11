@@ -115,10 +115,10 @@ module Ronin
       end
 
       #
-      # Adds a new PayloadAuthor with the given _attribs_ and _block_.
+      # Adds a new PayloadAuthor with the given _attributes_ and _block_.
       #
-      def author(attribs={},&block)
-        authors << PayloadAuthor.first_or_create(attribs,&block)
+      def author(attributes={},&block)
+        authors << PayloadAuthor.first_or_create(attributes,&block)
       end
 
       #
