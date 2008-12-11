@@ -129,12 +129,6 @@ module Ronin
       end
 
       #
-      # Default prepare method.
-      #
-      def prepare(exploit)
-      end
-
-      #
       # Default builder method.
       #
       def builder
