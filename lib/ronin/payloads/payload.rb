@@ -59,11 +59,8 @@ module Ronin
       # Encoders to apply to the payload
       attr_reader :encoders
 
-      # Payload package
-      attr_accessor :built_payload
-
-      # Encoded payload package
-      attr_accessor :encoded_payload
+      # The built and encoded payload
+      attr_accessor :payload
 
       #
       # Creates a new Payload object with the given _attributes_. If a
@@ -147,19 +144,18 @@ module Ronin
       #
       def build(&block)
         @is_built = false
-        @built_payload = ''
+        @payload = ''
 
         builder()
 
         @is_built = true
-        @encoded_payload = @built_payload
 
         @encoders.each do |encoder|
-          @encoded_payload = encoder.encode(@encoded_payload)
+          @payload = encoder.encode(@payload)
         end
 
-        block.call(@encoded_payload) if block
-        return @encoded_payload
+        block.call(@payload) if block
+        return @payload
       end
 
       #
@@ -169,12 +165,10 @@ module Ronin
       end
 
       #
-      # Returns a String form of the payload containing the payload's name
-      # and version.
+      # Returns the built payload.
       #
       def to_s
-        return "#{@name} #{@version}" if @version
-        return @name.to_s
+        build
       end
 
     end
