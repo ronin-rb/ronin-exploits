@@ -22,7 +22,6 @@
 #
 
 require 'ronin/payloads/payload'
-require 'ronin/payloads/payload_target'
 
 module Ronin
   module Payloads
@@ -30,12 +29,11 @@ module Ronin
 
       objectify :binary_payload
 
-      # Target of the payload
-      has n, :targets, :class_name => 'PayloadTarget'
+      # The payloads targeted architecture
+      belongs_to :arch
 
-      def target(attributes={},&block)
-        targets << PayloadTarget.first_or_create(attributes,&block)
-      end
+      # The payloads targeted platform
+      belongs_to :platform
 
     end
   end
