@@ -137,10 +137,13 @@ module Ronin
       end
 
       #
-      # Performs a clean build of the payload. If a _block_ is given, it
-      # will be passed the built and encoded payload.
+      # Performs a clean build of the payload with the given _params_.
+      # If a _block_ is given, it will be passed the built and encoded
+      # payload.
       #
-      def build(&block)
+      def build(params={},&block)
+        self.params = params
+
         @is_built = false
         @payload = ''
 
