@@ -24,13 +24,14 @@
 require 'ronin/payloads/ability'
 require 'ronin/payloads/payload_author'
 require 'ronin/object_context'
-require 'ronin/license'
+require 'ronin/has_license'
 
 module Ronin
   module Payloads
     class Payload
 
       include ObjectContext
+      include HasLicense
 
       objectify :payload
 
@@ -42,9 +43,6 @@ module Ronin
 
       # Description of the payload
       property :description, Text
-
-      # Content license
-      belongs_to :license
 
       # Author(s) of the payload
       has n, :authors, :class_name => 'PayloadAuthor'
