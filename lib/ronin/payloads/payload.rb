@@ -23,14 +23,14 @@
 
 require 'ronin/payloads/ability'
 require 'ronin/payloads/payload_author'
-require 'ronin/object_context'
+require 'ronin/objectify'
 require 'ronin/has_license'
 
 module Ronin
   module Payloads
     class Payload
 
-      include ObjectContext
+      include Objectify
       include HasLicense
 
       objectify :payload
