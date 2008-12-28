@@ -33,7 +33,7 @@ module Ronin
       include Objectify
       include HasLicense
 
-      objectify :payload
+      objectify :ronin_payload
 
       # Name of the specific payload
       property :name, String, :index => true

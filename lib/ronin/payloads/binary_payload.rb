@@ -27,7 +27,7 @@ module Ronin
   module Payloads
     class BinaryPayload < Payload
 
-      objectify :binary_payload
+      objectify :ronin_binary_payload
 
       # The payloads targeted architecture
       belongs_to :arch

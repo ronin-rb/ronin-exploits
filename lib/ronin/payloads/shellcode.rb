@@ -27,7 +27,7 @@ module Ronin
   module Payloads
     class Shellcode < BinaryPayload
 
-      objectify :shellcode
+      objectify :ronin_shellcode
 
     end
   end

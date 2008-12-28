@@ -27,7 +27,7 @@ module Ronin
   module Payloads
     class WebPayload < Payload
 
-      objectify :web_payload
+      objectify :ronin_web_payload
 
     end
   end
