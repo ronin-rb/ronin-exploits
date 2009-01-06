@@ -160,6 +160,19 @@ module Ronin
       end
 
       #
+      # Default payload verifier method.
+      #
+      def verifier
+      end
+
+      #
+      # Default verify method, calls verifier by default.
+      #
+      def verify
+        verifier
+      end
+
+      #
       # Default method to call after the payload has been deployed.
       #
       def deploy(&block)
