@@ -71,7 +71,7 @@ module Ronin
         @encoders = []
         @is_built = false
 
-        block.call(self) if block
+        instance_eval(&block) if block
       end
 
       #
