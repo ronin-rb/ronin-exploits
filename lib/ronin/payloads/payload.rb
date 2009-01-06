@@ -173,9 +173,19 @@ module Ronin
       end
 
       #
+      # Default payload deployer method.
+      #
+      def deployer(&block)
+        block.call(self) if block
+      end
+
+      #
       # Default method to call after the payload has been deployed.
       #
       def deploy(&block)
+        verify
+
+        return deployer(&block)
       end
 
       #
