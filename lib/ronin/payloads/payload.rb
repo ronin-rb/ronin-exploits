@@ -69,7 +69,7 @@ module Ronin
         super(attributes)
 
         @encoders = []
-        @is_built = false
+        @built = false
 
         instance_eval(&block) if block
       end
@@ -132,8 +132,8 @@ module Ronin
       #
       # Returns +true+ if the payload is built, returns +false+ otherwise.
       #
-      def is_built?
-        @is_built == true
+      def built?
+        @built == true
       end
 
       #
@@ -144,12 +144,12 @@ module Ronin
       def build(params={},&block)
         self.params = params
 
-        @is_built = false
+        @built = false
         @payload = ''
 
         builder()
 
-        @is_built = true
+        @built = true
 
         @encoders.each do |encoder|
           @payload = encoder.encode(@payload)
