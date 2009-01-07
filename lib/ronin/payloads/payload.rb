@@ -35,6 +35,9 @@ module Ronin
 
       objectify :ronin_payload
 
+      # Primary key of the payload
+      property :id, Serial
+
       # Name of the specific payload
       property :name, String, :index => true
 
