@@ -29,5 +29,5 @@ require 'ronin/payloads/binary_payload'
 require 'reverse_require'
 
 module Ronin
-  require_all 'ronin/payloads'
+  require_for 'ronin', 'ronin/payloads'
 end
