@@ -21,7 +21,7 @@
 #++
 #
 
-require 'ronin/vulnerability/behavior'
+require 'ronin/vuln/behavior'
 require 'ronin/payloads/payload'
 
 require 'ronin/model'
