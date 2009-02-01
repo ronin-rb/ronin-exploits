@@ -22,6 +22,8 @@
 #
 
 require 'ronin/payloads/payload'
+require 'ronin/arch'
+require 'ronin/os'
 
 module Ronin
   module Payloads
@@ -32,8 +34,8 @@ module Ronin
       # The payloads targeted architecture
       belongs_to :arch
 
-      # The payloads targeted platform
-      belongs_to :platform
+      # The payloads targeted OS
+      belongs_to :os, :class_name => 'OS'
 
     end
   end
