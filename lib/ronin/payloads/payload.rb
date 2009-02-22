@@ -198,7 +198,7 @@ module Ronin
       # Returns the built payload.
       #
       def to_s
-        build
+        build.to_s
       end
 
     end
