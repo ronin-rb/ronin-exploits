@@ -25,9 +25,8 @@ require 'ronin/payloads/ability'
 require 'ronin/payloads/payload_author'
 require 'ronin/payloads/payload'
 require 'ronin/payloads/binary_payload'
-
-require 'reverse_require'
+require 'ronin/database'
 
 module Ronin
-  require_for 'ronin', 'ronin/payloads'
+  Database.update!
 end
