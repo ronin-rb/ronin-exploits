@@ -32,10 +32,10 @@ module Ronin
       objectify :ronin_binary_payload
 
       # The payloads targeted architecture
-      belongs_to :arch
+      has 1, :arch
 
       # The payloads targeted OS
-      belongs_to :os, :class_name => 'OS'
+      has 1, :os, :class_name => 'OS'
 
     end
   end
