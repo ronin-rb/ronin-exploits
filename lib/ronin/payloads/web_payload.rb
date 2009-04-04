@@ -22,6 +22,7 @@
 #
 
 require 'ronin/payloads/payload'
+require 'ronin/formatting/http'
 
 module Ronin
   module Payloads
