@@ -177,10 +177,10 @@ module Ronin
       end
 
       #
-      # Returns the built payload.
+      # Returns the name and version of the payload.
       #
       def to_s
-        build.to_s
+        "#{self.name} #{self.version}"
       end
 
       protected
