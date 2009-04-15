@@ -131,12 +131,6 @@ module Ronin
       end
 
       #
-      # Default builder method.
-      #
-      def builder
-      end
-
-      #
       # Returns +true+ if the payload is built, returns +false+ otherwise.
       #
       def built?
@@ -148,13 +142,13 @@ module Ronin
       # If a _block_ is given, it will be passed the built and encoded
       # payload.
       #
-      def build(params={},&block)
+      def build!(params={},&block)
         self.params = params
 
         @built = false
         @payload = ''
 
-        builder()
+        build()
 
         @built = true
 
@@ -167,32 +161,19 @@ module Ronin
       end
 
       #
-      # Default payload verifier method.
-      #
-      def verifier
-      end
-
-      #
       # Default verify method, calls verifier by default.
       #
-      def verify
-        verifier
-      end
-
-      #
-      # Default payload deployer method.
-      #
-      def deployer(&block)
-        block.call(self) if block
+      def verify!
+        verify
       end
 
       #
       # Default method to call after the payload has been deployed.
       #
-      def deploy(&block)
-        verify
+      def deploy!(&block)
+        verify!
 
-        return deployer(&block)
+        return deploy!(&block)
       end
 
       #
@@ -200,6 +181,27 @@ module Ronin
       #
       def to_s
         build.to_s
+      end
+
+      protected
+
+      #
+      # Default builder method.
+      #
+      def build
+      end
+
+      #
+      # Default payload verifier method.
+      #
+      def verify
+      end
+
+      #
+      # Default payload deployer method.
+      #
+      def deploy(&block)
+        block.call(self) if block
       end
 
     end
