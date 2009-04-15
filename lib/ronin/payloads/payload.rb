@@ -173,7 +173,7 @@ module Ronin
       def deploy!(&block)
         verify!
 
-        return deploy!(&block)
+        return deploy(&block)
       end
 
       #
