@@ -21,6 +21,7 @@
 #++
 #
 
+require 'ronin/payloads/helpers'
 require 'ronin/payloads/ability'
 require 'ronin/payloads/payload_author'
 require 'ronin/objectify'
@@ -32,6 +33,7 @@ module Ronin
 
       include Objectify
       include HasLicense
+      include Helpers
 
       objectify :ronin_payload
 
