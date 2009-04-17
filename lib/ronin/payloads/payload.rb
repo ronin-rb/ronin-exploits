@@ -48,8 +48,7 @@ module Ronin
       property :description, Text
 
       # Author(s) of the payload
-      has n, :authors,
-             :class_name => 'Ronin::Payloads::PayloadAuthor'
+      has n, :authors, :class_name => 'Ronin::Payloads::PayloadAuthor'
 
       # Abilities the payload provides
       has n, :abilities
