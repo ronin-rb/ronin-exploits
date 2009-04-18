@@ -59,7 +59,7 @@ module Ronin
       has n, :abilities
 
       # Validations
-      validates_present :name, :language
+      validates_present :name
       validates_is_unique :version, :scope => [:name]
 
       # Encoders to apply to the payload
