@@ -52,6 +52,15 @@ module Ronin
       # The language that the payload is designed for
       property :language, String
 
+      # The payloads targeted architecture
+      belongs_to :arch,
+                 :child_key => [:arch_id]
+
+      # The payloads targeted OS
+      belongs_to :os,
+                 :child_key => [:os_id],
+                 :class_name => '::Ronin::OS'
+
       # Author(s) of the payload
       has n, :authors, :class_name => 'Ronin::Payloads::PayloadAuthor'
 

@@ -31,15 +31,6 @@ module Ronin
 
       objectify :ronin_binary_payload
 
-      # The payloads targeted architecture
-      belongs_to :arch,
-                 :child_key => [:arch_id]
-
-      # The payloads targeted OS
-      belongs_to :os,
-                 :child_key => [:os_id],
-                 :class_name => '::Ronin::OS'
-
     end
   end
 end
