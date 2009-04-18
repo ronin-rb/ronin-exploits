@@ -49,6 +49,9 @@ module Ronin
       # Description of the payload
       property :description, Text
 
+      # The language that the payload is designed for
+      property :language, String
+
       # Author(s) of the payload
       has n, :authors, :class_name => 'Ronin::Payloads::PayloadAuthor'
 
@@ -56,7 +59,7 @@ module Ronin
       has n, :abilities
 
       # Validations
-      validates_present :name
+      validates_present :name, :language
       validates_is_unique :version, :scope => [:name]
 
       # Encoders to apply to the payload
