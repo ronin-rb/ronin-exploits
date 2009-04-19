@@ -29,7 +29,7 @@ module Ronin
   module Payloads
     class BinaryPayload < Payload
 
-      objectify :ronin_binary_payload
+      contextify :ronin_binary_payload
 
     end
   end

@@ -24,18 +24,18 @@
 require 'ronin/payloads/helpers'
 require 'ronin/payloads/ability'
 require 'ronin/payloads/payload_author'
-require 'ronin/objectify'
+require 'ronin/cacheable'
 require 'ronin/has_license'
 
 module Ronin
   module Payloads
     class Payload
 
-      include Objectify
+      include Cacheable
       include HasLicense
       include Helpers
 
-      objectify :ronin_payload
+      contextify :ronin_payload
 
       # Primary key of the payload
       property :id, Serial
