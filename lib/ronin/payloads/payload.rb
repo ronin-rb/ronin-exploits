@@ -49,9 +49,6 @@ module Ronin
       # Description of the payload
       property :description, Text
 
-      # The language that the payload is designed for
-      property :language, String
-
       # The payloads targeted architecture
       belongs_to :arch,
                  :child_key => [:arch_id]
