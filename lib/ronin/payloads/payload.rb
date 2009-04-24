@@ -21,9 +21,9 @@
 #++
 #
 
-require 'ronin/payloads/helpers'
-require 'ronin/payloads/ability'
+require 'ronin/payloads/control'
 require 'ronin/payloads/payload_author'
+require 'ronin/payloads/helpers'
 require 'ronin/cacheable'
 require 'ronin/has_license'
 
@@ -64,8 +64,8 @@ module Ronin
       # Author(s) of the payload
       has n, :authors, :class_name => 'Ronin::Payloads::PayloadAuthor'
 
-      # Abilities the payload provides
-      has n, :abilities
+      # Controls the payload provides
+      has n, :controls
 
       # Validations
       validates_present :name
@@ -114,11 +114,11 @@ module Ronin
       end
 
       #
-      # Adds a new Ability to the payload that provides the specified
+      # Adds a new Control to the payload that provides the specified
       # _behavior_.
       #
-      def provides(behavior)
-        self.abilities << Ability.new(
+      def controls(behavior)
+        self.controls << Control.new(
           :behavior => behavior,
           :payload => self
         )

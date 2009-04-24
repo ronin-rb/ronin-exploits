@@ -28,7 +28,7 @@ require 'ronin/model'
 
 module Ronin
   module Payloads
-    class Ability
+    class Control
 
       include Model
 
