@@ -21,22 +21,25 @@
 #++
 #
 
-require 'ronin/sessions/udp'
+require 'ronin/payloads/helpers/exceptions/unimplemented'
 
 module Ronin
   module Payloads
     module Helpers
-      module UDPBind
-        def self.included(base)
-          base.module_eval do
-            include Ronin::Sessions::UDP
-          end
+      module Shell
+        def sh(command,*args)
+          raise(Unimplemented,"the sh method has not been implemented",caller)
         end
 
-        def self.extended(obj)
-          obj.instance_eval do
-            extend Ronin::Sessions::UDP
-          end
+        def cd(path)
+          exec('cd',path)
+        end
+
+        def pwd
+          exec('pwd')
+        end
+
+        def env
         end
       end
     end

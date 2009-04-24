@@ -21,6 +21,4 @@
 #++
 #
 
-require 'ronin/payloads/helpers/file_system'
-require 'ronin/payloads/helpers/shell'
-require 'ronin/payloads/helpers/rpc'
+require 'ronin/payloads/exceptions/unimplemented'

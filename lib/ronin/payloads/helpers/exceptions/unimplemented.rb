@@ -21,6 +21,11 @@
 #++
 #
 
-require 'ronin/payloads/helpers/file_system'
-require 'ronin/payloads/helpers/shell'
-require 'ronin/payloads/helpers/rpc'
+module Ronin
+  module Payloads
+    module Helpers
+      class Unimplemented < RuntimeError
+      end
+    end
+  end
+end

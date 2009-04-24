@@ -21,22 +21,22 @@
 #++
 #
 
-require 'ronin/sessions/tcp'
+require 'ronin/payloads/helpers/exceptions/unimplemented'
 
 module Ronin
   module Payloads
     module Helpers
-      module TCPBind
-        def self.included(base)
-          base.module_eval do
-            include Ronin::Sessions::TCP
-          end
+      module RPC
+        def call(method,*args)
+          raise(Unimplemented,"the call method is unimplemented",caller)
         end
 
-        def self.extended(obj)
-          obj.instance_eval do
-            extend Ronin::Sessions::TCP
-          end
+        def eval(code)
+          call(:eval,code)
+        end
+
+        def exit(status=0)
+          call(:exit,status)
         end
       end
     end
