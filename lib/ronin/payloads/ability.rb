@@ -33,7 +33,9 @@ module Ronin
       include Model
 
       # The behavior the ability provides
-      has 1, :behavior, :class_name => 'Vuln::Behavior'
+      belongs_to :behavior,
+                 :child_key => [:behavior_id],
+                 :class_name => 'Vuln::Behavior'
 
       # The payload which has this ability
       belongs_to :payload
