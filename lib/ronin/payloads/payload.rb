@@ -116,7 +116,7 @@ module Ronin
       #
       def controls(behavior)
         self.controls << Control.new(
-          :behavior => behavior,
+          :behavior => Vuln::Behavior[behavior],
           :payload => self
         )
       end
