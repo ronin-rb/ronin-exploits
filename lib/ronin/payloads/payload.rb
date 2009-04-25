@@ -21,11 +21,13 @@
 #++
 #
 
-require 'ronin/payloads/control'
 require 'ronin/payloads/payload_author'
+require 'ronin/payloads/control'
 require 'ronin/payloads/helpers'
 require 'ronin/cacheable'
 require 'ronin/has_license'
+
+require 'parameters'
 
 module Ronin
   module Payloads
@@ -33,6 +35,7 @@ module Ronin
 
       include Cacheable
       include HasLicense
+      include Parameters
       include Helpers
 
       contextify :ronin_payload
@@ -152,8 +155,8 @@ module Ronin
       # If a _block_ is given, it will be passed the built and encoded
       # payload.
       #
-      def build!(params={},&block)
-        self.params = params
+      def build!(options={},&block)
+        self.params = options
 
         @built = false
         @payload = ''
