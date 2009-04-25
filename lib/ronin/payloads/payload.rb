@@ -33,9 +33,9 @@ module Ronin
   module Payloads
     class Payload
 
+      include Parameters
       include Cacheable
       include HasLicense
-      include Parameters
       include Helpers
 
       contextify :ronin_payload
