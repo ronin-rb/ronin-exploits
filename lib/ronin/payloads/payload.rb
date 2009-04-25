@@ -185,8 +185,10 @@ module Ronin
       #
       def deploy!(&block)
         verify!
-
-        return deploy(&block)
+        deploy()
+        
+        block.call(self) if block
+        return self
       end
 
       #
@@ -214,7 +216,6 @@ module Ronin
       # Default payload deployer method.
       #
       def deploy(&block)
-        block.call(self) if block
       end
 
     end
