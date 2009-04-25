@@ -12,7 +12,7 @@ describe Payloads::Payload do
   end
 
   it "should require a name attribute" do
-    payload = Payloads::Payload.new(:object_path => 'test.rb')
+    payload = Payloads::Payload.new
     payload.should_not be_valid
 
     payload.name = 'test'
