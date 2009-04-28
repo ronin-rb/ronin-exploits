@@ -31,6 +31,10 @@ module Ronin
           raise(Unimplemented,"the dir method has not been implemented",caller)
         end
 
+        def glob(pattern)
+          raise(Unimplemented,"the glob method has not been implemented",caller)
+        end
+
         def cwd
           @cwd ||= ''
         end
@@ -49,6 +53,10 @@ module Ronin
 
         def write_file(path,contents)
           raise(Unimplemented,"the write_file method has not been implemented",caller)
+        end
+
+        def append_file(path,contents)
+          raise(Unimplemented,"the append_file method has not been implemented",caller)
         end
 
         def touch(path)
