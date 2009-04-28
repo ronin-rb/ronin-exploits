@@ -62,7 +62,7 @@ module Ronin
         # Returns the listed files or directories using the given _arguments_.
         #
         def ls(*arguments)
-          exec('ls',*arguments).split(/\n\r?/)
+          exec('dir',*arguments).split(/\n\r?/)
         end
 
         #
