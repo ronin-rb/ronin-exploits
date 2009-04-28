@@ -22,11 +22,20 @@
 #
 
 require 'ronin/payloads/helpers/exceptions/unimplemented'
+require 'ronin/payloads/helpers/exceptions/program_not_found'
 
 module Ronin
   module Payloads
     module Helpers
       module Shell
+        #
+        # Returns the +Hash+ of environment variables to use for the
+        # shell.
+        #
+        def env
+          @env ||= {}
+        end
+
         #
         # Executes the specified _command_ with the given _arguments_.
         #
@@ -65,12 +74,16 @@ module Ronin
           exec('dir',*arguments).split(/\n\r?/)
         end
 
+        protected
+
         #
-        # Returns the +Hash+ of environment variables to use for the
-        # shell.
+        # Raises a ProgramNotFound exception if the program with the
+        # specified _name_ was not found.
         #
-        def env
-          @env ||= {}
+        def program_not_found!(name)
+          name = name.to_s
+
+          raise(ProgramNotFound,"the program #{name.dump} was not found",caller)
         end
       end
     end
