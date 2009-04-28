@@ -59,6 +59,13 @@ module Ronin
         end
 
         #
+        # Returns the listed files or directories using the given _arguments_.
+        #
+        def ls(*arguments)
+          exec('ls',*arguments).split(/\n\r?/)
+        end
+
+        #
         # Returns the +Hash+ of environment variables to use for the
         # shell.
         #
