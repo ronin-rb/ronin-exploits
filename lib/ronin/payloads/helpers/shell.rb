@@ -27,23 +27,42 @@ module Ronin
   module Payloads
     module Helpers
       module Shell
-        def exec(command,*args)
+        #
+        # Executes the specified _command_ with the given _arguments_.
+        #
+        def exec(command,*arguments)
           raise(Unimplemented,"the exec method has not been implemented",caller)
         end
 
+        #
+        # Executes the specified _command_ with the given _arguments_,
+        # and prints the output of the command.
+        #
         def sh(command,*args)
           puts exec(command,*args)
         end
 
+        #
+        # Changes the current working directory of the shell to the
+        # specified _path_.
+        #
         def cd(path)
           exec('cd',path)
         end
 
+        #
+        # Returns the current working directory of the shell.
+        #
         def pwd
           exec('pwd')
         end
 
+        #
+        # Returns the +Hash+ of environment variables to use for the
+        # shell.
+        #
         def env
+          @env ||= {}
         end
       end
     end
