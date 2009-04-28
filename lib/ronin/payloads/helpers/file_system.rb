@@ -100,6 +100,13 @@ module Ronin
         end
 
         #
+        # Removes the directory at the specified _path_.
+        #
+        def rmdir(path)
+          raise(Unimplemented,"the rmdir method has not been implemented",caller)
+        end
+
+        #
         # Recursively removes the file or directory at the specified _path_.
         #
         def rm_r(path)
