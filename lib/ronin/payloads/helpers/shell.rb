@@ -54,7 +54,7 @@ module Ronin
         # Returns the current working directory of the shell.
         #
         def pwd
-          exec('pwd')
+          exec('pwd').chomp
         end
 
         #
