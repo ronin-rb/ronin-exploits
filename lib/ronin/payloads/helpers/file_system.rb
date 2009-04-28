@@ -176,7 +176,7 @@ module Ronin
         # Raises an <tt>Errno::ENOENT</tt> exception if the specified
         # _path_ cannot be found.
         #
-        def not_found!(path)
+        def file_not_found!(path)
           path = path.to_s
 
           raise(Errno::ENOENT,"No such file or directory - #{path.dump}",caller)
