@@ -27,14 +27,24 @@ module Ronin
   module Payloads
     module Helpers
       module RPC
-        def call(method,*args)
+        #
+        # Calls the specified _method_ with the given _arguments_.
+        # Returns the return-value of the method-call.
+        #
+        def call(method,*arguments)
           raise(Unimplemented,"the call method is unimplemented",caller)
         end
 
+        #
+        # Evaluates the specified _code_.
+        #
         def eval(code)
           call(:eval,code)
         end
 
+        #
+        # Exits with the given _status_.
+        #
         def exit(status=0)
           call(:exit,status)
         end
