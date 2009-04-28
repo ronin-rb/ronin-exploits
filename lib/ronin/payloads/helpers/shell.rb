@@ -47,14 +47,14 @@ module Ronin
         # specified _path_.
         #
         def cd(path)
-          sh('cd',path)
+          exec('cd',path)
         end
 
         #
         # Returns the current working directory of the shell.
         #
         def pwd
-          sh('pwd').chomp
+          exec('pwd').chomp
         end
 
         #
