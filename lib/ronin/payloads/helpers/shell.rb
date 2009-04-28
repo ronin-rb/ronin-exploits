@@ -27,8 +27,8 @@ module Ronin
   module Payloads
     module Helpers
       module Shell
-        def sh(command,*args)
-          raise(Unimplemented,"the sh method has not been implemented",caller)
+        def exec(command,*args)
+          raise(Unimplemented,"the exec method has not been implemented",caller)
         end
 
         def cd(path)
