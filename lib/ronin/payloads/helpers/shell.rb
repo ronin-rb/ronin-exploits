@@ -31,6 +31,10 @@ module Ronin
           raise(Unimplemented,"the exec method has not been implemented",caller)
         end
 
+        def sh(command,*args)
+          puts exec(command,*args)
+        end
+
         def cd(path)
           exec('cd',path)
         end
