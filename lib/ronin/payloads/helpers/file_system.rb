@@ -27,64 +27,112 @@ module Ronin
   module Payloads
     module Helpers
       module FileSystem
+        #
+        # Returns the contents of the directory at the specified _path_.
+        #
         def dir(path)
           raise(Unimplemented,"the dir method has not been implemented",caller)
         end
 
+        #
+        # Returns all the paths matching the specified globbed _pattern_.
+        #
         def glob(pattern)
           raise(Unimplemented,"the glob method has not been implemented",caller)
         end
 
+        #
+        # Returns the current working directory.
+        #
         def cwd
           @cwd ||= ''
         end
 
+        #
+        # Changes the current working directory to the specified _path_.
+        #
         def chdir(path)
           @cwd = path
         end
 
+        #
+        # Goes up one directory.
+        #
         def updir!
           chdir(join_paths(cwd,'..'))
         end
 
+        #
+        # Returns the contents of the file at the specified _path_.
+        #
         def read_file(path)
           raise(Unimplemented,"the read_file method has not been implemented",caller)
         end
 
+        #
+        # Writes the specified _contents_ to the file at the specified
+        # _path_.
+        #
         def write_file(path,contents)
           raise(Unimplemented,"the write_file method has not been implemented",caller)
         end
 
+        #
+        # Appends the specified _contents_ to the file at the specified
+        # _path_.
+        #
         def append_file(path,contents)
           raise(Unimplemented,"the append_file method has not been implemented",caller)
         end
 
+        #
+        # Touches the file at the specified _path_.
+        #
         def touch(path)
           write_file(path,'')
         end
 
+        #
+        # Removes the file at the specified _path_.
+        #
         def rm(path)
           raise(Unimplemented,"the rm method has not been implemented",caller)
         end
 
+        #
+        # Recursively removes the file or directory at the specified _path_.
+        #
         def rm_r(path)
           raise(Unimplemented,"the rm_r method has not been implemented",caller)
         end
 
         protected
 
+        #
+        # Returns the File name separator to use.
+        #
         def path_separator
           File::SEPARATOR
         end
 
+        #
+        # Joins the given _paths_ with the path_separator.
+        #
         def join_paths(*paths)
           paths.join(path_separator)
         end
 
+        #
+        # Expands the specified _path_ to it's absolute form.
+        #
         def expand_path(path)
           File.expand_path(path)
         end
 
+        #
+        # Converts the specified _sub_path_ to an absolute path, only if it
+        # is a realitive path.
+        #
         def absolute_path(sub_path)
           if sub_path[0..0] == path_separator
             return sub_path
