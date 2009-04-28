@@ -43,6 +43,26 @@ module Ronin
           chdir(join_paths(cwd,'..'))
         end
 
+        def read_file(path)
+          raise(Unimplemented,"the read_file method has not been implemented",caller)
+        end
+
+        def write_file(path,contents)
+          raise(Unimplemented,"the write_file method has not been implemented",caller)
+        end
+
+        def touch(path)
+          write_file(path,'')
+        end
+
+        def rm(path)
+          raise(Unimplemented,"the rm method has not been implemented",caller)
+        end
+
+        def rm_r(path)
+          raise(Unimplemented,"the rm_r method has not been implemented",caller)
+        end
+
         protected
 
         def path_separator
