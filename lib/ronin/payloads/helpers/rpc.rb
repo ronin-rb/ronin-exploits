@@ -48,6 +48,18 @@ module Ronin
         def exit(status=0)
           call(:exit,status)
         end
+
+        protected
+
+        def method_missing(name,*arguments,&block)
+          name = name.to_s
+
+          if (name[-1..-1] != '=' && block.nil?)
+            return call(name,*arguments)
+          end
+
+          return super(name,*arguments,&block)
+        end
       end
     end
   end
