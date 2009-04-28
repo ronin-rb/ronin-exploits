@@ -48,6 +48,7 @@ module Ronin
         #
         def cd(path)
           exec('cd',path)
+          return path
         end
 
         #
