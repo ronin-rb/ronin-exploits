@@ -28,6 +28,30 @@ module Ronin
     module Helpers
       module FileSystem
         #
+        # Returns +true+ if the specified _path_ exists, returns +false+
+        # otherwise.
+        #
+        def exists?(path)
+          raise(Unimplemented,"the exists? method has not been implemented",caller)
+        end
+
+        #
+        # Returns +true+ if the specified _path_ is a file, returns +false+
+        # otherwise.
+        #
+        def file?(path)
+          raise(Unimplemented,"the file? method has not been implemented",caller)
+        end
+
+        #
+        # Returns +true+ if the specified _path_ is a directory, returns
+        # +false+ otherwise.
+        #
+        def dir?(path)
+          raise(Unimplemented,"the dir? method has not been implemented",caller)
+        end
+
+        #
         # Returns the contents of the directory at the specified _path_.
         #
         def dir(path)
