@@ -24,6 +24,8 @@
 require 'ronin/payloads/payload_author'
 require 'ronin/payloads/control'
 require 'ronin/payloads/helpers'
+require 'ronin/targeted_arch'
+require 'ronin/targeted_os'
 require 'ronin/cacheable'
 require 'ronin/has_license'
 
@@ -54,12 +56,13 @@ module Ronin
 
       # The payloads targeted architecture
       belongs_to :arch,
-                 :child_key => [:arch_id]
+                 :child_key => [:arch_id],
+                 :class_name => 'Ronin::TargetedArch'
 
       # The payloads targeted OS
       belongs_to :os,
                  :child_key => [:os_id],
-                 :class_name => '::Ronin::OS'
+                 :class_name => 'Ronin::TargetedOS'
 
       # Author(s) of the payload
       has n, :authors, :class_name => 'Ronin::Payloads::PayloadAuthor'
@@ -114,14 +117,43 @@ module Ronin
       end
 
       #
-      # Adds a new Control to the payload that provides the specified
-      # _behavior_.
+      # Returns the current targeted arch if no _name_ is given. If a
+      # _name_ is given, a new TargetedArch object will be created
+      # with the given _name_ and associated with the target.
       #
-      def controls(behavior)
-        self.controls << Control.new(
-          :behavior => Vuln::Behavior[behavior],
-          :payload => self
-        )
+      #   target.arch
+      #   # => nil
+      #
+      #   target.arch :i686
+      #   # => #<Ronin::TargetedArch type=Ronin::TargetedArch id=nil
+      #   # name="i686" endian="little" address_length=4>
+      #
+      def arch(name=nil)
+        if name
+          return self.arch = TargetedArch[name]
+        else
+          return arch_association
+        end
+      end
+
+      #
+      # Returns the current targeted OS if no _arguments_ are given. If
+      # _arguments_ are given, a new TargetedOS object will be created
+      # from the given _arguments_ and associated with the target.
+      #
+      #   target.os
+      #   # => nil
+      #
+      #   target.os(:name => 'FreeBSD', :version => '7.1')
+      #   # => #<Ronin::TargetedOS type=Ronin::TargetedOS id=nil
+      #   # name="FreeBSD" version="7.1">
+      #
+      def os(*arguments)
+        unless arguments.empty?
+          return self.os = TargetedOS.first_or_create(*arguments)
+        else
+          return os_association
+        end
       end
 
       #
@@ -133,6 +165,17 @@ module Ronin
         authors << PayloadAuthor.new(
           attributes.merge(:payload => self),
           &block
+        )
+      end
+
+      #
+      # Adds a new Control to the payload that provides the specified
+      # _behavior_.
+      #
+      def controls(behavior)
+        self.controls << Control.new(
+          :behavior => Vuln::Behavior[behavior],
+          :payload => self
         )
       end
 
