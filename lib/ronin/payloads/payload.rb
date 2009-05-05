@@ -74,9 +74,6 @@ module Ronin
       validates_present :name
       validates_is_unique :version, :scope => [:name]
 
-      # Encoders to apply to the payload
-      attr_reader :encoders
-
       # The built and encoded payload
       attr_accessor :payload
 
@@ -88,7 +85,6 @@ module Ronin
       def initialize(attributes={},&block)
         super(attributes)
 
-        @encoders = []
         @built = false
 
         instance_eval(&block) if block
@@ -180,13 +176,6 @@ module Ronin
       end
 
       #
-      # Add the specified _encoder_object_ to the encoders.
-      #
-      def encoder(encoder_object)
-        @encoders << encoder_object
-      end
-
-      #
       # Returns +true+ if the payload is built, returns +false+ otherwise.
       #
       def built?
@@ -207,10 +196,6 @@ module Ronin
         build()
 
         @built = true
-
-        @encoders.each do |encoder|
-          @payload = encoder.encode(@payload)
-        end
 
         block.call(@payload) if block
         return @payload
