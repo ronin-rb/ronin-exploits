@@ -21,7 +21,7 @@
 #++
 #
 
-require 'ronin/encoders/encoder'
+require 'ronin/payloads/encoder'
 
 require 'chars'
 
