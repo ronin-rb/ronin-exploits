@@ -21,13 +21,12 @@
 #++
 #
 
-require 'ronin/payloads/ability'
-require 'ronin/payloads/payload_author'
-require 'ronin/payloads/payload'
-require 'ronin/payloads/binary_payload'
-require 'ronin/payloads/nops'
-require 'ronin/database'
-
 module Ronin
-  Database.update!
+  module Payloads
+    class Nops < BinaryPayload
+
+      contextify :ronin_nops
+
+    end
+  end
 end
