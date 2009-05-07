@@ -24,8 +24,8 @@
 require 'ronin/payloads/payload_author'
 require 'ronin/payloads/control'
 require 'ronin/payloads/helpers'
-require 'ronin/targets_arch'
-require 'ronin/targets_os'
+require 'ronin/model/targets_arch'
+require 'ronin/model/targets_os'
 require 'ronin/cacheable'
 require 'ronin/has_license'
 
@@ -37,8 +37,8 @@ module Ronin
 
       include Parameters
       include Cacheable
-      include TargetsArch
-      include TargetsOS
+      include Model::TargetsArch
+      include Model::TargetsOS
       include HasLicense
       include Helpers
 
