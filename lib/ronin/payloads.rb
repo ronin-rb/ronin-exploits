@@ -26,6 +26,7 @@ require 'ronin/payloads/payload_author'
 require 'ronin/payloads/payload'
 require 'ronin/payloads/binary_payload'
 require 'ronin/payloads/nops'
+require 'ronin/payloads/shellcode'
 require 'ronin/database'
 
 module Ronin
