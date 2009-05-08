@@ -34,9 +34,9 @@ module Ronin
         attr_accessor :allow
 
         #
-        # Creates a new XOR Translator object using the given _options_.
+        # Creates a new XOR Encoder object using the given _options_.
         # If a _block_ is given it will be passed the newly created
-        # Translator object.
+        # Encoder object.
         #
         # _options_ may include the following keys:
         # <tt>:allow</tt>:: The set of characters allowed in the encoded
