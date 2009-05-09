@@ -39,6 +39,16 @@ describe Payloads::Payload do
     third_payload.should be_valid
   end
 
+  it "should allow for the extending of Helper modules" do
+    @payload.instance_eval { helper :shell }.should == true
+  end
+
+  it "should raise an UnknownHelper when extending an unknown helper" do
+    lambda {
+      @payload.instance_eval { helper :obvious_not_there }
+    }.should raise_error(Payloads::UnknownHelper)
+  end
+
   it "should not have an Arch by default" do
     @payload.arch.should be_nil
   end
