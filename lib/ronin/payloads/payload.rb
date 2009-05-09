@@ -21,6 +21,7 @@
 #++
 #
 
+require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/payload_author'
 require 'ronin/payloads/control'
 require 'ronin/payloads/helpers'
@@ -179,6 +180,39 @@ module Ronin
       end
 
       protected
+
+      #
+      # Extends the payload with the helper module defined in
+      # Ronin::Payloads::Helpers that has the similar specified
+      # _name_. If no module can be found within
+      # Ronin::Payloads::Helpers with the similar _name_, an
+      # UnknownHelper exception will be raised.
+      #
+      #   helper :shell
+      #
+      def helper(name)
+        name = name.to_s
+        module_name = name.to_const_string
+
+        begin
+          require File.join('ronin','payloads','helpers',name)
+        rescue LoadError
+          raise(UnknownHelper,"unknown helper #{name.dump}",caller)
+        end
+
+        unless Ronin::Payloads::Helpers.const_defined?(module_name)
+          raise(UnknownHelper,"unknown helper #{name.dump}",caller)
+        end
+
+        helper_module = Ronin::Payloads::Helpers.const_get(module_name)
+
+        unless helper_module.kind_of?(Module)
+          raise(UnknownHelper,"unknown helper #{name.dump}",caller)
+        end
+
+        extend helper_module
+        return true
+      end
 
       #
       # Default builder method.
