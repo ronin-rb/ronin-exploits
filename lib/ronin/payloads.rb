@@ -27,6 +27,10 @@ require 'ronin/payloads/nops'
 require 'ronin/payloads/shellcode'
 require 'ronin/database'
 
+require 'reverse_require'
+
+require_for 'ronin-exploits', 'ronin/exploits'
+
 module Ronin
   Database.update!
 end
