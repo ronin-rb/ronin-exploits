@@ -24,7 +24,6 @@
 require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/payload_author'
 require 'ronin/payloads/control'
-require 'ronin/payloads/helpers'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
 require 'ronin/cacheable'
@@ -41,7 +40,6 @@ module Ronin
       include Model::TargetsArch
       include Model::TargetsOS
       include HasLicense
-      include Helpers
 
       contextify :ronin_payload
 
