@@ -21,17 +21,6 @@
 #++
 #
 
-require 'ronin/payloads/encoders'
-require 'ronin/payloads/payload'
-require 'ronin/payloads/binary_payload'
-require 'ronin/payloads/nops'
-require 'ronin/payloads/shellcode'
-require 'ronin/database'
+require 'ronin/payloads/encoders/xor'
 
-require 'reverse_require'
-
-require_for 'ronin-exploits', 'ronin/exploits'
-
-module Ronin
-  Database.update!
-end
+require_for 'ronin-exploits', 'ronin/payloads/encoders'
