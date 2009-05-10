@@ -9,6 +9,8 @@ ronin_payload do
 
     arch :i686
     os :name => 'Linux'
+
+    author :name => 'Anonymous', :email => 'anonymous@example.com'
   end
 
   def build
