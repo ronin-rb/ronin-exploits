@@ -36,6 +36,16 @@ describe Payloads::Payload do
     third_payload.should be_valid
   end
 
+  it "should not have any controls by default" do
+    @payload.controls.should be_empty
+  end
+
+  it "should specify what behaviors the payload controls" do
+    @payload.controlling :memory_read
+
+    @payload.behaviors.first.should == Vuln::Behavior[:memory_read]
+  end
+
   it "should allow for the extending of Helper modules" do
     @payload.instance_eval { helper :shell }.should == true
   end
