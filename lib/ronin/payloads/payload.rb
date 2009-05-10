@@ -127,6 +127,13 @@ module Ronin
       end
 
       #
+      # Returns the behaviors controlled by the payload.
+      #
+      def behaviors
+        self.controls.map { |control| control.behavior }
+      end
+
+      #
       # Returns +true+ if the payload is built, returns +false+ otherwise.
       #
       def built?
