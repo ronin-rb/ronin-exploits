@@ -32,6 +32,9 @@ module Ronin
 
       include Model
 
+      # The primary key of the control
+      property :id, Serial
+
       # The behavior the ability provides
       belongs_to :behavior,
                  :child_key => [:behavior_id],
