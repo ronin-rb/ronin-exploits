@@ -108,6 +108,10 @@ module Ronin
       # is given, it will be passed to the newly created PayloadAuthor
       # object.
       #
+      #   author :name => 'Anonymous',
+      #          :email => 'anon@example.com',
+      #          :organization => 'Anonymous LLC'
+      #
       def author(attributes={},&block)
         authors << PayloadAuthor.new(
           attributes.merge(:payload => self),
@@ -118,6 +122,8 @@ module Ronin
       #
       # Adds a new Control to the payload that provides the specified
       # _behavior_.
+      #
+      #   controlling :code_exec
       #
       def controlling(behavior)
         self.controls << Control.new(
