@@ -119,7 +119,7 @@ module Ronin
       # Adds a new Control to the payload that provides the specified
       # _behavior_.
       #
-      def controls(behavior)
+      def controlling(behavior)
         self.controls << Control.new(
           :behavior => Vuln::Behavior[behavior],
           :payload => self
