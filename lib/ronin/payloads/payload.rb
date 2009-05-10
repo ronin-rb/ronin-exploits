@@ -113,10 +113,7 @@ module Ronin
       #          :organization => 'Anonymous LLC'
       #
       def author(attributes={},&block)
-        authors << PayloadAuthor.new(
-          attributes.merge(:payload => self),
-          &block
-        )
+        self.authors << PayloadAuthor.new(attributes,&block)
       end
 
       #
@@ -126,10 +123,7 @@ module Ronin
       #   controlling :code_exec
       #
       def controlling(behavior)
-        self.controls << Control.new(
-          :behavior => Vuln::Behavior[behavior],
-          :payload => self
-        )
+        self.controls << Control.new(:behavior => Vuln::Behavior[behavior])
       end
 
       #
