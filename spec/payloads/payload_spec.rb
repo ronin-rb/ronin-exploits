@@ -1,14 +1,11 @@
 require 'ronin/payloads/payload'
 
 require 'spec_helper'
+require 'helpers/objects'
 
 describe Payloads::Payload do
   before(:each) do
-    @payload = Payloads::Payload.new(:name => 'test') do
-      def build
-        @payload = 'code'
-      end
-    end
+    @payload = load_payload('test')
   end
 
   it "should require a name attribute" do
