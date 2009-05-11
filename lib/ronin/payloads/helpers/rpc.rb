@@ -29,6 +29,9 @@ module Ronin
       module RPC
         def self.included(base)
           base.module_eval do
+            #
+            # Exposes the method with the specified _name_.
+            #
             def self.expose_method(name)
               define_method(name) do |*arguments|
                 call(name,*arguments)
@@ -61,6 +64,10 @@ module Ronin
 
         protected
 
+        #
+        # Provides transparent access to remote methods using the
+        # specified _name_ and given _arguments_.
+        #
         def method_missing(name,*arguments,&block)
           name = name.to_s
 
