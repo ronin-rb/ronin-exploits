@@ -160,7 +160,8 @@ module Ronin
       end
 
       #
-      # Default verify method, calls verifier by default.
+      # Verifies the payload is properly configured and ready to be
+      # deployed.
       #
       def verify!
         verify
