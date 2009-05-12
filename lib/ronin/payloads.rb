@@ -24,6 +24,7 @@
 require 'ronin/payloads/encoders'
 require 'ronin/payloads/payload'
 require 'ronin/payloads/binary_payload'
+require 'ronin/payloads/asm_payload'
 require 'ronin/payloads/nops'
 require 'ronin/payloads/shellcode'
 require 'ronin/database'

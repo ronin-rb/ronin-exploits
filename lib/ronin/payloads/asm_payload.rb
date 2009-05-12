@@ -21,13 +21,13 @@
 #++
 #
 
-require 'ronin/payloads/asm_payload'
+require 'ronin/payloads/binary_payload'
 
 module Ronin
   module Payloads
-    class Nops < ASMPayload
+    class ASMPayload < BinaryPayload
 
-      contextify :ronin_nops
+      contextify :ronin_asm_payload
 
     end
   end

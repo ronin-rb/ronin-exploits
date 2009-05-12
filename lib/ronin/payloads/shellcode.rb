@@ -22,10 +22,13 @@
 #
 
 require 'ronin/payloads/binary_payload'
+require 'ronin/payloads/helpers/shell'
 
 module Ronin
   module Payloads
-    class Shellcode < BinaryPayload
+    class Shellcode < ASMPayload
+
+      include Helpers::Shell
 
       contextify :ronin_shellcode
 
