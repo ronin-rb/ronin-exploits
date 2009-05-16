@@ -184,7 +184,9 @@ module Ronin
 
         begin
           require File.join('ronin','payloads','helpers',name)
-        rescue LoadError
+        rescue Gem::LoadError => e
+          raise(e)
+        rescue ::LoadError
           raise(UnknownHelper,"unknown helper #{name.dump}",caller)
         end
 
