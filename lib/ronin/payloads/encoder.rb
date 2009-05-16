@@ -21,6 +21,8 @@
 #++
 #
 
+require 'ronin/model/has_name'
+require 'ronin/model/has_description'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
 require 'ronin/cacheable'
@@ -33,6 +35,8 @@ module Ronin
 
       include Parameters
       include Cacheable
+      include Model::HasName
+      include Model::HasDescription
       include Model::TargetsArch
       include Model::TargetsOS
 
@@ -41,29 +45,8 @@ module Ronin
       # Primary key of the payload
       property :id, Serial
 
-      # Name of the specific payload
-      property :name, String, :index => true
-
-      # Description of the payload
-      property :description, Text
-
       # Validations
       validates_present :name
-
-      #
-      # Finds all payloads with names like the specified _name_.
-      #
-      def self.named(name)
-        self.all(:name.like => "%#{name}%")
-      end
-
-      #
-      # Finds all payloads with descriptions like the specified
-      # _description_.
-      #
-      def self.describing(description)
-        self.all(:description.like => "%#{description}%")
-      end
 
       #
       # Default method which will encode the specified _data_.

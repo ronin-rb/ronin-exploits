@@ -26,8 +26,11 @@ require 'ronin/payloads/payload_author'
 require 'ronin/payloads/control'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
+require 'ronin/model/has_name'
+require 'ronin/model/has_description'
+require 'ronin/model/has_version'
+require 'ronin/model/has_license'
 require 'ronin/cacheable'
-require 'ronin/has_license'
 
 require 'parameters'
 
@@ -37,23 +40,17 @@ module Ronin
 
       include Parameters
       include Cacheable
+      include Model::HasName
+      include Model::HasDescription
+      include Model::HasVersion
+      include Model::HasLicense
       include Model::TargetsArch
       include Model::TargetsOS
-      include HasLicense
 
       contextify :ronin_payload
 
       # Primary key of the payload
       property :id, Serial
-
-      # Name of the specific payload
-      property :name, String, :index => true
-
-      # Version of the payload
-      property :version, String, :default => '0.1', :index => true
-
-      # Description of the payload
-      property :description, Text
 
       # Author(s) of the payload
       has n, :authors, :class_name => 'Ronin::Payloads::PayloadAuthor'
@@ -79,28 +76,6 @@ module Ronin
         @built = false
 
         instance_eval(&block) if block
-      end
-
-      #
-      # Finds all payloads with names like the specified _name_.
-      #
-      def self.named(name)
-        self.all(:name.like => "%#{name}%")
-      end
-
-      #
-      # Finds all payloads with descriptions like the specified
-      # _description_.
-      #
-      def self.describing(description)
-        self.all(:description.like => "%#{description}%")
-      end
-
-      #
-      # Finds the payload with the most recent vesion.
-      #
-      def self.latest
-        self.first(:order => [:version.desc])
       end
 
       #
