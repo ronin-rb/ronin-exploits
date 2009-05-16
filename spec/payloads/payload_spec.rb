@@ -41,9 +41,12 @@ describe Payloads::Payload do
   end
 
   it "should specify what behaviors the payload controls" do
-    @payload.controlling :memory_read
+    @payload.controlling :memory_read, :memory_write
 
-    @payload.behaviors.first.should == Vuln::Behavior[:memory_read]
+    @payload.behaviors.should == [
+      Vuln::Behavior[:memory_read],
+      Vuln::Behavior[:memory_write]
+    ]
   end
 
   it "should allow for the extending of Helper modules" do

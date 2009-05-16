@@ -92,13 +92,20 @@ module Ronin
       end
 
       #
-      # Adds a new Control to the payload that provides the specified
-      # _behavior_.
+      # Adds a new Control to the payload that controls the specified
+      # _behaviors_.
       #
-      #   controlling :code_exec
+      #   controlling :code_exec.
+      #               :file_read,
+      #               :file_write,
+      #               :file_create
       #
-      def controlling(behavior)
-        self.controls << Control.new(:behavior => Vuln::Behavior[behavior])
+      def controlling(*behaviors)
+        behaviors.each do |behavior|
+          self.controls << Control.new(
+            :behavior => Vuln::Behavior[behavior]
+          )
+        end
       end
 
       #
