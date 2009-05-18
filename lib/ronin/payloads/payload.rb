@@ -62,6 +62,9 @@ module Ronin
       validates_present :name
       validates_is_unique :version, :scope => [:name]
 
+      # The exploit to deploy with
+      attr_accessor :exploit
+
       # The built and encoded payload
       attr_accessor :payload
 
@@ -74,6 +77,7 @@ module Ronin
         super(attributes)
 
         @built = false
+        @deployed = false
 
         instance_eval(&block) if block
       end
@@ -150,14 +154,57 @@ module Ronin
       end
 
       #
-      # Default method to call after the payload has been deployed.
+      # Returns +true+ if the payload has previously been deployed,
+      # returns +false+ otherwise.
+      #
+      def deployed?
+        @deployed == true
+      end
+
+      #
+      # Verifies the built payload and deploys the payload. If a _block_
+      # is given, it will be passed the deployed payload object. If 
+      # an exploit is given, it will be called with the built
+      # payload before the payload is deployed.
       #
       def deploy!(&block)
+        # verify the payload
         verify!
+
+        if @exploit
+          # build, verify and deploy the exploit with the built payload
+          @exploit.call(options.merge(:payload => @payload))
+        end
+
+        @deployed = false
+
         deploy()
+
+        @deployed = true
         
         block.call(self) if block
         return self
+      end
+
+      #
+      # Builds the payload with the given _options_ and deploys it with
+      # the given _block_. If a _block_ is given, it will be passed the
+      # deployed payload object.
+      #
+      # _options_ may contain the following keys:
+      # <tt>:exploit</tt>:: The exploit object to use with the payload.
+      #
+      def call(options={},&block)
+        if options[:exploit]
+          # set the exploit if one is given
+          @exploit = options.delete(:exploit)
+        end
+
+        # build the payload
+        build!(options)
+
+        # deploy the payload
+        return deploy!(&block)
       end
 
       #
