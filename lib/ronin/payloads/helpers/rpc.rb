@@ -34,7 +34,7 @@ module Ronin
             #
             def self.expose_method(name)
               define_method(name) do |*arguments|
-                call(name,*arguments)
+                call_method(name,*arguments)
               end
             end
           end
@@ -44,7 +44,7 @@ module Ronin
         # Calls the specified _method_ with the given _arguments_.
         # Returns the return-value of the method-call.
         #
-        def call(method,*arguments)
+        def call_method(method,*arguments)
           raise(Unimplemented,"the call method is unimplemented",caller)
         end
 
@@ -52,14 +52,14 @@ module Ronin
         # Evaluates the specified _code_.
         #
         def eval(code)
-          call(:eval,code)
+          call_method(:eval,code)
         end
 
         #
         # Exits with the given _status_.
         #
         def exit(status=0)
-          call(:exit,status)
+          call_method(:exit,status)
         end
 
         protected
@@ -72,7 +72,7 @@ module Ronin
           name = name.to_s
 
           if (name[-1..-1] != '=' && block.nil?)
-            return call(name,*arguments)
+            return call_method(name,*arguments)
           end
 
           return super(name,*arguments,&block)
