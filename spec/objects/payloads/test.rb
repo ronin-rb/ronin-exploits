@@ -1,4 +1,8 @@
 ronin_payload do
+  parameter :custom,
+            :default => 'func',
+            :description => 'Custom value to use in building the payload'
+
   cache do
     self.name = 'test'
 
@@ -6,6 +10,6 @@ ronin_payload do
   end
 
   def build
-    @payload = 'code'
+    @payload = "code.#{@custom}"
   end
 end
