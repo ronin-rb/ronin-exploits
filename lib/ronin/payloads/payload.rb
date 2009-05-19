@@ -164,8 +164,8 @@ module Ronin
       #
       # Verifies the built payload and deploys the payload. If a _block_
       # is given, it will be passed the deployed payload object. If 
-      # an exploit is given, it will be called with the built
-      # payload before the payload is deployed.
+      # an exploit is given, it will be called with the given _options_
+      # and the built payload before the payload is deployed.
       #
       def deploy!(options={},&block)
         # verify the payload
