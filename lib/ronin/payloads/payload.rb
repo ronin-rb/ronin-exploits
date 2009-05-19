@@ -167,7 +167,7 @@ module Ronin
       # an exploit is given, it will be called with the built
       # payload before the payload is deployed.
       #
-      def deploy!(&block)
+      def deploy!(options={},&block)
         # verify the payload
         verify!
 
@@ -204,7 +204,7 @@ module Ronin
         build!(options)
 
         # deploy the payload
-        return deploy!(&block)
+        return deploy!(options,&block)
       end
 
       #
