@@ -136,4 +136,11 @@ describe Payloads::Payload do
       payload.exploit.should be_deployed
     end
   end
+
+  it "should build and deploy the payload when called" do
+    @payload.call
+
+    @payload.should be_built
+    @payload.should be_deployed
+  end
 end
