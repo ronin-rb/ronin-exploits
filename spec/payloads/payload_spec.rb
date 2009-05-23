@@ -37,6 +37,10 @@ describe Payloads::Payload do
     third_payload.should be_valid
   end
 
+  it "should initialize all parameters by default" do
+    @payload.params.should_not be_empty
+  end
+
   it "should not have any controls by default" do
     @payload.controls.should be_empty
   end
