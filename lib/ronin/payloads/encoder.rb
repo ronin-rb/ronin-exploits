@@ -45,13 +45,12 @@ module Ronin
       # Primary key of the payload
       property :id, Serial
 
-      # Validations
-      validates_present :name
-
       #
       # Creates a new Encoder object with the given _arguments_.
       #
       def initialize(*arguments)
+        super(*arguments)
+
         initialize_params(*arguments)
       end
 
