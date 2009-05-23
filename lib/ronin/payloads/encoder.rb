@@ -49,6 +49,13 @@ module Ronin
       validates_present :name
 
       #
+      # Creates a new Encoder object with the given _arguments_.
+      #
+      def initialize(*arguments)
+        initialize_params(*arguments)
+      end
+
+      #
       # Default method which will encode the specified _data_.
       # Returns the specified _data_ by default.
       #
