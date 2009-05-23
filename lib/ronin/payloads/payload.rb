@@ -76,6 +76,8 @@ module Ronin
       def initialize(attributes={},&block)
         super(attributes)
 
+        initialize_params(attributes)
+
         @built = false
         @deployed = false
 
