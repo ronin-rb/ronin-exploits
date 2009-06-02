@@ -28,7 +28,7 @@ module Ronin
 
     # The payloads which target the OS
     has n, :payloads,
-           :class_name => 'Ronin::Payloads::Payload'
+           :model => 'Ronin::Payloads::Payload'
 
   end
 end
