@@ -36,9 +36,7 @@ module Ronin
       property :id, Serial
 
       # The behavior the ability provides
-      belongs_to :behavior,
-                 :child_key => [:behavior_id],
-                 :model => 'Vuln::Behavior'
+      belongs_to :behavior, :model => 'Vuln::Behavior'
 
       # The payload which has this ability
       belongs_to :payload
