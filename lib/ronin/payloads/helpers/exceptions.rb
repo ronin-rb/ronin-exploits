@@ -22,3 +22,4 @@
 #
 
 require 'ronin/payloads/exceptions/not_implemented'
+require 'ronin/payloads/exceptions/program_not_found'
