@@ -21,4 +21,4 @@
 #++
 #
 
-require 'ronin/payloads/exceptions/unimplemented'
+require 'ronin/payloads/exceptions/not_implemented'

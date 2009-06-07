@@ -21,7 +21,7 @@
 #++
 #
 
-require 'ronin/payloads/helpers/exceptions/unimplemented'
+require 'ronin/payloads/helpers/exceptions/not_implemented'
 
 module Ronin
   module Payloads
@@ -32,7 +32,7 @@ module Ronin
         # otherwise.
         #
         def exists?(path)
-          raise(Unimplemented,"the exists? method has not been implemented",caller)
+          raise(NotImplemented,"the exists? method has not been implemented",caller)
         end
 
         #
@@ -40,7 +40,7 @@ module Ronin
         # otherwise.
         #
         def file?(path)
-          raise(Unimplemented,"the file? method has not been implemented",caller)
+          raise(NotImplemented,"the file? method has not been implemented",caller)
         end
 
         #
@@ -48,21 +48,21 @@ module Ronin
         # +false+ otherwise.
         #
         def dir?(path)
-          raise(Unimplemented,"the dir? method has not been implemented",caller)
+          raise(NotImplemented,"the dir? method has not been implemented",caller)
         end
 
         #
         # Returns the contents of the directory at the specified _path_.
         #
         def dir(path)
-          raise(Unimplemented,"the dir method has not been implemented",caller)
+          raise(NotImplemented,"the dir method has not been implemented",caller)
         end
 
         #
         # Returns all the paths matching the specified globbed _pattern_.
         #
         def glob(pattern)
-          raise(Unimplemented,"the glob method has not been implemented",caller)
+          raise(NotImplemented,"the glob method has not been implemented",caller)
         end
 
         #
@@ -90,7 +90,7 @@ module Ronin
         # Returns the contents of the file at the specified _path_.
         #
         def read_file(path)
-          raise(Unimplemented,"the read_file method has not been implemented",caller)
+          raise(NotImplemented,"the read_file method has not been implemented",caller)
         end
 
         #
@@ -98,7 +98,7 @@ module Ronin
         # _path_.
         #
         def write_file(path,contents)
-          raise(Unimplemented,"the write_file method has not been implemented",caller)
+          raise(NotImplemented,"the write_file method has not been implemented",caller)
         end
 
         #
@@ -106,7 +106,7 @@ module Ronin
         # _path_.
         #
         def append_file(path,contents)
-          raise(Unimplemented,"the append_file method has not been implemented",caller)
+          raise(NotImplemented,"the append_file method has not been implemented",caller)
         end
 
         #
@@ -120,21 +120,21 @@ module Ronin
         # Removes the file at the specified _path_.
         #
         def rm(path)
-          raise(Unimplemented,"the rm method has not been implemented",caller)
+          raise(NotImplemented,"the rm method has not been implemented",caller)
         end
 
         #
         # Removes the directory at the specified _path_.
         #
         def rmdir(path)
-          raise(Unimplemented,"the rmdir method has not been implemented",caller)
+          raise(NotImplemented,"the rmdir method has not been implemented",caller)
         end
 
         #
         # Recursively removes the file or directory at the specified _path_.
         #
         def rm_r(path)
-          raise(Unimplemented,"the rm_r method has not been implemented",caller)
+          raise(NotImplemented,"the rm_r method has not been implemented",caller)
         end
 
         protected

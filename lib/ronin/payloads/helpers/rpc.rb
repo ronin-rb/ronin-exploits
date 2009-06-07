@@ -21,7 +21,7 @@
 #++
 #
 
-require 'ronin/payloads/helpers/exceptions/unimplemented'
+require 'ronin/payloads/helpers/exceptions/not_implemented'
 
 module Ronin
   module Payloads
@@ -45,7 +45,7 @@ module Ronin
         # Returns the return-value of the method-call.
         #
         def call_method(method,*arguments)
-          raise(Unimplemented,"the call method is unimplemented",caller)
+          raise(NotImplemented,"the call method is unimplemented",caller)
         end
 
         #

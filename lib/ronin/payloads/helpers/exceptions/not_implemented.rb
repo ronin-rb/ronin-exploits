@@ -24,7 +24,7 @@
 module Ronin
   module Payloads
     module Helpers
-      class Unimplemented < RuntimeError
+      class NotImplemented < RuntimeError
       end
     end
   end

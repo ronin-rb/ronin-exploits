@@ -21,7 +21,7 @@
 #++
 #
 
-require 'ronin/payloads/helpers/exceptions/unimplemented'
+require 'ronin/payloads/helpers/exceptions/not_implemented'
 require 'ronin/payloads/helpers/exceptions/program_not_found'
 
 module Ronin
@@ -40,7 +40,7 @@ module Ronin
         # Executes the specified _command_ with the given _arguments_.
         #
         def exec(command,*arguments)
-          raise(Unimplemented,"the exec method has not been implemented",caller)
+          raise(NotImplemented,"the exec method has not been implemented",caller)
         end
 
         #
