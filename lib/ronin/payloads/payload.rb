@@ -22,6 +22,9 @@
 #
 
 require 'ronin/payloads/exceptions/unknown_helper'
+require 'ronin/payloads/license'
+require 'ronin/payloads/arch'
+require 'ronin/payloads/os'
 require 'ronin/payloads/payload_author'
 require 'ronin/payloads/control'
 require 'ronin/model/targets_arch'
