@@ -33,6 +33,7 @@ require 'ronin/model/has_name'
 require 'ronin/model/has_description'
 require 'ronin/model/has_version'
 require 'ronin/model/has_license'
+require 'ronin/ui/diagnostics'
 require 'ronin/cacheable'
 
 require 'parameters'
@@ -49,6 +50,7 @@ module Ronin
       include Model::HasLicense
       include Model::TargetsArch
       include Model::TargetsOS
+      include UI::Diagnostics
 
       contextify :ronin_payload
 
