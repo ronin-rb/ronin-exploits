@@ -25,6 +25,6 @@ describe Payloads::Encoder do
   end
 
   it "should have a custom inspect method" do
-    @encoder.inspect.should == "#<Ronin::Payloads::Encoder: test>"
+    @encoder.inspect.should == '#<Ronin::Payloads::Encoder: test>'
   end
 end
