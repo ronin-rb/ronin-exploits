@@ -147,4 +147,8 @@ describe Payloads::Payload do
     @payload.should be_built
     @payload.should be_deployed
   end
+
+  it "should have a custom inspect method" do
+    @payload.inspect.should == "#<Ronin::Payloads::Payload: test 0.1 {:custom=>\"func\"}>"
+  end
 end

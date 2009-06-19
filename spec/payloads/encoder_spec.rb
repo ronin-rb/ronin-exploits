@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe Payloads::Encoder do
   before(:all) do
-    @encoder = Payloads::Encoder.new
+    @encoder = Payloads::Encoder.new(:name => 'test')
     @data = 'some data'
   end
 
@@ -22,5 +22,9 @@ describe Payloads::Encoder do
 
   it "should return the data to be encoded by default" do
     @encoder.call(@data).should == @data
+  end
+
+  it "should have a custom inspect method" do
+    @encoder.inspect.should == "#<Ronin::Payloads::Encoder: test>"
   end
 end
