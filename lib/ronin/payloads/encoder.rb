@@ -74,7 +74,7 @@ module Ronin
       #
       def inspect
         str = "#{self.class.name}: #{self.to_s}"
-        str << " #{@params.inspect}" unless @params.empty?
+        str << " #{self.params.inspect}" unless self.params.empty?
 
         return "#<#{str}>"
       end
