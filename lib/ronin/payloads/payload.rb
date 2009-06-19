@@ -221,6 +221,16 @@ module Ronin
         "#{self.name} #{self.version}"
       end
 
+      #
+      # Inspects the contents of the payload.
+      #
+      def inspect
+        str = "#{self.class.name}: #{self.to_s}"
+        str << " #{@params.inspect}" unless @params.empty?
+
+        return "#<#{str}>"
+      end
+
       protected
 
       #

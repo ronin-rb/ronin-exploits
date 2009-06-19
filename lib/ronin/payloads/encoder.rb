@@ -62,6 +62,23 @@ module Ronin
         data
       end
 
+      #
+      # Returns the name of the payload encoder.
+      #
+      def to_s
+        self.name.to_s
+      end
+
+      #
+      # Inspects the contents of the payload encoder.
+      #
+      def inspect
+        str = "#{self.class.name}: #{self.to_s}"
+        str << " #{@params.inspect}" unless @params.empty?
+
+        return "#<#{str}>"
+      end
+
     end
   end
 end
