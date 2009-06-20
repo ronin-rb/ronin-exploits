@@ -225,7 +225,7 @@ module Ronin
       # Inspects the contents of the payload.
       #
       def inspect
-        str = "#{self.class.name}: #{self.to_s}"
+        str = "#{self.class}: #{self}"
         str << " #{self.params.inspect}" unless self.params.empty?
 
         return "#<#{str}>"
