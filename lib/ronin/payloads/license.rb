@@ -28,7 +28,7 @@ module Ronin
 
     # The payloads under the license
     has n, :payloads,
-           :model => 'Ronin::Payloads::Payload'
+           :class_name => 'Ronin::Payloads::Payload'
 
   end
 end
