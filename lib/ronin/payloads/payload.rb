@@ -58,7 +58,7 @@ module Ronin
       property :id, Serial
 
       # Author(s) of the payload
-      has n, :authors, :model => 'Ronin::Payloads::PayloadAuthor'
+      has n, :authors, :class_name => 'Ronin::Payloads::PayloadAuthor'
 
       # Controls the payload provides
       has n, :controls
