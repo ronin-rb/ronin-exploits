@@ -26,7 +26,7 @@ module Ronin
 
     # The payloads which target the Arch
     has n, :payloads,
-           :model => 'Ronin::Payloads::Payload'
+           :class_name => 'Ronin::Payloads::Payload'
 
   end
 end
