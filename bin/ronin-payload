@@ -9,4 +9,4 @@ end
 
 require 'ronin/ui/command_line/commands/payload'
 
-Ronin::UI::CommandLine::Commands::Payload.run(*ARGV)
+Ronin::UI::CommandLine::Commands::Payload.start
