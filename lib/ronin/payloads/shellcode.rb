@@ -27,8 +27,6 @@ module Ronin
   module Payloads
     class Shellcode < ASMPayload
 
-      include Helpers::Shell
-
       contextify :ronin_shellcode
 
     end
