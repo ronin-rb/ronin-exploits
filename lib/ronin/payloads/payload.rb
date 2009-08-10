@@ -227,10 +227,9 @@ module Ronin
 
       #
       # Extends the payload with the helper module defined in
-      # Ronin::Payloads::Helpers that has the similar specified
-      # _name_. If no module can be found within
-      # Ronin::Payloads::Helpers with the similar _name_, an
-      # UnknownHelper exception will be raised.
+      # Ronin::Payloads::Helpers that has the similar specified _name_.
+      # If no module can be found within Ronin::Payloads::Helpers with
+      # the similar _name_, an UnknownHelper exception will be raised.
       #
       #   helper :shell
       #
