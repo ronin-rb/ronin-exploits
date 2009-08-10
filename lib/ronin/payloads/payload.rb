@@ -171,18 +171,11 @@ module Ronin
 
       #
       # Verifies the built payload and deploys the payload. If a _block_
-      # is given, it will be passed the deployed payload object. If 
-      # an exploit is given, it will be called with the given _options_
-      # and the built payload before the payload is deployed.
+      # is given, it will be passed the deployed payload object.
       #
       def deploy!(options={},&block)
         # verify the payload
         verify!
-
-        if @exploit
-          # build, verify and deploy the exploit with the built payload
-          @exploit.call(options.merge(:payload => @payload))
-        end
 
         @deployed = false
 
@@ -197,17 +190,9 @@ module Ronin
       #
       # Builds the payload with the given _options_ and deploys it with
       # the given _block_. If a _block_ is given, it will be passed the
-      # deployed payload object.
-      #
-      # _options_ may contain the following keys:
-      # <tt>:exploit</tt>:: The exploit object to use with the payload.
+      # deployed payload.
       #
       def call(options={},&block)
-        if options[:exploit]
-          # set the exploit if one is given
-          @exploit = options.delete(:exploit)
-        end
-
         # build the payload
         build!(options)
 
