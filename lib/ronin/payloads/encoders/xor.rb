@@ -59,8 +59,8 @@ module Ronin
         # encoded data.
         #
         def call(data)
-          alphabet = Chars.all.select { |b| data.include?(b.chr) }
-          excluded = (Chars.all - alphabet)
+          alphabet = Chars.ascii.select { |b| data.include?(b.chr) }
+          excluded = (Chars.ascii - alphabet)
 
           key = excluded.select { |b|
             @allow.include?(b) && alphabet.all? { |i|
