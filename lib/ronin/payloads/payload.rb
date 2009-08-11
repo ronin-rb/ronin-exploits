@@ -34,6 +34,7 @@ require 'ronin/model/has_name'
 require 'ronin/model/has_description'
 require 'ronin/model/has_version'
 require 'ronin/model/has_license'
+require 'ronin/controls/behaviors'
 require 'ronin/ui/diagnostics'
 require 'ronin/extensions/kernel'
 
@@ -51,6 +52,7 @@ module Ronin
       include Model::HasLicense
       include Model::TargetsArch
       include Model::TargetsOS
+      include Controls::Behaviors
       include UI::Diagnostics
 
       contextify :ronin_payload
@@ -62,7 +64,7 @@ module Ronin
       has n, :authors, :model => 'Ronin::Payloads::PayloadAuthor'
 
       # Controls the payload provides
-      has n, :controls
+      has n, :controls, :model => 'Ronin::Payloads::Control'
 
       # Validations
       validates_present :name
@@ -101,30 +103,6 @@ module Ronin
       #
       def author(attributes={},&block)
         self.authors << PayloadAuthor.new(attributes,&block)
-      end
-
-      #
-      # Adds a new Control to the payload that controls the specified
-      # _behaviors_.
-      #
-      #   controlling :code_exec.
-      #               :file_read,
-      #               :file_write,
-      #               :file_create
-      #
-      def controlling(*behaviors)
-        behaviors.each do |behavior|
-          self.controls << Control.new(
-            :behavior => Vuln::Behavior[behavior]
-          )
-        end
-      end
-
-      #
-      # Returns the behaviors controlled by the payload.
-      #
-      def behaviors
-        self.controls.map { |control| control.behavior }
       end
 
       #
