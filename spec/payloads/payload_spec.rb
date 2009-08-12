@@ -101,12 +101,14 @@ describe Payloads::Payload do
   end
 
   it "should return the built payload when calling build!" do
-    @payload.build!.should == "code.func"
+    @payload.build!
+    @payload.payload.should == "code.func"
   end
 
   it "should use parameters in the building of the payload" do
     @payload.custom = 'hello'
-    @payload.build!.should == "code.hello"
+    @payload.build!
+    @payload.payload.should == "code.hello"
   end
 
   it "should have 'deployed' and 'undeployed' states" do
