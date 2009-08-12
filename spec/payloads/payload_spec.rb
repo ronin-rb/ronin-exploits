@@ -89,6 +89,10 @@ describe Payloads::Payload do
     @payload.exploit.should be_nil
   end
 
+  it "should be 'unbuilt' by default" do
+    @payload.should_not be_built
+  end
+
   it "should have 'built' and 'unbuilt' states" do
     @payload.should_not be_built
     @payload.build!
@@ -109,6 +113,10 @@ describe Payloads::Payload do
     @payload.custom = 'hello'
     @payload.build!
     @payload.payload.should == "code.hello"
+  end
+
+  it "should be 'undeployed' by default" do
+    @payload.should_not be_deployed
   end
 
   it "should have 'deployed' and 'undeployed' states" do
