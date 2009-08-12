@@ -21,6 +21,8 @@
 #++
 #
 
+require 'ronin/arch'
+
 module Ronin
   class Arch
 
