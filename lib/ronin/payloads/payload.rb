@@ -218,7 +218,13 @@ module Ronin
       # Returns the name and version of the payload.
       #
       def to_s
-        "#{self.name} #{self.version}"
+        if (self.name && self.version)
+          "#{self.name} #{self.version}"
+        elsif self.name
+          self.name
+        elsif self.version
+          self.version
+        end
       end
 
       #
