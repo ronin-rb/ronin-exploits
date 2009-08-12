@@ -89,7 +89,7 @@ describe Payloads::Payload do
     @payload.exploit.should be_nil
   end
 
-  it "should have 'built' and 'unbiult' states" do
+  it "should have 'built' and 'unbuilt' states" do
     @payload.should_not be_built
     @payload.build!
     @payload.should be_built
