@@ -166,19 +166,6 @@ module Ronin
       end
 
       #
-      # Builds the payload with the given _options_ and deploys it with
-      # the given _block_. If a _block_ is given, it will be passed the
-      # deployed payload.
-      #
-      def run(options={},&block)
-        # build the payload
-        build!(options)
-
-        # deploy the payload
-        return deploy!(options,&block)
-      end
-
-      #
       # Returns the name and version of the payload.
       #
       def to_s

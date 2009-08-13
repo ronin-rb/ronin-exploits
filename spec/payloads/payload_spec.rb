@@ -122,13 +122,6 @@ describe Payloads::Payload do
     end
   end
 
-  it "should build and deploy the payload when ran" do
-    @payload.run
-
-    @payload.should be_built
-    @payload.should be_deployed
-  end
-
   it "should return the name and the version when calling to_s" do
     @payload.to_s.should == 'test 0.1'
   end
