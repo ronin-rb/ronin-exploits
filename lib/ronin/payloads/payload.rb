@@ -170,7 +170,7 @@ module Ronin
       # the given _block_. If a _block_ is given, it will be passed the
       # deployed payload.
       #
-      def call(options={},&block)
+      def run(options={},&block)
         # build the payload
         build!(options)
 
