@@ -12,4 +12,8 @@ ronin_payload do
   def build
     @payload = "code.#{@custom}"
   end
+
+  def some_control
+    'control data'
+  end
 end
