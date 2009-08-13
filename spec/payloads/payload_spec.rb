@@ -132,25 +132,6 @@ describe Payloads::Payload do
     end
   end
 
-  it "should pass the built payload to the exploit when deploying" do
-    @payload.exploit = @exploit
-
-    @payload.build!
-    @payload.deploy! do |payload|
-      payload.exploit.payload.should == "code.func"
-    end
-  end
-
-  it "should call the exploit when deployed" do
-    @payload.exploit = @exploit
-
-    @payload.build!
-    @payload.deploy! do |payload|
-      payload.exploit.should be_built
-      payload.exploit.should be_deployed
-    end
-  end
-
   it "should build and deploy the payload when called" do
     @payload.call
 
