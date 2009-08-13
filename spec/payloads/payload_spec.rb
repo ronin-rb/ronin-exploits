@@ -6,7 +6,6 @@ require 'helpers/objects'
 describe Payloads::Payload do
   before(:each) do
     @payload = load_payload('test')
-    @exploit = load_exploit('example')
   end
 
   it "should require a name attribute" do
