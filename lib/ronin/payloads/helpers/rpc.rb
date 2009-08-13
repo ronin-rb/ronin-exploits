@@ -26,7 +26,7 @@ require 'ronin/payloads/exceptions/not_implemented'
 module Ronin
   module Payloads
     module Helpers
-      module RPC
+      module Rpc
         def self.included(base)
           base.module_eval do
             #
