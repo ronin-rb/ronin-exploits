@@ -27,6 +27,7 @@ require 'ronin/payloads/arch'
 require 'ronin/payloads/os'
 require 'ronin/payloads/payload_author'
 require 'ronin/payloads/control'
+require 'ronin/cacheable'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
 require 'ronin/model/has_name'
@@ -34,7 +35,7 @@ require 'ronin/model/has_description'
 require 'ronin/model/has_version'
 require 'ronin/model/has_license'
 require 'ronin/ui/diagnostics'
-require 'ronin/cacheable'
+require 'ronin/extensions/kernel'
 
 require 'parameters'
 
@@ -253,7 +254,7 @@ module Ronin
         module_name = name.to_const_string
 
         begin
-          require File.join('ronin','payloads','helpers',name)
+          require_within File.join('ronin','payloads','helpers'), name
         rescue Gem::LoadError => e
           raise(e)
         rescue ::LoadError
