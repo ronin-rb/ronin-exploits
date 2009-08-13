@@ -66,7 +66,7 @@ describe Payloads::Payload do
   end
 
   it "should allow for the extending of Helper modules" do
-    @payload.instance_eval { helper :shell }.should == true
+    @payload.instance_eval { helper :rpc }.should == true
   end
 
   it "should raise an UnknownHelper when extending an unknown helper" do
