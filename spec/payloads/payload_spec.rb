@@ -2,11 +2,15 @@ require 'ronin/payloads/payload'
 
 require 'spec_helper'
 require 'helpers/objects'
+require 'controls/behaviors_examples'
 
 describe Payloads::Payload do
   before(:each) do
     @payload = load_payload('test')
+    @controler = @payload
   end
+
+  it_should_behave_like "controls behaviors"
 
   it "should require a name attribute" do
     payload = Payloads::Payload.new
@@ -38,19 +42,6 @@ describe Payloads::Payload do
 
   it "should initialize all parameters by default" do
     @payload.params.should_not be_empty
-  end
-
-  it "should not have any controls by default" do
-    @payload.controls.should be_empty
-  end
-
-  it "should specify what behaviors the payload controls" do
-    @payload.controlling :memory_read, :memory_write
-
-    @payload.behaviors.should == [
-      Vuln::Behavior[:memory_read],
-      Vuln::Behavior[:memory_write]
-    ]
   end
 
   it "should not have an Arch by default" do
