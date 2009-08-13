@@ -151,7 +151,7 @@ module Ronin
       # Verifies the built payload and deploys the payload. If a _block_
       # is given, it will be passed the deployed payload object.
       #
-      def deploy!(options={},&block)
+      def deploy!(&block)
         # verify the payload
         verify!
 
