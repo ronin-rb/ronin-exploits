@@ -6,7 +6,7 @@ require 'controls/behaviors_examples'
 
 describe Payloads::Payload do
   before(:each) do
-    @payload = load_payload('test')
+    @payload = load_payload('simple')
     @controler = @payload
   end
 
@@ -123,10 +123,10 @@ describe Payloads::Payload do
   end
 
   it "should return the name and the version when calling to_s" do
-    @payload.to_s.should == 'test 0.1'
+    @payload.to_s.should == 'simple 0.1'
   end
 
   it "should have a custom inspect method" do
-    @payload.inspect.should == '#<Ronin::Payloads::Payload: test 0.1 {:custom=>"func"}>'
+    @payload.inspect.should == '#<Ronin::Payloads::Payload: simple 0.1 {:custom=>"func"}>'
   end
 end

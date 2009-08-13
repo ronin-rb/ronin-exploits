@@ -4,7 +4,7 @@ ronin_payload do
             :description => 'Custom value to use in building the payload'
 
   cache do
-    self.name = 'test'
+    self.name = 'simple'
 
     author :name => 'Anonymous', :email => 'anonymous@example.com'
   end
