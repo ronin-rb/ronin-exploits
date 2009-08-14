@@ -53,6 +53,14 @@ module Ronin
       include Controls::Behaviors
       include UI::Diagnostics
 
+      #
+      # Creates a new Ronin::Payloads::Payload object using the given
+      # _block_.
+      #
+      #   ronin_payload do
+      #     ...
+      #   end
+      #
       contextify :ronin_payload
 
       # Primary key of the payload

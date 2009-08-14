@@ -26,6 +26,14 @@ module Ronin
   module Payloads
     class WebPayload < Payload
 
+      #
+      # Creates a new Ronin::Payloads::WebPayload object using the given
+      # _block_.
+      #
+      #   ronin_web_payload do
+      #     ...
+      #   end
+      #
       contextify :ronin_web_payload
 
     end

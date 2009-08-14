@@ -25,6 +25,14 @@ module Ronin
   module Payloads
     class ASMPayload < BinaryPayload
 
+      #
+      # Creates a new Ronin::Payloads::ASMPayload object using the given
+      # _block_.
+      #
+      #   ronin_asm_payload do
+      #     ...
+      #   end
+      #
       contextify :ronin_asm_payload
 
     end

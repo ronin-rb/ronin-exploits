@@ -25,6 +25,14 @@ module Ronin
   module Payloads
     class Shellcode < ASMPayload
 
+      #
+      # Creates a new Ronin::Payloads::Shellcode object using the given
+      # _block_.
+      #
+      #   ronin_shellcode do
+      #     ...
+      #   end
+      #
       contextify :ronin_shellcode
 
     end
