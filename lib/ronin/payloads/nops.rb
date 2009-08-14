@@ -25,6 +25,13 @@ module Ronin
   module Payloads
     class Nops < ASMPayload
 
+      #
+      # Creates a new Ronin::Payloads::Nops object using the given _block_.
+      #
+      #   ronin_nops do
+      #     ...
+      #   end
+      #
       contextify :ronin_nops
 
     end
