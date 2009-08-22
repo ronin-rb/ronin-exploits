@@ -103,6 +103,7 @@ module Ronin
       # is given, it will be passed to the newly created PayloadAuthor
       # object.
       #
+      # @example
       #   author :name => 'Anonymous',
       #          :email => 'anon@example.com',
       #          :organization => 'Anonymous LLC'
@@ -202,6 +203,7 @@ module Ronin
       # If no module can be found within Ronin::Payloads::Helpers with
       # the similar _name_, an UnknownHelper exception will be raised.
       #
+      # @example
       #   helper :shell
       #
       # @raise [UnknownHelper] No valid helper module could be found or
