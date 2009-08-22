@@ -204,6 +204,9 @@ module Ronin
       #
       #   helper :shell
       #
+      # @raise [UnknownHelper] No valid helper module could be found or
+      #                        loaded with the matching _name_.
+      #
       def helper(name)
         name = name.to_s
         module_name = name.to_const_string
