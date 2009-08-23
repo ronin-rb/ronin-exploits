@@ -25,19 +25,6 @@ module Ronin
   module Payloads
     module Helpers
       module Rpc
-        def self.included(base)
-          base.module_eval do
-            #
-            # Exposes the method with the specified _name_.
-            #
-            def self.expose_method(name)
-              define_method(name) do |*arguments|
-                call_method(name,*arguments)
-              end
-            end
-          end
-        end
-
         #
         # Calls the specified _method_ with the given _arguments_.
         # Returns the return-value of the method-call.
