@@ -1,18 +1,18 @@
-require 'ronin/payloads/encoder'
+require 'ronin/payloads/encoders/encoder'
 
 require 'spec_helper'
 
-describe Payloads::Encoder do
+describe Payloads::Encoders::Encoder do
   before(:all) do
-    @encoder = Payloads::Encoder.new(:name => 'test')
+    @encoder = Payloads::Encoders::Encoder.new(:name => 'test')
     @data = 'some data'
   end
 
   it "should require a name" do
-    encoder = Payloads::Encoder.new
+    encoder = Payloads::Encoders::Encoder.new
     encoder.should_not be_valid
 
-    encoder = Payloads::Encoder.new(:name => 'encoder')
+    encoder = Payloads::Encoders::Encoder.new(:name => 'encoder')
     encoder.should be_valid
   end
 
@@ -25,6 +25,6 @@ describe Payloads::Encoder do
   end
 
   it "should have a custom inspect method" do
-    @encoder.inspect.should == '#<Ronin::Payloads::Encoder: test>'
+    @encoder.inspect.should == '#<Ronin::Payloads::Encoders::Encoder: test>'
   end
 end
