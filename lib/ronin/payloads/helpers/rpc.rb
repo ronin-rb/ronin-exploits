@@ -29,6 +29,8 @@ module Ronin
         # Calls the specified _method_ with the given _arguments_.
         # Returns the return-value of the method-call.
         #
+        # @since 0.3.0
+        #
         def call_method(method,*arguments)
           raise(NotImplemented,"the call method is unimplemented",caller)
         end
@@ -36,12 +38,16 @@ module Ronin
         #
         # Evaluates the specified _code_.
         #
+        # @since 0.3.0
+        #
         def eval(code)
           call_method(:eval,code)
         end
 
         #
         # Exits with the given _status_.
+        #
+        # @since 0.3.0
         #
         def exit(status=0)
           call_method(:exit,status)
@@ -52,6 +58,8 @@ module Ronin
         #
         # Provides transparent access to remote methods using the
         # specified _name_ and given _arguments_.
+        #
+        # @since 0.3.0
         #
         def method_missing(name,*arguments,&block)
           name = name.to_s
