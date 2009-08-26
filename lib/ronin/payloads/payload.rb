@@ -127,10 +127,16 @@ module Ronin
       def build!(options={},&block)
         self.params = options
 
+        print_debug "Payload parameters: #{self.params.inspect}"
+
         @built = false
         @payload = ''
 
+        print_info "Building payload ..."
+
         build()
+
+        print_info "Payload built!"
 
         @built = true
 
@@ -143,7 +149,11 @@ module Ronin
       # deployed.
       #
       def verify!
+        print_info "Verifying payload ..."
+
         verify
+
+        print_info "Payload verified!"
       end
 
       #
@@ -162,10 +172,12 @@ module Ronin
         # verify the payload
         verify!
 
+        print_info "Deploying payload ..."
         @deployed = false
 
         deploy()
 
+        print_info "Payload deployed!"
         @deployed = true
         
         block.call(self) if block
