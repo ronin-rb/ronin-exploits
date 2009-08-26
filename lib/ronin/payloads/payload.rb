@@ -33,7 +33,7 @@ require 'ronin/model/has_description'
 require 'ronin/model/has_version'
 require 'ronin/model/has_license'
 require 'ronin/controls/behaviors'
-require 'ronin/ui/diagnostics'
+require 'ronin/ui/output/helpers'
 require 'ronin/extensions/kernel'
 
 require 'parameters'
@@ -51,7 +51,7 @@ module Ronin
       include Model::TargetsArch
       include Model::TargetsOS
       include Controls::Behaviors
-      include UI::Diagnostics
+      include UI::Output::Helpers
 
       #
       # Creates a new Ronin::Payloads::Payload object using the given
