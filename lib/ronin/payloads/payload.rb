@@ -83,9 +83,13 @@ module Ronin
       attr_accessor :payload
 
       #
-      # Creates a new Payload object with the given _attributes_. If a
-      # _block_ is given, it will be passed the newly created Payload
-      # object.
+      # Creates a new Payload object.
+      #
+      # @param [Array] attributes Additional attributes to initialize the
+      #                           payload with.
+      #
+      # @yield [] If a block is given, it will be evaluated in the newly
+      #           created Payload object.
       #
       def initialize(attributes={},&block)
         super(attributes)
@@ -99,9 +103,15 @@ module Ronin
       end
 
       #
-      # Adds a new PayloadAuthor with the given _attributes_. If a _block_
-      # is given, it will be passed to the newly created PayloadAuthor
-      # object.
+      # Adds a new author to the payload.
+      #
+      # @param [Hash] attributes Additional attributes to create the
+      #                          PayloadAuthor object with.
+      #
+      # @yield [author] If a block is given, it will be passed the newly
+      #                 created author object.
+      # @yieldparam [PayloadAuthor] author The author object tied to the
+      #                                    payload.
       #
       # @example
       #   author :name => 'Anonymous',
@@ -113,16 +123,22 @@ module Ronin
       end
 
       #
-      # Returns +true+ if the payload is built, returns +false+ otherwise.
+      # @return [true, false] Specifies whether the payload is built.
       #
       def built?
         @built == true
       end
 
       #
-      # Performs a clean build of the payload with the given _params_.
-      # If a _block_ is given, it will be passed the built and encoded
-      # payload.
+      # Builds the payload.
+      #
+      # @param [Hash] options Additional options to build the payload with
+      #                       and use as parameters.
+      #
+      # @yield [payload] If a block is given, it will be yielded the
+      #                  result of the payload building.
+      # @yieldparam [String] payload The built payload.
+      # @return [String] The built payload.
       #
       def build!(options={},&block)
         self.params = options
@@ -157,16 +173,19 @@ module Ronin
       end
 
       #
-      # Returns +true+ if the payload has previously been deployed,
-      # returns +false+ otherwise.
+      # @return [true, false] Specifies whether the payload has previously
+      #                       been deployed.
       #
       def deployed?
         @deployed == true
       end
 
       #
-      # Verifies the built payload and deploys the payload. If a _block_
-      # is given, it will be passed the deployed payload object.
+      # Verifies the built payload and deploys the payload.
+      #
+      # @yield [payload] If a block is given, it will be passed the
+      #                  deployed payload.
+      # @yieldparam [Payload] payload The deployed payload.
       #
       def deploy!(&block)
         # verify the payload
@@ -185,7 +204,9 @@ module Ronin
       end
 
       #
-      # Returns the name and version of the payload.
+      # Converts the payload to a String.
+      #
+      # @return [String] The name and version of the payload.
       #
       def to_s
         if (self.name && self.version)
@@ -200,6 +221,8 @@ module Ronin
       #
       # Inspects the contents of the payload.
       #
+      # @return [String] The inspected payload.
+      #
       def inspect
         str = "#{self.class}: #{self}"
         str << " #{self.params.inspect}" unless self.params.empty?
@@ -211,15 +234,19 @@ module Ronin
 
       #
       # Extends the payload with the helper module defined in
-      # Ronin::Payloads::Helpers that has the similar specified _name_.
-      # If no module can be found within Ronin::Payloads::Helpers with
-      # the similar _name_, an UnknownHelper exception will be raised.
+      # Ronin::Payloads::Helpers that has the similar name.
+      #
+      # @param [Symbol, String] name The snake-case name of the payload
+      #                              helper to load and extend the
+      #                              payload with.
+      #
+      # @return [true] The payload helper was successfully loaded.
+      #
+      # @raise [UnknownHelper] No valid helper module could be found or
+      #                        loaded with the similar name.
       #
       # @example
       #   helper :shell
-      #
-      # @raise [UnknownHelper] No valid helper module could be found or
-      #                        loaded with the matching _name_.
       #
       def helper(name)
         name = name.to_s
