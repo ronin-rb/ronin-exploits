@@ -26,8 +26,13 @@ module Ronin
     module Helpers
       module Rpc
         #
-        # Calls the specified _method_ with the given _arguments_.
-        # Returns the return-value of the method-call.
+        # Calls a specific method with additional arguments.
+        #
+        # @param [Symbol, String] method The method name to call.
+        # @param [Array] arguments The arguments to use when calling the
+        #                          method.
+        #
+        # @return [Object] The result of the method call.
         #
         # @since 0.3.0
         #
@@ -36,7 +41,11 @@ module Ronin
         end
 
         #
-        # Evaluates the specified _code_.
+        # Evaluates code.
+        #
+        # @param [String] code The code to evaluate.
+        #
+        # @return [Object] The result of the code evaluation.
         #
         # @since 0.3.0
         #
@@ -45,7 +54,9 @@ module Ronin
         end
 
         #
-        # Exits with the given _status_.
+        # Exits the process.
+        #
+        # @param [Integer] status The status to exit with.
         #
         # @since 0.3.0
         #
