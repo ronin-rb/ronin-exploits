@@ -65,7 +65,7 @@ module Ronin
         # Default method which will encode the specified _data_.
         # Returns the specified _data_ by default.
         #
-        def call(data)
+        def encode(data)
           data
         end
 

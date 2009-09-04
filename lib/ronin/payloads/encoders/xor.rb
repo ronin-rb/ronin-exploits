@@ -56,7 +56,7 @@ module Ronin
         # XOR encodes the specified _data_ prefixing the XOR key to the
         # encoded data.
         #
-        def call(data)
+        def encode(data)
           alphabet = Chars.ascii.select { |b| data.include?(b.chr) }
           excluded = (Chars.ascii - alphabet)
 
