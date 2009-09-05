@@ -19,6 +19,8 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'ronin/payloads/encoders/arch'
+require 'ronin/payloads/encoders/os'
 require 'ronin/model/has_name'
 require 'ronin/model/has_description'
 require 'ronin/model/targets_arch'
