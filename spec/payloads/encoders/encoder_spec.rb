@@ -16,12 +16,12 @@ describe Payloads::Encoders::Encoder do
     encoder.should be_valid
   end
 
-  it "should provide a #call method" do
-    @encoder.respond_to?(:call).should == true
+  it "should provide a #encode method" do
+    @encoder.respond_to?(:encode).should == true
   end
 
   it "should return the data to be encoded by default" do
-    @encoder.call(@data).should == @data
+    @encoder.encode(@data).should == @data
   end
 
   it "should have a custom inspect method" do

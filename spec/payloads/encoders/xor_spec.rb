@@ -12,7 +12,7 @@ describe Ronin do
       disallow = [0x00, 0x01, 0x90]
       xor = Payloads::Encoders::XOR.new(:disallow => disallow)
 
-      xor.call(@data).each_byte do |b|
+      xor.encode(@data).each_byte do |b|
         disallow.include?(b).should_not == true
       end
     end
