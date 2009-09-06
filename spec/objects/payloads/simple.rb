@@ -6,8 +6,6 @@ ronin_payload do
   cache do
     self.name = 'simple'
 
-    control :code_exec
-
     author :name => 'Anonymous', :email => 'anonymous@example.com'
   end
 
