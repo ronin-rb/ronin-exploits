@@ -156,8 +156,15 @@ module Ronin
 
         @built = true
 
-        block.call(@payload) if block
-        return @payload
+        if block
+          if block.arity == 1
+            block.call(@payload)
+          else
+            block.call()
+          end
+        end
+
+        return self
       end
 
       #
@@ -199,7 +206,14 @@ module Ronin
         print_info "Payload deployed!"
         @deployed = true
         
-        block.call(self) if block
+        if block
+          if block.arity == 1
+            block.call(self)
+          else
+            block.call()
+          end
+        end
+
         return self
       end
 
