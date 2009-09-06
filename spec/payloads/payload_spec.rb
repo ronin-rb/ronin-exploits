@@ -99,6 +99,18 @@ describe Payloads::Payload do
     @payload.payload.should == "code.func"
   end
 
+  it "should pass the payload to the block given to build!" do
+    @payload.build! do |payload|
+      payload.should == "code.func"
+    end
+  end
+
+  it "should respect the arity of blocks passed to build!" do
+    @payload.build do
+      @payload.should be_built
+    end
+  end
+
   it "should use parameters in the building of the payload" do
     @payload.custom = 'hello'
     @payload.build!
@@ -119,6 +131,18 @@ describe Payloads::Payload do
   it "should have a default deployer method" do
     @payload.deploy! do |payload|
       payload.should == @payload
+    end
+  end
+
+  it "should pass the deployed payload to the block given to deploy!" do
+    @payload.deploy! do |payload|
+      payload.should be_deployed
+    end
+  end
+
+  it "should respect the arity of blocks passed to deploy!" do
+    @payload.deploy! do
+      @payload.should be_deployed
     end
   end
 
