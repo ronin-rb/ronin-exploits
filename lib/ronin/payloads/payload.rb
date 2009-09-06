@@ -80,7 +80,7 @@ module Ronin
       attr_accessor :exploit
 
       # The built payload
-      attr_accessor :payload
+      attr_accessor :raw_payload
 
       #
       # Creates a new Payload object.
@@ -146,7 +146,7 @@ module Ronin
         print_debug "Payload parameters: #{self.params.inspect}"
 
         @built = false
-        @payload = ''
+        @raw_payload = ''
 
         print_info "Building payload ..."
 
@@ -158,7 +158,7 @@ module Ronin
 
         if block
           if block.arity == 1
-            block.call(@payload)
+            block.call(@raw_payload)
           else
             block.call()
           end
