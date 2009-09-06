@@ -79,7 +79,7 @@ module Ronin
       # The exploit to deploy with
       attr_accessor :exploit
 
-      # The built payload
+      # The raw payload
       attr_accessor :raw_payload
 
       #
