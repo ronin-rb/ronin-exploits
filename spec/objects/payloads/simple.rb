@@ -10,7 +10,7 @@ ronin_payload do
   end
 
   def build
-    @payload = "code.#{@custom}"
+    @raw_payload = "code.#{@custom}"
   end
 
   def some_control
