@@ -89,19 +89,19 @@ describe Payloads::Payload do
     @payload.should be_built
   end
 
-  it "should store the built payload in the @payload instance variable" do
+  it "should store the raw payload in the @raw_payload instance variable" do
     @payload.build!
-    @payload.payload.should == "code.func"
+    @payload.raw_payload.should == "code.func"
   end
 
-  it "should return the built payload when calling build!" do
+  it "should return the raw payload when calling build!" do
     @payload.build!
-    @payload.payload.should == "code.func"
+    @payload.raw_payload.should == "code.func"
   end
 
-  it "should pass the payload to the block given to build!" do
-    @payload.build! do |payload|
-      payload.should == "code.func"
+  it "should pass the raw payload to the block given to build!" do
+    @payload.build! do |raw_payload|
+      raw_payload.should == "code.func"
     end
   end
 
@@ -114,7 +114,7 @@ describe Payloads::Payload do
   it "should use parameters in the building of the payload" do
     @payload.custom = 'hello'
     @payload.build!
-    @payload.payload.should == "code.hello"
+    @payload.raw_payload.should == "code.hello"
   end
 
   it "should be 'undeployed' by default" do
