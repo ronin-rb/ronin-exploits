@@ -30,20 +30,6 @@ module Ronin
         end
 
         #
-        # Verifies the chained payload is properly configured and ready to be
-        # deployed, then verifies the payload.
-        #
-        # @see Payload#verify!
-        #
-        def verify!
-          if @payload
-            @payload.verify!
-          end
-
-          return super
-        end
-
-        #
         # Verifies the built payload and deploys the payload. After the
         # payload has been deployed, the chained payload will then be
         # deployed.
