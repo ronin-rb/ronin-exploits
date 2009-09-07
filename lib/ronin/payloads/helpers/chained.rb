@@ -22,9 +22,7 @@ module Ronin
         # @see Payload#build!
         #
         def build!(options={},&block)
-          if @payload
-            @payload.build!()
-          end
+          @payload.build!() if @payload
 
           return super(options,&block)
         end
@@ -39,9 +37,7 @@ module Ronin
         def deploy!(&block)
           super(&block)
 
-          if @payload
-            @payload.deploy!()
-          end
+          @payload.deploy!() if @payload
 
           return self
         end
