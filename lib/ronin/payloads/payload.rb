@@ -123,7 +123,7 @@ module Ronin
       end
 
       #
-      # @return [true, false] Specifies whether the payload is built.
+      # @return [Boolean] Specifies whether the payload is built.
       #
       def built?
         @built == true
@@ -180,8 +180,8 @@ module Ronin
       end
 
       #
-      # @return [true, false] Specifies whether the payload has previously
-      #                       been deployed.
+      # @return [Boolean] Specifies whether the payload has previously
+      #                   been deployed.
       #
       def deployed?
         @deployed == true
