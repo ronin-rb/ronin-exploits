@@ -100,8 +100,8 @@ describe Payloads::Payload do
   end
 
   it "should pass the raw payload to the block given to build!" do
-    @payload.build! do |raw_payload|
-      raw_payload.should == "code.func"
+    @payload.build! do |payload|
+      payload.should == @payload
     end
   end
 
