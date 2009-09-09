@@ -158,7 +158,7 @@ module Ronin
 
         if block
           if block.arity == 1
-            block.call(@raw_payload)
+            block.call(self)
           else
             block.call()
           end
