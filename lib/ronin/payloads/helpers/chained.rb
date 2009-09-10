@@ -9,8 +9,11 @@ module Ronin
         #
         # Chains the payload to another payload.
         #
-        # @param [Payload] sub_payload The payload chained to this payload.
-        # @return [Payload] The chained payload.
+        # @param [Payload] sub_payload
+        #   The payload chained to this payload.
+        #
+        # @return [Payload]
+        #   The chained payload.
         #
         def chain(sub_payload)
           self.payload = sub_payload
@@ -32,10 +35,15 @@ module Ronin
         # payload has been deployed, the chained payload will then be
         # deployed.
         #
-        # @yield [(payload)] If a block is given, the chained payload will
-        #                    be passed to the block.
-        # @yieldparam [Payload] payload The chained payload.
-        # @return [Payload] The chained payload.
+        # @yield [(payload)]
+        #   If a block is given, the chained payload will be passed to the
+        #   block.
+        #
+        # @yieldparam [Payload] payload
+        #   The chained payload.
+        #
+        # @return [Payload]
+        #   The chained payload.
         #
         # @see Payload#deploy!
         #

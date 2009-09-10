@@ -28,11 +28,14 @@ module Ronin
         #
         # Calls a specific method with additional arguments.
         #
-        # @param [Symbol, String] method The method name to call.
-        # @param [Array] arguments The arguments to use when calling the
-        #                          method.
+        # @param [Symbol, String] method
+        #   The method name to call.
         #
-        # @return [Object] The result of the method call.
+        # @param [Array] arguments
+        #   The arguments to use when calling the method.
+        #
+        # @return [Object]
+        #   The result of the method call.
         #
         # @since 0.3.0
         #
@@ -43,9 +46,11 @@ module Ronin
         #
         # Evaluates code.
         #
-        # @param [String] code The code to evaluate.
+        # @param [String] code
+        #   The code to evaluate.
         #
-        # @return [Object] The result of the code evaluation.
+        # @return [Object]
+        #   The result of the code evaluation.
         #
         # @since 0.3.0
         #
@@ -56,7 +61,8 @@ module Ronin
         #
         # Exits the process.
         #
-        # @param [Integer] status The status to exit with.
+        # @param [Integer] status
+        #   The status to exit with.
         #
         # @since 0.3.0
         #

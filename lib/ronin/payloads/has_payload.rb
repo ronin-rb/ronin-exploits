@@ -25,7 +25,8 @@ module Ronin
   module Payloads
     module HasPayload
       #
-      # @return [Payload] The payload being used.
+      # @return [Payload]
+      #   The payload being used.
       #
       def payload
         @payload
@@ -34,15 +35,17 @@ module Ronin
       #
       # Sets the payload.
       #
-      # @param [Payload] new_payload The new payload to use.
+      # @param [Payload] new_payload
+      #   The new payload to use.
       #
       def payload=(new_payload)
         @payload = new_payload
       end
 
       #
-      # @return [Payload] The model to search within for acceptable
-      #                   payloads to use with the exploit.
+      # @return [Payload]
+      #   The model to search within for acceptable payloads to use with
+      #   the exploit.
       #
       # @since 0.3.0
       #
@@ -53,11 +56,11 @@ module Ronin
       #
       # Selects and uses a new payload.
       #
-      # @param [Hash] query Query options to use when selecting the
-      #                     payload.
+      # @param [Hash] query
+      #   Query options to use when selecting the payload.
       #
-      # @return [Payload, nil] The new payload, or +nil+ if no payload was
-      #                        found.
+      # @return [Payload, nil]
+      #   The new payload, or +nil+ if no payload was found.
       #
       # @since 0.3.0
       #

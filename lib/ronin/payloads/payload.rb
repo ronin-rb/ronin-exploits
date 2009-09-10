@@ -85,11 +85,12 @@ module Ronin
       #
       # Creates a new Payload object.
       #
-      # @param [Array] attributes Additional attributes to initialize the
-      #                           payload with.
+      # @param [Array] attributes
+      #   Additional attributes to initialize the payload with.
       #
-      # @yield [] If a block is given, it will be evaluated in the newly
-      #           created Payload object.
+      # @yield []
+      #   If a block is given, it will be evaluated in the newly created
+      #   Payload object.
       #
       def initialize(attributes={},&block)
         super(attributes)
@@ -105,13 +106,15 @@ module Ronin
       #
       # Adds a new author to the payload.
       #
-      # @param [Hash] attributes Additional attributes to create the
-      #                          PayloadAuthor object with.
+      # @param [Hash] attributes
+      #   Additional attributes to create the PayloadAuthor object with.
       #
-      # @yield [author] If a block is given, it will be passed the newly
-      #                 created author object.
-      # @yieldparam [PayloadAuthor] author The author object tied to the
-      #                                    payload.
+      # @yield [author]
+      #   If a block is given, it will be passed the newly created author
+      #   object.
+      #
+      # @yieldparam [PayloadAuthor] author
+      #   The author object tied to the payload.
       #
       # @example
       #   author :name => 'Anonymous',
@@ -123,7 +126,8 @@ module Ronin
       end
 
       #
-      # @return [Boolean] Specifies whether the payload is built.
+      # @return [Boolean]
+      #   Specifies whether the payload is built.
       #
       def built?
         @built == true
@@ -132,13 +136,19 @@ module Ronin
       #
       # Builds the payload.
       #
-      # @param [Hash] options Additional options to build the payload with
-      #                       and use as parameters.
+      # @param [Hash] options
+      #   Additional options to build the payload with and use as
+      #   parameters.
       #
-      # @yield [payload] If a block is given, it will be yielded the
-      #                  result of the payload building.
-      # @yieldparam [String] payload The built payload.
-      # @return [String] The built payload.
+      # @yield [payload]
+      #   If a block is given, it will be yielded the result of the
+      #   payload building.
+      #
+      # @yieldparam [String] payload
+      #   The built payload.
+      #
+      # @return [String]
+      #   The built payload.
       #
       def build!(options={},&block)
         self.params = options
@@ -180,8 +190,8 @@ module Ronin
       end
 
       #
-      # @return [Boolean] Specifies whether the payload has previously
-      #                   been deployed.
+      # @return [Boolean]
+      #   Specifies whether the payload has previously been deployed.
       #
       def deployed?
         @deployed == true
@@ -190,9 +200,11 @@ module Ronin
       #
       # Verifies the built payload and deploys the payload.
       #
-      # @yield [payload] If a block is given, it will be passed the
-      #                  deployed payload.
-      # @yieldparam [Payload] payload The deployed payload.
+      # @yield [payload]
+      #   If a block is given, it will be passed the deployed payload.
+      #
+      # @yieldparam [Payload] payload
+      #   The deployed payload.
       #
       def deploy!(&block)
         # verify the payload
@@ -220,7 +232,8 @@ module Ronin
       #
       # Converts the payload to a String.
       #
-      # @return [String] The name and version of the payload.
+      # @return [String]
+      #   The name and version of the payload.
       #
       def to_s
         if (self.name && self.version)
@@ -235,7 +248,8 @@ module Ronin
       #
       # Inspects the contents of the payload.
       #
-      # @return [String] The inspected payload.
+      # @return [String]
+      #   The inspected payload.
       #
       def inspect
         str = "#{self.class}: #{self}"
@@ -250,14 +264,16 @@ module Ronin
       # Extends the payload with the helper module defined in
       # Ronin::Payloads::Helpers that has the similar name.
       #
-      # @param [Symbol, String] name The snake-case name of the payload
-      #                              helper to load and extend the
-      #                              payload with.
+      # @param [Symbol, String] name
+      #   The snake-case name of the payload helper to load and extend the
+      #   payload with.
       #
-      # @return [true] The payload helper was successfully loaded.
+      # @return [true]
+      #   The payload helper was successfully loaded.
       #
-      # @raise [UnknownHelper] No valid helper module could be found or
-      #                        loaded with the similar name.
+      # @raise [UnknownHelper]
+      #   No valid helper module could be found or loaded with the similar
+      #   name.
       #
       # @example
       #   helper :shell
