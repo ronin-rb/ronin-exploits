@@ -104,6 +104,32 @@ module Ronin
       end
 
       #
+      # Finds all payloads written by a specific author.
+      #
+      # @param [String] name
+      #   The name of the author.
+      #
+      # @return [Array<Payload>]
+      #   The payload written by the author.
+      #
+      def self.written_by(name)
+        all(self.authors.name.like => "%#{name}%")
+      end
+
+      #
+      # Finds all payloads written for a specific organization.
+      #
+      # @param [String] name
+      #   The name of the organization.
+      #
+      # @return [Array<Payload>]
+      #   The payloads written for the organization.
+      #
+      def self.written_for(name)
+        all(self.authors.organization.like => "%#{name}%")
+      end
+
+      #
       # Adds a new author to the payload.
       #
       # @param [Hash] attributes
