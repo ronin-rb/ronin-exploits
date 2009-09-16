@@ -68,6 +68,21 @@ module Ronin
         self.payload = use_payload_class.load_first(query)
       end
 
+      #
+      # Loads and uses a new payload from a given path.
+      #
+      # @param [String] path
+      #   The path to load the payload from.
+      #
+      # @return [Payload, nil]
+      #   The new payload, or +nil+ if no payload was found.
+      #
+      # @since 0.3.0
+      #
+      def use_payload_from!(path)
+        self.payload = use_payload_class.load_from(path)
+      end
+
       protected
 
       #
