@@ -59,13 +59,21 @@ module Ronin
       # @param [Hash] query
       #   Query options to use when selecting the payload.
       #
+      # @yield [payloads]
+      #   If a block is given, it will be passed all payloads matching
+      #   the given query, in order to be filtered down. The first payload
+      #   from the filtered payloads will end up being selected.
+      #
+      # @yieldparam [Array<Payload>] payloads
+      #   All available payloads that match the given query.
+      #
       # @return [Payload, nil]
       #   The new payload, or +nil+ if no payload was found.
       #
       # @since 0.3.0
       #
-      def use_payload!(query={})
-        self.payload = use_payload_class.load_first(query)
+      def use_payload!(query={},&block)
+        self.payload = use_payload_class.load_first(query,&block)
       end
 
       #
