@@ -25,12 +25,3 @@ require 'ronin/payloads/binary_payload'
 require 'ronin/payloads/asm_payload'
 require 'ronin/payloads/nops'
 require 'ronin/payloads/shellcode'
-require 'ronin/database'
-
-require 'reverse_require'
-
-require_for 'ronin-exploits', 'ronin/exploits'
-
-module Ronin
-  Database.update!
-end
