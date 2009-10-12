@@ -21,12 +21,3 @@
 
 require 'ronin/payloads/encoders/encoder'
 require 'ronin/payloads/encoders/xor'
-require 'ronin/database'
-
-require 'reverse_require'
-
-require_for 'ronin-exploits', 'ronin/payloads/encoders'
-
-module Ronin
-  Database.update!
-end
