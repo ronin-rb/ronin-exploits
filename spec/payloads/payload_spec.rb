@@ -5,6 +5,8 @@ require 'helpers/objects'
 require 'controls/behaviors_examples'
 
 describe Payloads::Payload do
+  include Helpers
+
   before(:each) do
     @payload = load_payload('simple')
     @controler = @payload
