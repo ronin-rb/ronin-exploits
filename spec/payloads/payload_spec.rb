@@ -1,7 +1,7 @@
 require 'ronin/payloads/payload'
 
 require 'spec_helper'
-require 'helpers/objects'
+require 'helpers/payloads'
 require 'controls/behaviors_examples'
 
 describe Payloads::Payload do
