@@ -346,6 +346,8 @@ module Ronin
       # @raise [DeployFailed]
       #   The deployment of the payload failed.
       #
+      # @since 0.3.2
+      #
       def deploy_failed!(message)
         raise(DeployFailed,message,caller)
       end
