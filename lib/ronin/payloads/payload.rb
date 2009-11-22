@@ -20,6 +20,7 @@
 #
 
 require 'ronin/payloads/exceptions/unknown_helper'
+require 'ronin/payloads/exceptions/deploy_failed'
 require 'ronin/payloads/payload_author'
 require 'ronin/payloads/control'
 require 'ronin/cacheable'
@@ -337,6 +338,16 @@ module Ronin
       # Default payload verifier method.
       #
       def verify
+      end
+
+      #
+      # Indicates that the deployment of the payload has failed.
+      #
+      # @raise [DeployFailed]
+      #   The deployment of the payload failed.
+      #
+      def deploy_failed!(message)
+        raise(DeployFailed,message,caller)
       end
 
       #
