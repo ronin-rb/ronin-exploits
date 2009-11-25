@@ -10,4 +10,4 @@ YARD::Rake::YardocTask.new do |t|
   ]
 end
 
-task :docs => :yardoc
+task :docs => :yard
