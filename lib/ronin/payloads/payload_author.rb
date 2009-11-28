@@ -26,7 +26,7 @@ module Ronin
     class PayloadAuthor < Author
 
       # The payload the author wrote
-      belongs_to :payload, :nullable => true
+      belongs_to :payload, :required => false
 
     end
   end
