@@ -68,7 +68,7 @@ module Ronin
       has 0..n, :authors, :model => 'Ronin::Payloads::PayloadAuthor'
 
       # Controls the payload provides
-      has 0..n, :controls, :model => 'Ronin::Payloads::Control'
+      has 0..n, :controls
 
       # Validations
       validates_present :name
