@@ -52,11 +52,28 @@ module Ronin
       include UI::Output::Helpers
 
       #
-      # Creates a new Ronin::Payloads::Payload object using the given
-      # _block_.
+      # Creates a new payload object.
       #
+      # @yield []
+      #   The given block will be used to create a new payload object.
+      #
+      # @return [Payload]
+      #   The new payload object.
+      #
+      # @example
       #   ronin_payload do
-      #     ...
+      #     cache do
+      #       self.name = 'some payload'
+      #       self.description = %{
+      #         This is an example payload.
+      #       }
+      #     end
+      #
+      #     def build
+      #     end
+      #
+      #     def deploy
+      #     end
       #   end
       #
       contextify :ronin_payload

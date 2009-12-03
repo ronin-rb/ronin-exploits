@@ -27,11 +27,28 @@ module Ronin
     class WebPayload < Payload
 
       #
-      # Creates a new Ronin::Payloads::WebPayload object using the given
-      # _block_.
+      # Creates a new web payload object.
       #
+      # @yield []
+      #   The given block will be used to create a new web payload object.
+      #
+      # @return [WebPayload]
+      #   The new web payload object.
+      #
+      # @example
       #   ronin_web_payload do
-      #     ...
+      #     cache do
+      #       self.name = 'some web payload'
+      #       self.description = %{
+      #         This is an example web payload.
+      #       }
+      #     end
+      #
+      #     def build
+      #     end
+      #
+      #     def deploy
+      #     end
       #   end
       #
       contextify :ronin_web_payload

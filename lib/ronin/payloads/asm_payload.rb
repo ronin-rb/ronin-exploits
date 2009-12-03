@@ -26,11 +26,28 @@ module Ronin
     class ASMPayload < BinaryPayload
 
       #
-      # Creates a new Ronin::Payloads::ASMPayload object using the given
-      # _block_.
+      # Creates a new ASM payload object.
       #
+      # @yield []
+      #   The given block will be used to create a new ASM payload object.
+      #
+      # @return [ASMPayload]
+      #   The new ASM payload object.
+      #
+      # @example
       #   ronin_asm_payload do
-      #     ...
+      #     cache do
+      #       self.name = 'some ASM payload'
+      #       self.description = %{
+      #         This is an example ASM payload.
+      #       }
+      #     end
+      #
+      #     def build
+      #     end
+      #
+      #     def deploy
+      #     end
       #   end
       #
       contextify :ronin_asm_payload

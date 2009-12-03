@@ -28,11 +28,28 @@ module Ronin
     class BinaryPayload < Payload
 
       #
-      # Creates a new Ronin::Payloads::BinaryPayload object using the given
-      # _block_.
+      # Creates a new binary payload object.
       #
-      #   ronin_asm_payload do
-      #     ...
+      # @yield []
+      #   The given block will be used to create a new binary payload object.
+      #
+      # @return [BinaryPayload]
+      #   The new binary payload object.
+      #
+      # @example
+      #   ronin_binary_payload do
+      #     cache do
+      #       self.name = 'some binary payload'
+      #       self.description = %{
+      #         This is an example binary payload.
+      #       }
+      #     end
+      #
+      #     def build
+      #     end
+      #
+      #     def deploy
+      #     end
       #   end
       #
       contextify :ronin_binary_payload

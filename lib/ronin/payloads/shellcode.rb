@@ -26,11 +26,28 @@ module Ronin
     class Shellcode < ASMPayload
 
       #
-      # Creates a new Ronin::Payloads::Shellcode object using the given
-      # _block_.
+      # Creates a new shellcode object.
       #
+      # @yield []
+      #   The given block will be used to create a new shellcode object.
+      #
+      # @return [Shellcode]
+      #   The new shellcode object.
+      #
+      # @example
       #   ronin_shellcode do
-      #     ...
+      #     cache do
+      #       self.name = 'some shellcode'
+      #       self.description = %{
+      #         This is an example shellcode.
+      #       }
+      #     end
+      #
+      #     def build
+      #     end
+      #
+      #     def deploy
+      #     end
       #   end
       #
       contextify :ronin_shellcode
