@@ -40,7 +40,7 @@ module Ronin
         if self.class.relationships.has_key?(:controlled_behaviors)
           behavior_model = self.class.relationships[:controlled_behaviors].child_model
 
-          Ronin::Controls::Behavior.predefined_names.each do |name|
+          Ronin::Control::Behavior.predefined_names.each do |name|
             if respond_to?(name)
               behavior = Ronin::Control::Behavior.predefined_resource(name)
               self.behaviors << behavior_model.new(:behavior => behavior)
