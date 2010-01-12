@@ -23,7 +23,7 @@ require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/exceptions/deploy_failed'
 require 'ronin/payloads/payload_author'
 require 'ronin/payloads/control'
-require 'ronin/controls/behaviors'
+require 'ronin/vuln/api'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
 require 'ronin/model/has_name'
@@ -48,7 +48,7 @@ module Ronin
       include Model::HasLicense
       include Model::TargetsArch
       include Model::TargetsOS
-      include Controls::Behaviors
+      include Vuln::API
       include UI::Output::Helpers
 
       #

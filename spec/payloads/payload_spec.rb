@@ -2,7 +2,6 @@ require 'ronin/payloads/payload'
 
 require 'spec_helper'
 require 'helpers/payloads'
-require 'controls/behaviors_examples'
 
 describe Payloads::Payload do
   include Helpers
@@ -11,8 +10,6 @@ describe Payloads::Payload do
     @payload = load_payload('simple')
     @controler = @payload
   end
-
-  it_should_behave_like "controls behaviors"
 
   it "should require a name attribute" do
     payload = Payloads::Payload.new
