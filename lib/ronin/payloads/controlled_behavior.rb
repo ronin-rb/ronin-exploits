@@ -19,14 +19,14 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/vuln/behavior'
+require 'ronin/control/behavior'
 require 'ronin/payloads/payload'
 
 require 'ronin/model'
 
 module Ronin
   module Payloads
-    class Control
+    class ControlledBehavior
 
       include Model
 
@@ -34,7 +34,7 @@ module Ronin
       property :id, Serial
 
       # The behavior the ability provides
-      belongs_to :behavior, :model => 'Vuln::Behavior'
+      belongs_to :behavior, :model => 'Control::Behavior'
 
       # The payload which has this ability
       belongs_to :payload

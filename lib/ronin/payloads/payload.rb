@@ -22,7 +22,7 @@
 require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/exceptions/deploy_failed'
 require 'ronin/payloads/payload_author'
-require 'ronin/payloads/control'
+require 'ronin/payloads/controlled_behavior'
 require 'ronin/control/api'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
@@ -84,8 +84,8 @@ module Ronin
       # Author(s) of the payload
       has 0..n, :authors, :model => 'Ronin::Payloads::PayloadAuthor'
 
-      # Controls the payload provides
-      has 0..n, :controls
+      # Behaviors the payload controls
+      has 0..n, :controlled_behaviors
 
       # Validations
       validates_present :name
