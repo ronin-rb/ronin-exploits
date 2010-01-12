@@ -24,6 +24,23 @@ require 'ronin/control/behavior'
 module Ronin
   module Control
     module API
+      #
+      # The names of the controlled behaviors.
+      #
+      # @return [Array<Symbol>]
+      #   The names of the behaviors belonging to the +controlled_behaviors+
+      #   relationship.
+      #
+      def behaviors
+        unless self.class.relationships.has_key?(:controlled_behaviors)
+          return []
+        end
+
+        return controlled_behaviors.map do |control|
+          control.behavior.name
+        end
+      end
+
       protected
 
       #
