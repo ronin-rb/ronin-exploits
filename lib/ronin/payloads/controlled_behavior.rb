@@ -33,10 +33,10 @@ module Ronin
       # The primary key of the control
       property :id, Serial
 
-      # The behavior the ability provides
+      # The behavior that is controlled
       belongs_to :behavior, :model => 'Control::Behavior'
 
-      # The payload which has this ability
+      # The payload which controls the behavior
       belongs_to :payload
 
       # Feature validations
