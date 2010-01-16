@@ -25,19 +25,15 @@ module Ronin
   module Control
     module API
       #
-      # The names of the controlled behaviors.
+      # The names of the methods which control behaviors of a vulnerability
+      # being exploited.
       #
       # @return [Array<Symbol>]
-      #   The names of the behaviors belonging to the +controlled_behaviors+
-      #   relationship.
+      #   The names of the methods available in the object.
       #
-      def behaviors
-        unless self.class.relationships.has_key?(:controlled_behaviors)
-          return []
-        end
-
-        return controlled_behaviors.map do |control|
-          control.behavior.name
+      def control_methods
+        return Ronin::Control::Behavior.predefined_names.select do |name|
+          self.respond_to?(name)
         end
       end
 
