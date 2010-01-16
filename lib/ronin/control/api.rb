@@ -37,27 +37,19 @@ module Ronin
         end
       end
 
-      protected
-
       #
-      # Prepares the resource to be cached.
+      # Populates the +controlled_behaviors+ relationship based on
+      # {control_methods}, before the object is cached.
       #
-      # If resource has a relationship named +controlled_behaviors+ and
-      # if there are any methods named after behaviors defined in
-      # {Control::Behavior}, then behaviors from {Control::Behavior} will
-      # be added to the +controlled_behaviors+ relationship.
-      #
-      def cache(&block)
-        super(&block)
+      def before_caching
+        super()
 
         if self.class.relationships.has_key?(:controlled_behaviors)
           behavior_model = self.class.relationships[:controlled_behaviors].child_model
 
-          Ronin::Control::Behavior.predefined_names.each do |name|
-            if respond_to?(name)
-              behavior = Ronin::Control::Behavior.predefined_resource(name)
-              self.behaviors << behavior_model.new(:behavior => behavior)
-            end
+          control_methods.each do |name|
+            behavior = Ronin::Control::Behavior.predefined_resource(name)
+            self.behaviors << behavior_model.new(:behavior => behavior)
           end
         end
       end
