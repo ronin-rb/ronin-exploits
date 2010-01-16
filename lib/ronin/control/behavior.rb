@@ -77,13 +77,13 @@ module Ronin
       end
 
       # The ability to read memory
-      predefine :memory_read, "The ability to read memory"
+      predefine :mem_read, "The ability to read memory"
 
       # The ability to write to memory
-      predefine :memory_write, "The ability to write to memory"
+      predefine :mem_write, "The ability to write to memory"
 
       # The ability to execute from memory
-      predefine :memory_exec, "The ability to execute memory"
+      predefine :mem_exec, "The ability to execute memory"
 
       # The ability to create files
       predefine :file_create, "Arbitrary file creation"
@@ -137,10 +137,10 @@ module Ronin
       predefine :auth_bypass, "Authentication by-pass"
 
       # The ability to gain privileges
-      predefine :gain_privileges, "Gain privileges"
+      predefine :gain_privs, "Gain privileges"
 
       # The ability to drop privileges
-      predefine :drop_privileges, "Drop privileges"
+      predefine :drop_privs, "Drop privileges"
 
       # The ability to safely exit a running program
       predefine :exit_program, "Exit program"
@@ -149,7 +149,7 @@ module Ronin
       predefine :crash_program, "Crash program"
 
       # The ability to exhaust available memory
-      predefine :exhaust_memory, "Exhaust freely available memory"
+      predefine :exhaust_mem, "Exhaust freely available memory"
 
       # The ability to exhaust available disk space
       predefine :exhaust_disk, "Exhaust freely available disk-space"
