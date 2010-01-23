@@ -51,7 +51,7 @@ module Ronin
       #   The name of the behavior.
       #
       def to_s
-        @name.to_s
+        self.name.to_s
       end
 
       #
@@ -63,7 +63,7 @@ module Ronin
       # @since 0.3.2
       #
       def to_sym
-        @name.to_sym
+        self.name.to_sym
       end
 
       protected
