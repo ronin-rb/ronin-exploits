@@ -54,6 +54,18 @@ module Ronin
         @name.to_s
       end
 
+      #
+      # Converts the behavior to a Symbol.
+      #
+      # @return [Symbol]
+      #   The name of the behavior.
+      #
+      # @since 0.3.2
+      #
+      def to_sym
+        @name.to_sym
+      end
+
       protected
 
       #
