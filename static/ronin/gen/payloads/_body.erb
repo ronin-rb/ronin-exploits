@@ -10,7 +10,7 @@
   def deploy
   end
 
-<% @control_methods.each do |behavior| %>
+<% options[:control_methods].each do |behavior| %>
   def <%= behavior %>(options)
   end
 <% end %>
