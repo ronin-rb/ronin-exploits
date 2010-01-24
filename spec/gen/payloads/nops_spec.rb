@@ -12,7 +12,9 @@ describe Gen::Payloads::Nops do
     @path = File.join(Dir.tmpdir,'generated_payload.rb')
 
     Gen::Payloads::Nops.generate(
-      {},
+      {
+        :control_methods => ['code_exec']
+      },
       [@path]
     )
 

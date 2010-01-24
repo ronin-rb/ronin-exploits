@@ -12,7 +12,9 @@ describe Gen::Payloads::BinaryPayload do
     @path = File.join(Dir.tmpdir,'generated_payload.rb')
 
     Gen::Payloads::BinaryPayload.generate(
-      {},
+      {
+        :control_methods => ['code_exec']
+      },
       [@path]
     )
 

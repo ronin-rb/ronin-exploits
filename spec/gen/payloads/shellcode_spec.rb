@@ -12,7 +12,9 @@ describe Gen::Payloads::Shellcode do
     @path = File.join(Dir.tmpdir,'generated_payload.rb')
 
     Gen::Payloads::Shellcode.generate(
-      {},
+      {
+        :control_methods => ['code_exec']
+      },
       [@path]
     )
 

@@ -12,7 +12,9 @@ describe Gen::Payloads::Payload do
     @path = File.join(Dir.tmpdir,'generated_payload.rb')
 
     Gen::Payloads::Payload.generate(
-      {},
+      {
+        :control_methods => ['code_exec']
+      },
       [@path]
     )
 
