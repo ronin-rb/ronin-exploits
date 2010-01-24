@@ -13,4 +13,8 @@ shared_examples_for "a Payload" do
     @payload.authors.length.should == 1
     @payload.authors.first.name.should == Author::ANONYMOUSE
   end
+
+  it "should define control methods" do
+    @payload.respond_to?(:code_exec).should == true
+  end
 end
