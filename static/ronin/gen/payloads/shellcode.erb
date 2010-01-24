@@ -11,17 +11,5 @@ ronin_shellcode do
   cache do
 <%= template '_cache.erb' %>
   end
-
-  #
-  # Builds the shellcode.
-  #
-  def build
-  end
-
-  #
-  # Deploys the shellcode.
-  #
-  def deploy
-  end
-
+<%= template '_body.erb' %>
 end

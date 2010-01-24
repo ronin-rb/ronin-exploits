@@ -11,17 +11,5 @@ ronin_payload do
   cache do
 <%= template '_cache.erb' %>
   end
-
-  #
-  # Builds the payload.
-  #
-  def build
-  end
-
-  #
-  # Deploys the payload.
-  #
-  def deploy
-  end
-
+<%= template '_body.erb' %>
 end
