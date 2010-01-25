@@ -17,7 +17,7 @@ describe Payloads::Encoders::Encoder do
   end
 
   it "should provide a #encode method" do
-    @encoder.respond_to?(:encode).should == true
+    @encoder.should respond_to(:encode)
   end
 
   it "should return the data to be encoded by default" do

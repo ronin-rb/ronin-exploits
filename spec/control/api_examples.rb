@@ -8,7 +8,7 @@ shared_examples_for "Control API" do
   end
 
   it "should not mark normal instance methods as control methods" do
-    @controller.control_methods.include?(:build).should == false
-    @controller.control_methods.include?(:deploy).should == false
+    @controller.control_methods.should_not include(:build)
+    @controller.control_methods.should_not include(:deploy)
   end
 end

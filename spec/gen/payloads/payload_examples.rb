@@ -15,6 +15,6 @@ shared_examples_for "a Payload" do
   end
 
   it "should define control methods" do
-    @payload.respond_to?(:code_exec).should == true
+    @payload.should respond_to(:code_exec)
   end
 end
