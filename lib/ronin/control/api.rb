@@ -25,6 +25,18 @@ module Ronin
   module Control
     module API
       #
+      # The names of the supported control methods.
+      #
+      # @return [Array<Symbol>]
+      #   The method names.
+      #
+      # @since 0.3.2
+      #
+      def API.control_methods
+        Behavior.predefined_names
+      end
+
+      #
       # The names of the methods which control behaviors of a vulnerability
       # being exploited.
       #
@@ -32,7 +44,7 @@ module Ronin
       #   The names of the methods available in the object.
       #
       def control_methods
-        return Ronin::Control::Behavior.predefined_names.select do |name|
+        return Ronin::Control::API.control_methods.select do |name|
           self.respond_to?(name)
         end
       end
