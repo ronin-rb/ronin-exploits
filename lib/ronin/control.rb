@@ -23,6 +23,6 @@ require 'ronin/database'
 
 module Ronin
   Database.upgrade do
-    require 'ronin/vuln/behavior'
+    require 'ronin/control/behavior'
   end
 end
