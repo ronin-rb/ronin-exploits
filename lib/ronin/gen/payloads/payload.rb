@@ -20,7 +20,7 @@
 #
 
 require 'ronin/gen/payloads/config'
-require 'ronin/gen/generator'
+require 'ronin/gen/file_generator'
 
 require 'ronin/author'
 
