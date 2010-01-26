@@ -27,7 +27,7 @@ require 'ronin/author'
 module Ronin
   module Gen
     module Payloads
-      class Payload < Generator
+      class Payload < FileGenerator
 
         # Default name to give the payload
         DEFAULT_NAME = 'Payload'
