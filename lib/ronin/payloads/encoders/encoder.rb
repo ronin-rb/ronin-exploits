@@ -53,7 +53,10 @@ module Ronin
         property :id, Serial
 
         #
-        # Creates a new Encoder object with the given _arguments_.
+        # Creates a new Encoder object.
+        #
+        # @param [Array] arguments
+        #   Additional arguments.
         #
         def initialize(*arguments)
           super(*arguments)
@@ -62,15 +65,23 @@ module Ronin
         end
 
         #
-        # Default method which will encode the specified _data_.
-        # Returns the specified _data_ by default.
+        # Default method which will encode data.
+        #
+        # @param [String] data
+        #   The data to be encoded.
+        #
+        # @return [String]
+        #   The encoded data.
         #
         def encode(data)
           data
         end
 
         #
-        # Returns the name of the payload encoder.
+        # Converts the encoder to a String.
+        #
+        # @return [String]
+        #   The name of the payload encoder.
         #
         def to_s
           self.name.to_s
@@ -78,6 +89,9 @@ module Ronin
 
         #
         # Inspects the contents of the payload encoder.
+        #
+        # @return [String]
+        #   The inspected encoder.
         #
         def inspect
           str = "#{self.class}: #{self}"
