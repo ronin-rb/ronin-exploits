@@ -32,15 +32,24 @@ module Ronin
         attr_accessor :allow
 
         #
-        # Creates a new XOR Encoder object using the given _options_.
-        # If a _block_ is given it will be passed the newly created
-        # Encoder object.
+        # Creates a new XOR Encoder object.
         #
-        # _options_ may include the following keys:
-        # <tt>:allow</tt>:: The set of characters allowed in the encoded
-        #                   result. Defaults to <tt>(1..255)</tt>.
-        # <tt>:disallow</tt>:: The set of characters that are not allowed
-        #                      in the encoded result.
+        # @param [Hash] options
+        #   Additional options.
+        #
+        # @option options [Array, Range] :allow (1..255)
+        #   The set of characters allowed in the encoded result.
+        #
+        # @option options [Array, Range] :disallow
+        #   The set of characters that are not allowed in the encoded
+        #   result.
+        #
+        # @yield [encoder]
+        #   If a block is given it will be passed the newly created
+        #   xor encoder.
+        #
+        # @yieldparam [XOR] encoder
+        #   The newly created xor encoder.
         #
         def initialize(options={},&block)
           @allow = Chars::CharSet.new(options[:allow] || (1..255))
@@ -53,8 +62,14 @@ module Ronin
         end
 
         #
-        # XOR encodes the specified _data_ prefixing the XOR key to the
+        # XOR encodes the given data prefixing the XOR key to the
         # encoded data.
+        #
+        # @param [String] data
+        #   The data to be encoded.
+        #
+        # @return [String]
+        #   The XOR encoded data.
         #
         def encode(data)
           alphabet = Chars.ascii.select { |b| data.include?(b.chr) }
