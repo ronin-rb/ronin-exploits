@@ -68,7 +68,7 @@ module Ronin
       #   All available payloads that match the given query.
       #
       # @return [Payload, nil]
-      #   The new payload, or +nil+ if no payload was found.
+      #   The new payload, or `nil` if no payload was found.
       #
       # @since 0.3.0
       #
@@ -83,7 +83,7 @@ module Ronin
       #   The path to load the payload from.
       #
       # @return [Payload, nil]
-      #   The new payload, or +nil+ if no payload was found.
+      #   The new payload, or `nil` if no payload was found.
       #
       # @since 0.3.0
       #

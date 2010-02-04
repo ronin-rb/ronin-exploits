@@ -50,7 +50,7 @@ module Ronin
       end
 
       #
-      # Populates the +controlled_behaviors+ relationship based on
+      # Populates the `controlled_behaviors` relationship based on
       # {control_methods}, before the object is cached.
       #
       def before_caching
