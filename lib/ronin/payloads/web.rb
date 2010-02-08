@@ -20,11 +20,15 @@
 #
 
 require 'ronin/payloads/payload'
+require 'ronin/network/helpers/http'
 require 'ronin/formatting/http'
+require 'ronin/extensions/uri/http'
 
 module Ronin
   module Payloads
     class Web < Payload
+
+      include Network::Helpers::HTTP
 
       #
       # Creates a new web payload object.
