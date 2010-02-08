@@ -1,0 +1,15 @@
+<%= template '_header.erb' %>
+
+require 'ronin/payloads/web'
+
+ronin_web_payload do
+
+<%= template '_helpers.erb' %>
+  #
+  # Cacheable data.
+  #
+  cache do
+<%= template '_cache.erb' %>
+  end
+<%= template '_body.erb' %>
+end

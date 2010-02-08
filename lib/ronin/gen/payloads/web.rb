@@ -19,40 +19,24 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/payloads/payload'
-require 'ronin/formatting/http'
+require 'ronin/gen/payloads/payload'
 
 module Ronin
-  module Payloads
-    class Web < Payload
+  module Gen
+    module Payloads
+      class Web < Payload
 
-      #
-      # Creates a new web payload object.
-      #
-      # @yield []
-      #   The given block will be used to create a new web payload object.
-      #
-      # @return [Ronin::Payloads::Web]
-      #   The new web payload object.
-      #
-      # @example
-      #   ronin_web_payload do
-      #     cache do
-      #       self.name = 'some web payload'
-      #       self.description = %{
-      #         This is an example web payload.
-      #       }
-      #     end
-      #
-      #     def build
-      #     end
-      #
-      #     def deploy
-      #     end
-      #   end
-      #
-      contextify :ronin_web_payload
+        #
+        # Generate a Web payload.
+        #
+        # @since 0.3.2
+        #
+        def generate
+          template File.join('ronin','gen','payloads','web.erb'),
+                   self.path
+        end
 
+      end
     end
   end
 end
