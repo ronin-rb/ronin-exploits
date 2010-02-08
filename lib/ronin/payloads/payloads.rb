@@ -19,16 +19,10 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/payloads/payloads'
-require 'ronin/database'
+require 'ronin/autoload'
 
 module Ronin
-  Database.upgrade do
-    require 'ronin/payloads/encoders'
-    require 'ronin/payloads/payload'
-    require 'ronin/payloads/binary_payload'
-    require 'ronin/payloads/asm_payload'
-    require 'ronin/payloads/nops'
-    require 'ronin/payloads/shellcode'
+  module Payloads
+    include Autoload
   end
 end
