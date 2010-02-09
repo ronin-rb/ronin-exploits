@@ -51,6 +51,9 @@ module Ronin
       include Control::API
       include UI::Output::Helpers
 
+      # The directory to load payload helpers from.
+      HELPERS_DIR = File.join('ronin','payloads','helpers')
+
       #
       # Creates a new payload object.
       #
@@ -321,9 +324,8 @@ module Ronin
       #
       def helper(name)
         name = name.to_s
-        directory = File.join('ronin','payloads','helpers')
 
-        unless (helper_module = require_within(directory,name))
+        unless (helper_module = require_within(HELPERS_DIR,name))
           raise(UnknownHelper,"unknown helper #{name.dump}",caller)
         end
 
