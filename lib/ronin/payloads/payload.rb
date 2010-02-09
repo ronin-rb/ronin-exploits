@@ -321,21 +321,11 @@ module Ronin
       #
       def helper(name)
         name = name.to_s
-        module_name = name.to_const_string
+        directory = File.join('ronin','payloads','helpers')
 
-        begin
-          require_within File.join('ronin','payloads','helpers'), name
-        rescue Gem::LoadError => e
-          raise(e)
-        rescue ::LoadError
+        unless (helper_module = require_within(directory,name))
           raise(UnknownHelper,"unknown helper #{name.dump}",caller)
         end
-
-        unless Ronin::Payloads::Helpers.const_defined?(module_name)
-          raise(UnknownHelper,"unknown helper #{name.dump}",caller)
-        end
-
-        helper_module = Ronin::Payloads::Helpers.const_get(module_name)
 
         unless helper_module.kind_of?(Module)
           raise(UnknownHelper,"unknown helper #{name.dump}",caller)
