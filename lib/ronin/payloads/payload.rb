@@ -325,7 +325,7 @@ module Ronin
       def helper(name)
         name = name.to_s
 
-        unless (helper_module = require_within(HELPERS_DIR,name))
+        unless (helper_module = require_const_in(HELPERS_DIR,name))
           raise(UnknownHelper,"unknown helper #{name.dump}",caller)
         end
 
