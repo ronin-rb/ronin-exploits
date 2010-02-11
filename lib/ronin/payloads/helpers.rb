@@ -19,5 +19,12 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/payloads/helpers/chained'
-require 'ronin/payloads/helpers/rpc'
+require 'open_namespace'
+
+module Ronin
+  module Payloads
+    module Helpers
+      include OpenNamespace
+    end
+  end
+end

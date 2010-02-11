@@ -23,6 +23,7 @@ require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/exceptions/deploy_failed'
 require 'ronin/payloads/payload_author'
 require 'ronin/payloads/controlled_behavior'
+require 'ronin/payloads/helpers'
 require 'ronin/control/api'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
@@ -325,7 +326,7 @@ module Ronin
       def helper(name)
         name = name.to_s
 
-        unless (helper_module = require_const_in(HELPERS_DIR,name))
+        unless (helper_module = Helpers.require_const(name))
           raise(UnknownHelper,"unknown helper #{name.dump}",caller)
         end
 
