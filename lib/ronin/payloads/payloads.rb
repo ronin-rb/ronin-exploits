@@ -19,10 +19,10 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/autoload'
+require 'open_namespace'
 
 module Ronin
   module Payloads
-    include Autoload
+    include OpenNamespace
   end
 end
