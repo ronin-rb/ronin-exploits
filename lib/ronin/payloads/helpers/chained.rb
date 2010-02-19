@@ -24,6 +24,10 @@ require 'ronin/payloads/has_payload'
 module Ronin
   module Payloads
     module Helpers
+      #
+      # Allows a payload to wrap around another payload, creating a chain
+      # of payloads that will deploy in order.
+      #
       module Chained
         include HasPayload
 
