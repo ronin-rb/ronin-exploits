@@ -159,6 +159,6 @@ describe Payloads::Payload do
   end
 
   it "should have a custom inspect method" do
-    @payload.inspect.should == '#<Ronin::Payloads::Payload: simple 0.1 {:custom=>"func"}>'
+    @payload.inspect.should == '#<Ronin::Payloads::Payload: simple 0.1 {:custom=>:func}>'
   end
 end
