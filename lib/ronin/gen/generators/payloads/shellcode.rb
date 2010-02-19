@@ -33,8 +33,8 @@ module Ronin
           # @since 0.3.0
           #
           def generate
-            template File.join('ronin','gen','payloads','shellcode.erb'),
-              self.path
+            erb File.join('ronin','gen','payloads','shellcode.erb'),
+                self.path
           end
 
         end
