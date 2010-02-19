@@ -1,6 +1,7 @@
 ronin_payload do
   parameter :custom,
-            :default => 'func',
+            :type => Symbol,
+            :default => :func,
             :description => 'Custom value to use in building the payload'
 
   cache do
