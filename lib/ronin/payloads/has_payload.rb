@@ -24,23 +24,8 @@ require 'ronin/payloads/payload'
 module Ronin
   module Payloads
     module HasPayload
-      #
-      # @return [Payload]
-      #   The payload being used.
-      #
-      def payload
-        @payload
-      end
-
-      #
-      # Sets the payload.
-      #
-      # @param [Payload] new_payload
-      #   The new payload to use.
-      #
-      def payload=(new_payload)
-        @payload = new_payload
-      end
+      # The payload being used
+      attr_accessor :payload
 
       #
       # @return [Payload]
