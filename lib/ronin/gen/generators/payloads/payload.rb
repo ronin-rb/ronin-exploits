@@ -46,6 +46,9 @@ module Ronin
           class_option :version, :type => :string, :default => DEFAULT_VERSION
           class_option :description, :type => :string, :default => DEFAULT_DESCRIPTION
           class_option :authors, :type => :array, :default => DEFAULT_AUTHORS
+          class_option :arch, :type => :string
+          class_option :os, :type => :string
+          class_option :os_version, :type => :string
           class_option :control_methods, :type => :array, :default => []
 
           argument :path, :type => :string, :require => true

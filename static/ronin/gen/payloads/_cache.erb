@@ -5,3 +5,8 @@
     <% options[:authors].each do |author| %>
     author(:name => <%= author.inspect %>)
     <% end %>
+
+    <% if options[:arch] %>arch! <%= options[:arch].to_sym.inspect %><% end %>
+    <% if options[:os] %>
+    os! :name => <%= options[:os].dump %><% if options[:os_version] %>, :version => <%= options[:os_version].dump %><% end %>
+    <% end %>
