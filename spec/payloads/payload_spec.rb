@@ -51,21 +51,8 @@ describe Payloads::Payload do
     @payload.arch.should be_nil
   end
 
-  it "should set the Arch when called with a name" do
-    @payload.arch :i686
-    @payload.arch.name.should == 'i686'
-    @payload.arch.endian == 'little'
-    @payload.arch.address_length == 4
-  end
-
   it "should not have an OS by default" do
     @payload.os.should be_nil
-  end
-
-  it "should set the OS when called with arguments" do
-    @payload.os(:name => 'FreeBSD', :version => '7.1')
-    @payload.os.name.should == 'FreeBSD'
-    @payload.os.version.should == '7.1'
   end
 
   it "should allow for the extending of Helper modules" do
