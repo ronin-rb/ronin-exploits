@@ -306,8 +306,8 @@ module Ronin
       protected
 
       #
-      # Extends the payload with the helper module defined in
-      # Ronin::Payloads::Helpers that has the similar name.
+      # Loads a helper module from `ronin/payloads/helpers` and extends the
+      # payload with it.
       #
       # @param [Symbol, String] name
       #   The snake-case name of the payload helper to load and extend the
