@@ -28,9 +28,11 @@ module Ronin
       attr_accessor :payload
 
       #
-      # @return [Payload]
-      #   The model to search within for acceptable payloads to use with
-      #   the exploit.
+      # Specifies that the {Payload} class will be used when searching for
+      # compatible payloads.
+      #
+      # @return [Class]
+      #   Returns the {Payload} class.
       #
       # @since 0.3.0
       #
@@ -79,8 +81,8 @@ module Ronin
       protected
 
       #
-      # Relays method calls to the payload, if the payload is a kind of 
-      # Ronin::Payloads::Payload.
+      # Relays missing method calls to the payload, if the payload inherits
+      # from {Payload}.
       #
       # @since 0.3.0
       #
