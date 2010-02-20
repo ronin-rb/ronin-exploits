@@ -25,6 +25,9 @@ module Ronin
   module Gen
     module Generators
       module Payloads
+        #
+        # Generates a new ronin NOPs payload file.
+        #
         class Nops < BinaryPayload
 
           #

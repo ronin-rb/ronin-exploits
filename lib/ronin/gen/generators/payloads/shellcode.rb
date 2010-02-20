@@ -25,6 +25,9 @@ module Ronin
   module Gen
     module Generators
       module Payloads
+        #
+        # Generates a new ronin shellcode payload file.
+        #
         class Shellcode < BinaryPayload
 
           #

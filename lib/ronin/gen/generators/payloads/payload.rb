@@ -27,6 +27,9 @@ module Ronin
   module Gen
     module Generators
       module Payloads
+        #
+        # Generates a new ronin payload file.
+        #
         class Payload < FileGenerator
 
           # Default name to give the payload
