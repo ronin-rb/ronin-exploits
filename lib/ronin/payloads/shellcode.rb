@@ -23,6 +23,10 @@ require 'ronin/payloads/asm_payload'
 
 module Ronin
   module Payloads
+    #
+    # Represents payloads written in assembly which spawn shells or
+    # run commands.
+    #
     class Shellcode < ASMPayload
 
       #
