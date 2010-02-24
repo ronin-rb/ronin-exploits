@@ -22,6 +22,9 @@
 require 'open_namespace'
 
 module Ronin
+  #
+  # The {Payloads} namespace contains all {Payload} classes.
+  #
   module Payloads
     include OpenNamespace
   end
