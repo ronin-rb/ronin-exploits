@@ -24,8 +24,8 @@ require 'ronin/payloads/asm_payload'
 module Ronin
   module Payloads
     #
-    # Represents payloads which comprised of Non-Operation (NOP) assembly
-    # instructions.
+    # A {Payload} class that represents payloads which comprised of
+    # Non-Operation (NOP) assembly instructions.
     #
     class Nops < ASMPayload
 
