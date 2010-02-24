@@ -23,6 +23,9 @@ require 'ronin/payloads/binary_payload'
 
 module Ronin
   module Payloads
+    #
+    # Represents payloads written in Assembly (ASM).
+    #
     class ASMPayload < BinaryPayload
 
       #
