@@ -39,6 +39,89 @@ require 'parameters'
 
 module Ronin
   module Payloads
+    #
+    # The {Payload} class allows for describing payloads, which are
+    # delivered via exploits, purely in Ruby. Payloads contain metadata
+    # about the payload and methods which define the functionality of the
+    # payload. Payloads may also be coupled with exploits, or chained
+    # together with other payloads.
+    #
+    # # Metadata
+    #
+    # A {Payload} is described via metadata, which is cached into the
+    # database. The cacheable metadata must be defined within a `cache`
+    # block, so that the metadata is set only before the payload is cached:
+    #
+    #     cache do
+    #       self.name = 'BindShell payload'
+    #       self.version = '0.1'
+    #       self.description = %{
+    #         An assembly Bind Shell payload, which binds a shell to a
+    #         given port.
+    #       }
+    #
+    #       # ...
+    #     end
+    #
+    # ## License
+    #
+    # A {Payload} may associate with a specific software license using the
+    # `license!` method:
+    #
+    #     license! :cc_sa_by
+    #
+    # ## Authors
+    #
+    # A {Payload} may have one or more authors which contributed to the
+    # payload, using the {#author} method:
+    #
+    #     author(:name => 'evoltech', :organization => 'HackBloc')
+    #
+    #     author(:name => 'postmodern', :organization => 'SophSec')
+    #
+    # ## Targeting
+    #
+    # A {Payload} may target a specific Architecture or Operating System.
+    # Targetting information can be set using the `arch!` and `os!`
+    # methods.
+    #
+    #     arch! :i686
+    #     os! :name => 'Linux'
+    #
+    # # Methods
+    #
+    # The functionality of a {Payload} is defined by three main methods.
+    #
+    # * `build` - Handles building the payload.
+    # * `verify` - Optional method which handles verifying a built payload.
+    # * `deploy` - Handles deploying a built and verified payload against a
+    #   host.
+    #
+    # The `build`, `verify`, `deploy` methods can be invoked individually
+    # using the {#build!}, {#verify!}, {#deploy!} methods, respectively.
+    #
+    # # Exploit/Payload Coupling
+    # 
+    # When an exploit is coupled with a {Payload}, the `exploit` instance 
+    # variable will contain the coupled exploit. When the payload is built
+    # along with the exploit, it will receive the same options given to
+    # the exploit.
+    #
+    # # Payload Chaining
+    #
+    # All {Payload} classes include the {HasPayload} module, which allows
+    # another payload to be chained together with a {Payload}.
+    #
+    # To chain a cached payload, from the database, simply use the
+    # `use_payload!` method:
+    #
+    #     payload.use_payload!(:name.like => '%Bind Shell%')
+    #
+    # In order to chain a payload, loaded directly from a file, call the 
+    # `use_payload_from!` method:
+    #
+    #     payload.use_payload_from!('path/to/my_payload.rb')
+    #
     class Payload
 
       include Parameters
