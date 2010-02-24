@@ -23,6 +23,9 @@ require 'open_namespace'
 
 module Ronin
   module Payloads
+    #
+    # The {Helpers} namespace contains the {Payload} helper modules.
+    #
     module Helpers
       include OpenNamespace
     end
