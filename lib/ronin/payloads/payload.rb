@@ -66,7 +66,7 @@ module Ronin
     # ## License
     #
     # A {Payload} may associate with a specific software license using the
-    # `license!` method:
+    # `#license!` method:
     #
     #     license! :cc_sa_by
     #
@@ -82,7 +82,7 @@ module Ronin
     # ## Targeting
     #
     # A {Payload} may target a specific Architecture or Operating System.
-    # Targetting information can be set using the `arch!` and `os!`
+    # Targetting information can be set using the {#arch!} and {#os!}
     # methods.
     #
     #     arch! :i686
@@ -102,8 +102,8 @@ module Ronin
     #
     # # Exploit/Payload Coupling
     # 
-    # When an exploit is coupled with a {Payload}, the `exploit` instance 
-    # variable will contain the coupled exploit. When the payload is built
+    # When an exploit is coupled with a {Payload}, the {#exploit} method 
+    # will contain the coupled exploit. When the payload is built
     # along with the exploit, it will receive the same options given to
     # the exploit.
     #
@@ -113,12 +113,12 @@ module Ronin
     # another payload to be chained together with a {Payload}.
     #
     # To chain a cached payload, from the database, simply use the
-    # `use_payload!` method:
+    # `#use_payload!` method:
     #
     #     payload.use_payload!(:name.like => '%Bind Shell%')
     #
     # In order to chain a payload, loaded directly from a file, call the 
-    # `use_payload_from!` method:
+    # `#use_payload_from!` method:
     #
     #     payload.use_payload_from!('path/to/my_payload.rb')
     #
