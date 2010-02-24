@@ -26,6 +26,9 @@ require 'ronin/extensions/uri/http'
 
 module Ronin
   module Payloads
+    #
+    # Represents payloads which are used to compromise Web services.
+    #
     class Web < Payload
 
       include Network::Helpers::HTTP
