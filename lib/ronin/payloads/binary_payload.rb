@@ -25,6 +25,9 @@ require 'ronin/os'
 
 module Ronin
   module Payloads
+    #
+    # Represents payloads which contain binary data.
+    #
     class BinaryPayload < Payload
 
       #
