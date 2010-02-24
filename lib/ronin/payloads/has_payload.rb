@@ -23,6 +23,11 @@ require 'ronin/payloads/payload'
 
 module Ronin
   module Payloads
+    #
+    # The {HasPayload} module allows another class to be coupled with a
+    # {Payload}. The module provides methods for loading payloads
+    # from the database or from a file.
+    #
     module HasPayload
       # The payload being used
       attr_accessor :payload
