@@ -4,10 +4,10 @@ ronin_payload do
     self.version = '0.2'
   end
 
-  def build
+  build do
   end
 
-  def deploy
+  deploy do
   end
 
   def file_read

@@ -156,10 +156,10 @@ module Ronin
       #       }
       #     end
       #
-      #     def build
+      #     build do
       #     end
       #
-      #     def deploy
+      #     deploy do
       #     end
       #   end
       #
@@ -199,7 +199,12 @@ module Ronin
 
         initialize_params(attributes)
 
+        @build_block = nil
         @built = false
+
+        @verify_block = nil
+
+        @deploy_block = nil
         @deployed = false
 
         instance_eval(&block) if block
@@ -288,7 +293,7 @@ module Ronin
 
         print_info "Building payload ..."
 
-        build()
+        @build_block.call() if @build_block
 
         print_info "Payload built!"
 
@@ -312,7 +317,7 @@ module Ronin
       def verify!
         print_info "Verifying payload ..."
 
-        verify
+        @verify_block.call() if @verify_block
 
         print_info "Payload verified!"
       end
@@ -341,7 +346,7 @@ module Ronin
         print_info "Deploying payload ..."
         @deployed = false
 
-        deploy()
+        @deploy_block.call() if @deploy_block
 
         print_info "Payload deployed!"
         @deployed = true
@@ -422,15 +427,54 @@ module Ronin
       end
 
       #
-      # Default builder method.
+      # Registers a given block to be called when the payload is being
+      # built.
       #
-      def build
+      # @yield []
+      #   The given block will be called when the payload is being built.
+      #
+      # @return [Payload]
+      #   The payload.
+      #
+      # @since 0.3.2
+      #
+      def build(&block)
+        @build_block = block
+        return self
       end
 
       #
-      # Default payload verifier method.
+      # Registers a given block to be called when the payload is being
+      # verified.
       #
-      def verify
+      # @yield []
+      #   The given block will be called when the payload is being verified.
+      #
+      # @return [Payload]
+      #   The payload.
+      #
+      # @since 0.3.2
+      #
+      def verify(&block)
+        @verify_block = block
+        return self
+      end
+
+      #
+      # Registers a given block to be called when the payload is being
+      # deployed.
+      #
+      # @yield []
+      #   The given block will be called when the payload is being deployed.
+      #
+      # @return [Payload]
+      #   The payload.
+      #
+      # @since 0.3.2
+      #
+      def deploy(&block)
+        @deploy_block = block
+        return self
       end
 
       #
@@ -443,12 +487,6 @@ module Ronin
       #
       def deploy_failed!(message)
         raise(DeployFailed,message,caller)
-      end
-
-      #
-      # Default payload deployer method.
-      #
-      def deploy(&block)
       end
 
     end

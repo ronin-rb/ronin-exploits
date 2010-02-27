@@ -10,7 +10,7 @@ ronin_payload do
     author :name => 'Anonymous', :email => 'anonymous@example.com'
   end
 
-  def build
+  build do
     @raw_payload = "code.#{@custom}"
   end
 

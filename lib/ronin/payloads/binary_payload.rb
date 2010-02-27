@@ -48,10 +48,12 @@ module Ronin
       #       }
       #     end
       #
-      #     def build
+      #     build do
+      #       # ...
       #     end
       #
-      #     def deploy
+      #     deploy do
+      #       # ...
       #     end
       #   end
       #
