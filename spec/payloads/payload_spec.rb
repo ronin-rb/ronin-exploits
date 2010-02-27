@@ -101,7 +101,7 @@ describe Payloads::Payload do
   end
 
   it "should respect the arity of blocks passed to build!" do
-    @payload.build do
+    @payload.build! do
       @payload.should be_built
     end
   end
