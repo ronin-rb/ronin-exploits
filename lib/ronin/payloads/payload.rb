@@ -436,7 +436,7 @@ module Ronin
       # @return [Payload]
       #   The payload.
       #
-      # @since 0.3.2
+      # @since 0.4.0
       #
       def build(&block)
         @build_block = block
@@ -453,7 +453,7 @@ module Ronin
       # @return [Payload]
       #   The payload.
       #
-      # @since 0.3.2
+      # @since 0.4.0
       #
       def verify(&block)
         @verify_block = block
@@ -470,7 +470,7 @@ module Ronin
       # @return [Payload]
       #   The payload.
       #
-      # @since 0.3.2
+      # @since 0.4.0
       #
       def deploy(&block)
         @deploy_block = block
@@ -483,7 +483,7 @@ module Ronin
       # @raise [DeployFailed]
       #   The deployment of the payload failed.
       #
-      # @since 0.3.2
+      # @since 0.4.0
       #
       def deploy_failed!(message)
         raise(DeployFailed,message,caller)

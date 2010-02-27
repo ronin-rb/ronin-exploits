@@ -30,7 +30,7 @@ module Ronin
       # @return [Array<Symbol>]
       #   The method names.
       #
-      # @since 0.3.2
+      # @since 0.4.0
       #
       def API.control_methods
         Behavior.predefined_names

@@ -60,7 +60,7 @@ module Ronin
       # @return [Symbol]
       #   The name of the behavior.
       #
-      # @since 0.3.2
+      # @since 0.4.0
       #
       def to_sym
         self.name.to_sym
