@@ -11,6 +11,7 @@ ronin_payload do
   end
 
   control_file_read do |path|
+    'data'
   end
 
   control_file_write do |path|

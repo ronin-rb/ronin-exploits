@@ -4,11 +4,26 @@ require 'spec_helper'
 
 shared_examples_for "Control API" do
   it "should have control methods" do
-    @controller.control_methods.should_not be_empty
+    @controller.control_methods.should == [:file_read, :file_write]
   end
 
-  it "should not mark normal instance methods as control methods" do
-    @controller.control_methods.should_not include(:build)
-    @controller.control_methods.should_not include(:deploy)
+  it "should populate the controlled behaviors relationship" do
+    @controller.control_methods.should == @controller.controlled_behaviors.map { |control| control.behavior.name.to_sym }
+  end
+
+  it "should allow calling the control methods" do
+    @controller.file_read('path').should == 'data'
+  end
+
+  it "should raise an exception for undefined control methods" do
+    lambda {
+      @controller.code_exec('code')
+    }.should raise_error(Control::NotControlled)
+  end
+
+  it "should raise an exception for unknown control methods" do
+    lambda {
+      @controller.undefined_control_method
+    }.should raise_error(NoMethodError)
   end
 end
