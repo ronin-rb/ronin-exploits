@@ -10,9 +10,9 @@ ronin_payload do
   deploy do
   end
 
-  def file_read
+  control_file_read do |path|
   end
 
-  def file_write
+  control_file_write do |path|
   end
 end
