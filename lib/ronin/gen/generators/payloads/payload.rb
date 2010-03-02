@@ -19,6 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'ronin/gen/mixins/control_api'
 require 'ronin/gen/file_generator'
 require 'ronin/payloads/config'
 require 'ronin/author'
@@ -31,6 +32,8 @@ module Ronin
         # Generates a new ronin payload file.
         #
         class Payload < FileGenerator
+
+          include Mixins::ControlAPI
 
           # Default name to give the payload
           DEFAULT_NAME = 'Payload'
