@@ -13,4 +13,8 @@ ronin_payload do
   build do
     @raw_payload = "code.#{@custom}"
   end
+
+  def some_method
+    :some_result
+  end
 end
