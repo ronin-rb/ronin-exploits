@@ -13,8 +13,4 @@ ronin_payload do
   build do
     @raw_payload = "code.#{@custom}"
   end
-
-  def some_control
-    'control data'
-  end
 end
