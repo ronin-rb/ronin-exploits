@@ -20,6 +20,7 @@
 #
 
 require 'ronin/control/exceptions/not_controlled'
+require 'ronin/control/command'
 require 'ronin/control/behavior'
 
 module Ronin
@@ -300,16 +301,19 @@ module Ronin
       #
       # Executes an arbitrary command.
       #
-      # @param [String] program
-      #   The path of the program to run.
+      # @param [String] command
+      #   The command or program to run.
       #
       # @param [Array<String>] arguments
       #   Additional arguments to run with the program.
       #
       # @since 0.4.0
       #
-      def command_exec(program,*arguments)
-        control_behavior(:code_exec,program,arguments)
+      def command_exec(command,*arguments)
+        cmd = Command.new(command,*arguments)
+
+        control_behavior(:code_exec,cmd)
+        return cmd
       end
 
       #
@@ -719,14 +723,11 @@ module Ronin
       #
       # Defines a control method for {#command_exec}.
       #
-      # @yield [program,*arguments]
+      # @yield [cmd]
       #   The given block will be called when {#command_exec} is called.
       #
-      # @yieldparam [String] program
-      #   The path of the program to be ran.
-      #
-      # @yieldparam [Array<String>] arguments
-      #   Additional arguments to run the program with.
+      # @yieldparam [Command] cmd
+      #   The command object contain the path and arguments of the command.
       #
       # @since 0.4.0
       #
