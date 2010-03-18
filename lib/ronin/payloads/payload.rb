@@ -21,7 +21,6 @@
 
 require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/exceptions/deploy_failed'
-require 'ronin/payloads/payload_author'
 require 'ronin/payloads/controlled_behavior'
 require 'ronin/payloads/helpers'
 require 'ronin/control/api'
@@ -31,6 +30,7 @@ require 'ronin/model/has_name'
 require 'ronin/model/has_description'
 require 'ronin/model/has_version'
 require 'ronin/model/has_license'
+require 'ronin/model/has_authors'
 require 'ronin/cacheable'
 require 'ronin/ui/output/helpers'
 require 'ronin/extensions/kernel'
@@ -73,7 +73,7 @@ module Ronin
     # ## Authors
     #
     # A {Payload} may have one or more authors which contributed to the
-    # payload, using the {#author} method:
+    # payload, using the `author` method:
     #
     #     author(:name => 'evoltech', :organization => 'HackBloc')
     #
@@ -130,6 +130,7 @@ module Ronin
       include Model::HasDescription
       include Model::HasVersion
       include Model::HasLicense
+      include Model::HasAuthors
       include Model::TargetsArch
       include Model::TargetsOS
       include Control::API
@@ -168,9 +169,6 @@ module Ronin
       # Primary key of the payload
       property :id, Serial
 
-      # Author(s) of the payload
-      has 0..n, :authors, :model => 'Ronin::Payloads::PayloadAuthor'
-
       # Behaviors the payload controls
       has 0..n, :controlled_behaviors
 
@@ -208,54 +206,6 @@ module Ronin
         @deployed = false
 
         instance_eval(&block) if block
-      end
-
-      #
-      # Finds all payloads written by a specific author.
-      #
-      # @param [String] name
-      #   The name of the author.
-      #
-      # @return [Array<Payload>]
-      #   The payload written by the author.
-      #
-      def self.written_by(name)
-        all(self.authors.name.like => "%#{name}%")
-      end
-
-      #
-      # Finds all payloads written for a specific organization.
-      #
-      # @param [String] name
-      #   The name of the organization.
-      #
-      # @return [Array<Payload>]
-      #   The payloads written for the organization.
-      #
-      def self.written_for(name)
-        all(self.authors.organization.like => "%#{name}%")
-      end
-
-      #
-      # Adds a new author to the payload.
-      #
-      # @param [Hash] attributes
-      #   Additional attributes to create the PayloadAuthor object with.
-      #
-      # @yield [author]
-      #   If a block is given, it will be passed the newly created author
-      #   object.
-      #
-      # @yieldparam [PayloadAuthor] author
-      #   The author object tied to the payload.
-      #
-      # @example
-      #   author :name => 'Anonymous',
-      #          :email => 'anon@example.com',
-      #          :organization => 'Anonymous LLC'
-      #
-      def author(attributes={},&block)
-        self.authors << PayloadAuthor.new(attributes,&block)
       end
 
       #
