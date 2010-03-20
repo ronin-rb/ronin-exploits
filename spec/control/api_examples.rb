@@ -4,11 +4,15 @@ require 'spec_helper'
 
 shared_examples_for "Control API" do
   it "should have control methods" do
-    @controller.control_methods.should == [:file_read, :file_write]
+    @controller.control_methods.should =~ [:file_read, :file_write]
   end
 
   it "should populate the controlled behaviors relationship" do
-    @controller.control_methods.should == @controller.controlled_behaviors.map { |control| control.behavior.name.to_sym }
+    behavior_names = @controller.controlled_behaviors.map do |control|
+      control.behavior.name.to_sym
+    end
+
+    @controller.control_methods.should =~ behavior_names
   end
 
   it "should allow calling the control methods" do
