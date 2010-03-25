@@ -348,7 +348,7 @@ module Ronin
       # payload with it.
       #
       # @param [Symbol, String] name
-      #   The snake-case name of the payload helper to load and extend the
+      #   The underscored name of the payload helper to load and extend the
       #   payload with.
       #
       # @return [true]
