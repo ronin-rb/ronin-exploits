@@ -204,8 +204,6 @@ module Ronin
 
         @deploy_block = nil
         @deployed = false
-
-        instance_eval(&block) if block
       end
 
       #
