@@ -26,7 +26,7 @@ module Ronin
     module Config
       include StaticPaths
 
-      register_static_dir File.join(File.dirname(__FILE__),'..','..','..','static')
+      register_static_dir File.join(File.dirname(__FILE__),'..','..','..','data')
     end
   end
 end
