@@ -1,5 +1,5 @@
 source 'http://rubygems.org'
-ronin_ruby = "git://github.com/ronin-ruby"
+ronin_ruby = 'git://github.com/ronin-ruby'
 
 group :runtime do
   gem 'open_namespace',	'~> 0.2.0'
