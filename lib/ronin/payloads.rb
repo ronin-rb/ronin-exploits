@@ -22,13 +22,11 @@
 require 'ronin/payloads/payloads'
 require 'ronin/database'
 
-module Ronin
-  Database.upgrade do
-    require 'ronin/payloads/encoders'
-    require 'ronin/payloads/payload'
-    require 'ronin/payloads/binary_payload'
-    require 'ronin/payloads/asm_payload'
-    require 'ronin/payloads/nops'
-    require 'ronin/payloads/shellcode'
-  end
+Ronin::Database.upgrade do
+  require 'ronin/payloads/encoders'
+  require 'ronin/payloads/payload'
+  require 'ronin/payloads/binary_payload'
+  require 'ronin/payloads/asm_payload'
+  require 'ronin/payloads/nops'
+  require 'ronin/payloads/shellcode'
 end
