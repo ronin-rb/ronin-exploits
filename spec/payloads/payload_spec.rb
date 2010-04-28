@@ -1,6 +1,6 @@
+require 'spec_helper'
 require 'ronin/payloads/payload'
 
-require 'spec_helper'
 require 'helpers/payloads'
 require 'control/api_examples'
 

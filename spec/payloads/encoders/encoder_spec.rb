@@ -1,6 +1,5 @@
-require 'ronin/payloads/encoders/encoder'
-
 require 'spec_helper'
+require 'ronin/payloads/encoders/encoder'
 
 describe Payloads::Encoders::Encoder do
   before(:all) do

@@ -1,9 +1,8 @@
+require 'spec_helper'
 require 'ronin/gen/generators/payloads/nops'
 require 'ronin/payloads/nops'
 
-require 'spec_helper'
 require 'gen/generators/payloads/payload_examples'
-
 require 'tmpdir'
 require 'fileutils'
 

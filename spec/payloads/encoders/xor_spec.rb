@@ -1,6 +1,5 @@
-require 'ronin/payloads/encoders/xor'
-
 require 'spec_helper'
+require 'ronin/payloads/encoders/xor'
 
 describe Ronin do
   describe Payloads::Encoders::XOR do

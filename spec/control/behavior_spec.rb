@@ -1,5 +1,5 @@
-require 'ronin/control/behavior'
 require 'spec_helper'
+require 'ronin/control/behavior'
 
 describe Control::Behavior do
   it "should require name and description attributes" do

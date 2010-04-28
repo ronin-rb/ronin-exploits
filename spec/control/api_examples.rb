@@ -1,6 +1,5 @@
-require 'ronin/control/api'
-
 require 'spec_helper'
+require 'ronin/control/api'
 
 shared_examples_for "Control API" do
   it "should have control methods" do
