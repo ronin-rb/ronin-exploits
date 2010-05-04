@@ -75,11 +75,11 @@ module Ronin
           alphabet = Chars.ascii.select { |b| data.include?(b.chr) }
           excluded = (Chars.ascii - alphabet)
 
-          key = excluded.select { |b|
+          key = excluded.enum_for(:reverse_each).find do |b|
             @allow.include?(b) && alphabet.all? { |i|
               @allow.include?(i ^ b)
             }
-          }.last
+          end
 
           text = ''
 
