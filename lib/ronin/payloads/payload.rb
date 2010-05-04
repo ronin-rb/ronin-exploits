@@ -192,7 +192,7 @@ module Ronin
       #   If a block is given, it will be evaluated in the newly created
       #   Payload object.
       #
-      def initialize(attributes={},&block)
+      def initialize(attributes={})
         super(attributes)
 
         initialize_params(attributes)
