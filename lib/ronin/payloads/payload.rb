@@ -49,8 +49,9 @@ module Ronin
     # # Metadata
     #
     # A {Payload} is described via metadata, which is cached into the
-    # database. The cacheable metadata must be defined within a `cache`
-    # block, so that the metadata is set only before the payload is cached:
+    # Ronin Database. The cacheable metadata must be defined within a
+    # `cache` block, so that the metadata is set only before the payload
+    # is cached:
     #
     #     cache do
     #       self.name = 'BindShell payload'
@@ -123,7 +124,7 @@ module Ronin
     # All {Payload} classes include the {HasPayload} module, which allows
     # another payload to be chained together with a {Payload}.
     #
-    # To chain a cached payload, from the database, simply use the
+    # To chain a cached payload, from the Ronin Database, simply use the
     # `#use_payload!` method:
     #
     #     payload.use_payload!(:name.like => '%Bind Shell%')
