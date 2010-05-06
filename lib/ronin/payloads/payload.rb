@@ -68,16 +68,23 @@ module Ronin
     # A {Payload} may associate with a specific software license using the
     # `#license!` method:
     #
-    #     license! :cc_sa_by
+    #     cache do
+    #       # ...
+    #
+    #       license! :cc_sa_by
+    #     end
     #
     # ## Authors
     #
     # A {Payload} may have one or more authors which contributed to the
     # payload, using the `author` method:
     #
-    #     author(:name => 'evoltech', :organization => 'HackBloc')
+    #     cache do
+    #       # ...
     #
-    #     author(:name => 'postmodern', :organization => 'SophSec')
+    #       author(:name => 'evoltech', :organization => 'HackBloc')
+    #       author(:name => 'postmodern', :organization => 'SophSec')
+    #     end
     #
     # ## Targeting
     #
@@ -85,8 +92,12 @@ module Ronin
     # Targetting information can be set using the {#arch!} and {#os!}
     # methods.
     #
-    #     arch! :i686
-    #     os! :name => 'Linux'
+    #     cache do
+    #       # ...
+    #
+    #       arch! :i686
+    #       os! :name => 'Linux'
+    #     end
     #
     # # Methods
     #
