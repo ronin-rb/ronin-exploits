@@ -24,14 +24,9 @@ require 'ronin/payloads/exceptions/deploy_failed'
 require 'ronin/payloads/controlled_behavior'
 require 'ronin/payloads/helpers'
 require 'ronin/control/api'
-require 'ronin/platform/cacheable'
+require 'ronin/module'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
-require 'ronin/model/has_name'
-require 'ronin/model/has_description'
-require 'ronin/model/has_version'
-require 'ronin/model/has_license'
-require 'ronin/model/has_authors'
 require 'ronin/ui/output/helpers'
 require 'ronin/extensions/kernel'
 
@@ -136,13 +131,7 @@ module Ronin
     #
     class Payload
 
-      include Parameters
-      include Platform::Cacheable
-      include Model::HasName
-      include Model::HasDescription
-      include Model::HasVersion
-      include Model::HasLicense
-      include Model::HasAuthors
+      include Ronin::Module
       include Model::TargetsArch
       include Model::TargetsOS
       include Control::API
