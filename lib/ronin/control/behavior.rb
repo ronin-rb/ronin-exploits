@@ -22,14 +22,15 @@
 require 'ronin/extensions/string'
 require 'ronin/model'
 
-require 'dm-predefined'
+require 'dm-is-predefined'
 
 module Ronin
   module Control
     class Behavior
 
       include Model
-      include DataMapper::Predefined
+
+      is :predefined
 
       # Primary key of the behavior
       property :id, Serial
