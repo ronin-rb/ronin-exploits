@@ -36,14 +36,10 @@ module Ronin
       property :id, Serial
 
       # Name of the behavior
-      property :name, String
+      property :name, String, :required => true, :unique => true
 
       # Description for the behavior
-      property :description, Text
-
-      # Validates
-      validates_present :name, :description
-      validates_is_unique :name
+      property :description, Text, :required => true
 
       #
       # Converts the behavior to a String.

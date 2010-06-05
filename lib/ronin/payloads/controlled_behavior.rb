@@ -39,9 +39,6 @@ module Ronin
       # The payload which controls the behavior
       belongs_to :payload
 
-      # Feature validations
-      validates_present :behavior_id, :payload_id
-
     end
   end
 end

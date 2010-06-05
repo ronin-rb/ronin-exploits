@@ -174,8 +174,7 @@ module Ronin
       has 0..n, :controlled_behaviors
 
       # Validations
-      validates_present :name
-      validates_is_unique :version, :scope => [:name]
+      validates_uniqueness_of :version, :scope => [:name]
 
       # The exploit to deploy with
       attr_accessor :exploit
