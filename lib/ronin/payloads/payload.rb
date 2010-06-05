@@ -200,10 +200,6 @@ module Ronin
       # @param [Array] attributes
       #   Additional attributes to initialize the payload with.
       #
-      # @yield []
-      #   If a block is given, it will be evaluated in the newly created
-      #   Payload object.
-      #
       def initialize(attributes={})
         super(attributes)
 
