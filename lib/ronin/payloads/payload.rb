@@ -191,8 +191,6 @@ module Ronin
       def initialize(attributes={})
         super(attributes)
 
-        initialize_params(attributes)
-
         @build_block = nil
         @built = false
 
