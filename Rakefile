@@ -24,6 +24,7 @@ Jeweler::Tasks.new do |gem|
   gem.authors = ['Postmodern']
   gem.has_rdoc = 'yard'
 end
+Jeweler::GemcutterTasks.new
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new
