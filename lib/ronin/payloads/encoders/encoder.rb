@@ -19,23 +19,16 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/platform/cacheable'
-require 'ronin/model/has_name'
-require 'ronin/model/has_description'
+require 'ronin/module'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
-
-require 'parameters'
 
 module Ronin
   module Payloads
     module Encoders
       class Encoder
 
-        include Parameters
-        include Platform::Cacheable
-        include Model::HasName
-        include Model::HasDescription
+        include Module
         include Model::TargetsArch
         include Model::TargetsOS
 

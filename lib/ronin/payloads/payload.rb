@@ -30,8 +30,6 @@ require 'ronin/model/targets_os'
 require 'ronin/ui/output/helpers'
 require 'ronin/extensions/kernel'
 
-require 'parameters'
-
 module Ronin
   module Payloads
     #
