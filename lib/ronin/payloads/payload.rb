@@ -135,9 +135,6 @@ module Ronin
       include Control::API
       include UI::Output::Helpers
 
-      # The directory to load payload helpers from.
-      HELPERS_DIR = File.join('ronin','payloads','helpers')
-
       #
       # Creates a new payload object.
       #
