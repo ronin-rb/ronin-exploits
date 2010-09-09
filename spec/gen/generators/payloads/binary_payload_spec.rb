@@ -17,7 +17,7 @@ describe Gen::Generators::Payloads::BinaryPayload do
       [@path]
     )
 
-    @payload = Payloads::BinaryPayload.load_from(@path)
+    @payload = Payloads::BinaryPayload.load_context(@path)
   end
 
   it_should_behave_like "a Payload"

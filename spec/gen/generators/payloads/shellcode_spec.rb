@@ -17,7 +17,7 @@ describe Gen::Generators::Payloads::Shellcode do
       [@path]
     )
 
-    @payload = Payloads::Shellcode.load_from(@path)
+    @payload = Payloads::Shellcode.load_context(@path)
   end
 
   it_should_behave_like "a Payload"

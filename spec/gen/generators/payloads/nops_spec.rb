@@ -17,7 +17,7 @@ describe Gen::Generators::Payloads::Nops do
       [@path]
     )
 
-    @payload = Payloads::Nops.load_from(@path)
+    @payload = Payloads::Nops.load_context(@path)
   end
 
   it_should_behave_like "a Payload"

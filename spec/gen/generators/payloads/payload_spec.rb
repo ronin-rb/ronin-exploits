@@ -17,7 +17,7 @@ describe Gen::Generators::Payloads::Payload do
       [@path]
     )
 
-    @payload = Payloads::Payload.load_from(@path)
+    @payload = Payloads::Payload.load_context(@path)
   end
 
   it_should_behave_like "a Payload"
