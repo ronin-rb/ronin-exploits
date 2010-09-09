@@ -19,12 +19,33 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/database/migrations/payloads'
+require 'ronin/database/migrations/migrations'
 
-require 'ronin/payloads/encoders'
-require 'ronin/payloads/payload'
-require 'ronin/payloads/binary_payload'
-require 'ronin/payloads/asm_payload'
-require 'ronin/payloads/nops'
-require 'ronin/payloads/shellcode'
-require 'ronin/payloads/payloads'
+require 'ronin/database/migrations/payloads/create_payloads_table'
+
+module Ronin
+  module Database
+    module Migrations
+      migration(
+        :create_payloads_encoders_table,
+        :needs => :create_payloads_table
+      ) do
+        up do
+          create_table(:ronin_payloads_encoders) do
+            column :id, Serial
+            column :type, String, :not_null => true
+            column :name, String, :not_null => true
+            column :description, Ronin::Model::Types::Description
+            column :arch_id, Integer
+            column :os_id, Integer
+            column :product_id, Integer
+          end
+        end
+
+        down do
+          drop_table :ronin_exploits_targets
+        end
+      end
+    end
+  end
+end

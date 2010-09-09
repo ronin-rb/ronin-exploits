@@ -19,12 +19,9 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/database/migrations/payloads'
+require 'ronin/database/migrations/payloads/create_payloads_table'
+require 'ronin/database/migrations/payloads/create_encoders_table'
 
-require 'ronin/payloads/encoders'
-require 'ronin/payloads/payload'
-require 'ronin/payloads/binary_payload'
-require 'ronin/payloads/asm_payload'
-require 'ronin/payloads/nops'
-require 'ronin/payloads/shellcode'
-require 'ronin/payloads/payloads'
+require 'ronin/database/database'
+
+Ronin::Database.upgrade!
