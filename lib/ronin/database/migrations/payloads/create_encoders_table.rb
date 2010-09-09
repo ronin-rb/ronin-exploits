@@ -38,7 +38,6 @@ module Ronin
             column :description, Ronin::Model::Types::Description
             column :arch_id, Integer
             column :os_id, Integer
-            column :product_id, Integer
           end
         end
 
