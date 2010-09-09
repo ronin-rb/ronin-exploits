@@ -358,7 +358,7 @@ module Ronin
           raise(UnknownHelper,"unknown helper #{name.dump}",caller)
         end
 
-        unless helper_module.kind_of?(Module)
+        unless helper_module.kind_of?(::Module)
           raise(UnknownHelper,"unknown helper #{name.dump}",caller)
         end
 
