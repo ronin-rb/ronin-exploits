@@ -22,7 +22,8 @@
 require 'ronin/payloads/payload'
 require 'ronin/network/mixins/http'
 require 'ronin/formatting/http'
-require 'ronin/extensions/uri/http'
+
+require 'uri/query_params'
 
 module Ronin
   module Payloads
