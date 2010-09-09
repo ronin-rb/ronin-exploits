@@ -50,6 +50,8 @@ module Ronin
       # @param [Array] arguments
       #   Additional arguments.
       #
+      # @since 0.4.0
+      #
       def initialize(*arguments)
         super(*arguments)
 
@@ -65,6 +67,8 @@ module Ronin
       # @return [String]
       #   The encoded data.
       #
+      # @since 0.4.0
+      #
       def encode(data)
         data
       end
@@ -75,6 +79,8 @@ module Ronin
       # @return [String]
       #   The name of the payload encoder.
       #
+      # @since 0.4.0
+      #
       def to_s
         self.name.to_s
       end
@@ -84,6 +90,8 @@ module Ronin
       #
       # @return [String]
       #   The inspected encoder.
+      #
+      # @since 0.4.0
       #
       def inspect
         str = "#{self.class}: #{self}"
