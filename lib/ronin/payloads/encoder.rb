@@ -45,20 +45,6 @@ module Ronin
       property :id, Serial
 
       #
-      # Creates a new Encoder object.
-      #
-      # @param [Array] arguments
-      #   Additional arguments.
-      #
-      # @since 0.4.0
-      #
-      def initialize(*arguments)
-        super(*arguments)
-
-        initialize_params(*arguments)
-      end
-
-      #
       # Default method which will encode data.
       #
       # @param [String] data
