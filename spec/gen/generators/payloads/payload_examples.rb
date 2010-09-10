@@ -9,9 +9,8 @@ shared_examples_for "a Payload" do
     @payload.description.should == Gen::Generators::Payloads::Payload::DEFAULT_DESCRIPTION
   end
 
-  it "should defines an author" do
-    @payload.authors.length.should == 1
-    @payload.authors.first.name.should == Author::ANONYMOUSE
+  it "should not define any authors by default" do
+    @payload.authors.should be_empty
   end
 
   it "should define control methods" do
