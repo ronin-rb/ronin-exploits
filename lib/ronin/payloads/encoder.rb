@@ -19,15 +19,15 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/module'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
+require 'ronin/engine'
 
 module Ronin
   module Payloads
     class Encoder
 
-      include Module
+      include Engine
       include Model::TargetsArch
       include Model::TargetsOS
 

@@ -24,10 +24,9 @@ require 'ronin/payloads/exceptions/deploy_failed'
 require 'ronin/payloads/controlled_behavior'
 require 'ronin/payloads/helpers'
 require 'ronin/control/api'
-require 'ronin/module'
+require 'ronin/engine'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
-require 'ronin/ui/output/helpers'
 require 'ronin/extensions/kernel'
 
 module Ronin
@@ -129,11 +128,10 @@ module Ronin
     #
     class Payload
 
-      include Ronin::Module
+      include Engine
       include Model::TargetsArch
       include Model::TargetsOS
       include Control::API
-      include UI::Output::Helpers
 
       #
       # Creates a new payload object.
@@ -315,19 +313,6 @@ module Ronin
         end
       end
 
-      #
-      # Inspects the contents of the payload.
-      #
-      # @return [String]
-      #   The inspected payload.
-      #
-      def inspect
-        str = "#{self.class}: #{self}"
-        str << " #{self.params.inspect}" unless self.params.empty?
-
-        return "#<#{str}>"
-      end
-
       protected
 
       #
@@ -355,7 +340,7 @@ module Ronin
           raise(UnknownHelper,"unknown helper #{name.dump}",caller)
         end
 
-        unless helper_module.kind_of?(::Module)
+        unless helper_module.kind_of?(Module)
           raise(UnknownHelper,"unknown helper #{name.dump}",caller)
         end
 
