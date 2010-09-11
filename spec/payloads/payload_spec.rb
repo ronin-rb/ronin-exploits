@@ -144,8 +144,4 @@ describe Payloads::Payload do
   it "should return the name and the version when calling to_s" do
     @payload.to_s.should == 'simple 0.1'
   end
-
-  it "should have a custom inspect method" do
-    @payload.inspect.should == '#<Ronin::Payloads::Payload: simple 0.1 {:custom=>:func}>'
-  end
 end
