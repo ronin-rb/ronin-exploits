@@ -19,6 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'ronin/model/types/description'
 require 'ronin/model'
 
 require 'dm-is-predefined'
@@ -38,7 +39,7 @@ module Ronin
       property :name, String, :required => true, :unique => true
 
       # Description for the behavior
-      property :description, Text, :required => true
+      property :description, Description, :required => true
 
       #
       # Converts the behavior to a String.
