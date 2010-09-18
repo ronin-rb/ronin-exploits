@@ -25,7 +25,7 @@ require 'ronin/model'
 require 'dm-is-predefined'
 
 module Ronin
-  module Control
+  module Leverage
     class Behavior
 
       include Model
