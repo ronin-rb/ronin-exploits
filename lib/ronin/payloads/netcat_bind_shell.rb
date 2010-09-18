@@ -19,13 +19,24 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/database/migrations/payloads'
+require 'ronin/payloads/helpers/bind_shell'
 
-require 'ronin/payloads/encoders'
-require 'ronin/payloads/payload'
-require 'ronin/payloads/binary_payload'
-require 'ronin/payloads/asm_payload'
-require 'ronin/payloads/nops'
-require 'ronin/payloads/shellcode'
-require 'ronin/payloads/netcat_bind_shell'
-require 'ronin/payloads/payloads'
+module Ronin
+  module Payloads
+    class NetcatBindShell < Payload
+
+      #
+      # Creates a new `netcat` bind shell.
+      #
+      # @param [Hash] attributes
+      #   Attributes for the `netcat` bind shell.
+      #
+      def initialize(attributes={})
+        super(attributes)
+
+        helper :bind_shell
+      end
+
+    end
+  end
+end
