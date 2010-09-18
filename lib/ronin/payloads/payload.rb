@@ -21,9 +21,7 @@
 
 require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/exceptions/deploy_failed'
-require 'ronin/payloads/controlled_behavior'
 require 'ronin/payloads/helpers'
-require 'ronin/control/api'
 require 'ronin/engine'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
@@ -131,7 +129,6 @@ module Ronin
       include Engine
       include Model::TargetsArch
       include Model::TargetsOS
-      include Control::API
 
       #
       # Creates a new payload object.
@@ -162,9 +159,6 @@ module Ronin
 
       # Primary key of the payload
       property :id, Serial
-
-      # Behaviors the payload controls
-      has 0..n, :controlled_behaviors
 
       # Validations
       validates_uniqueness_of :version, :scope => [:name]
