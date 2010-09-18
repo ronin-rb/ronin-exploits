@@ -19,7 +19,6 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/gen/mixins/control_api'
 require 'ronin/gen/file_generator'
 require 'ronin/payloads/config'
 require 'ronin/author'
@@ -33,8 +32,6 @@ module Ronin
         #
         class Payload < FileGenerator
 
-          include Mixins::ControlAPI
-
           # Default name to give the payload
           DEFAULT_NAME = 'Payload'
 
@@ -45,6 +42,7 @@ module Ronin
           DEFAULT_DESCRIPTION = %{This is a payload.}
 
           class_option :helpers, :type => :array, :default => []
+          class_option :leverages, :type => :array, :default => []
           class_option :name, :type => :string, :default => DEFAULT_NAME
           class_option :version, :type => :string, :default => DEFAULT_VERSION
           class_option :description, :type => :string, :default => DEFAULT_DESCRIPTION
@@ -52,7 +50,6 @@ module Ronin
           class_option :arch, :type => :string
           class_option :os, :type => :string
           class_option :os_version, :type => :string
-          class_option :control_methods, :type => :array, :default => []
 
           argument :path, :type => :string, :require => true
 
