@@ -2,18 +2,13 @@ require 'spec_helper'
 require 'ronin/payloads/payload'
 
 require 'helpers/payloads'
-require 'control/api_examples'
 
 describe Payloads::Payload do
   include Helpers
 
   before(:each) do
     @payload = load_payload('simple')
-
-    @controller = load_payload('control')
   end
-
-  it_should_behave_like "Control API"
 
   it "should require a name attribute" do
     payload = Payloads::Payload.new
@@ -63,11 +58,6 @@ describe Payloads::Payload do
     lambda {
       @payload.instance_eval { helper :obvious_not_there }
     }.should raise_error(Payloads::UnknownHelper)
-  end
-
-  it "should not have any controlled behaviors by default" do
-    payload = Payloads::Payload.new
-    payload.controlled_behaviors.should be_empty
   end
 
   it "should not have an exploit by default" do

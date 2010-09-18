@@ -12,7 +12,7 @@ describe Gen::Generators::Payloads::Nops do
 
     Gen::Generators::Payloads::Nops.generate(
       {
-        :control_methods => ['code_exec']
+        :leverages => ['shell']
       },
       [@path]
     )

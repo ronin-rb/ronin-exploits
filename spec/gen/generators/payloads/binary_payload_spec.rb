@@ -12,7 +12,7 @@ describe Gen::Generators::Payloads::BinaryPayload do
 
     Gen::Generators::Payloads::BinaryPayload.generate(
       {
-        :control_methods => ['code_exec']
+        :leverages => ['shell']
       },
       [@path]
     )

@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'ronin/control/behavior'
+require 'ronin/leverage/behavior'
 
-describe Control::Behavior do
+describe Leverage::Behavior do
   it "should require name and description attributes" do
-    behavior = Control::Behavior.new
+    behavior = Leverage::Behavior.new
     behavior.should_not be_valid
 
     behavior.name = 'arbitrary lol injection'
@@ -14,7 +14,7 @@ describe Control::Behavior do
   end
 
   it "should be able to convert to a String" do
-    behavior = Control::Behavior.new(
+    behavior = Leverage::Behavior.new(
       :name => 'test',
       :description => 'This is a test.'
     )
@@ -23,7 +23,7 @@ describe Control::Behavior do
   end
 
   it "should be able to convert to a Symbol" do
-    behavior = Control::Behavior.new(
+    behavior = Leverage::Behavior.new(
       :name => 'test',
       :description => 'This is a test.'
     )

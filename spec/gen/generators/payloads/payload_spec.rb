@@ -12,7 +12,7 @@ describe Gen::Generators::Payloads::Payload do
 
     Gen::Generators::Payloads::Payload.generate(
       {
-        :control_methods => ['code_exec']
+        :leverages => ['shell']
       },
       [@path]
     )

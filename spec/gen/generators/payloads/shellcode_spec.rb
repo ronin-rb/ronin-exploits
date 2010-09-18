@@ -12,7 +12,7 @@ describe Gen::Generators::Payloads::Shellcode do
 
     Gen::Generators::Payloads::Shellcode.generate(
       {
-        :control_methods => ['code_exec']
+        :leverages => ['shell']
       },
       [@path]
     )

@@ -13,7 +13,7 @@ shared_examples_for "a Payload" do
     @payload.authors.should be_empty
   end
 
-  it "should define control methods" do
-    @payload.should respond_to(:code_exec)
+  it "should define leveraged resources" do
+    @payload.should be_leveraged(:shell)
   end
 end
