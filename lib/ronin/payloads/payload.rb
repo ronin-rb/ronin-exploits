@@ -22,6 +22,7 @@
 require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/exceptions/deploy_failed'
 require 'ronin/payloads/helpers'
+require 'ronin/leverage'
 require 'ronin/engine'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
@@ -129,6 +130,7 @@ module Ronin
       include Engine
       include Model::TargetsArch
       include Model::TargetsOS
+      include Leverage::Mixin
 
       #
       # Creates a new payload object.
