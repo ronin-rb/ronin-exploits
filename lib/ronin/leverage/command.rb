@@ -64,7 +64,7 @@ module Ronin
       # @since 0.4.0
       #
       def each(&block)
-        return enum_for(:each_line) unless block
+        return enum_for(:each) unless block
 
         @leverage.shell_exec(@program,*@arguments,&block)
       end
