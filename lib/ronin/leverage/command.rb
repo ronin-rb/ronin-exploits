@@ -21,25 +21,71 @@
 
 module Ronin
   module Leverage
+    #
+    # The {Command} class represents commands being executed on remote
+    # systems.
+    #
     class Command
 
       include Enumerable
 
-      def initialize(session,program,*arguments)
-        @session = session
+      #
+      # Creates a new Command.
+      #
+      # @param [#shell_exec] leverage
+      #   The object leveraging command execution.
+      #
+      # @param [String] program
+      #   The program to run.
+      #
+      # @param [Array] arguments
+      #   The arguments to run with.
+      #
+      # @since 0.4.0
+      #
+      def initialize(leverage,program,*arguments)
+        @leverage = leverage
         @program = program
         @arguments = arguments
       end
 
+      #
+      # Iterates over each line of the output from the command.
+      #
+      # @yield [line]
+      #   The given block will be passed each line of output.
+      #
+      # @yieldparam [String] line
+      #   A line of output from the command.
+      #
+      # @return [Enumerator]
+      #   If no block is given, it will be returned an enumerator object.
+      #
+      # @since 0.4.0
+      #
       def each(&block)
         return enum_for(:each_line) unless block
 
-        @session.shell_exec(@program,*@arguments,&block)
+        @leverage.shell_exec(@program,*@arguments,&block)
       end
 
       alias each_line each
       alias lines each_line
 
+      #
+      # Iterates over each output byte from the command.
+      #
+      # @yield [byte]
+      #   The given block will be passed each byte of output.
+      #
+      # @yieldparam [Integer] byte
+      #   A byte of output from the command.
+      #
+      # @return [Enumerator]
+      #   If no block is given, it will be returned an enumerator object.
+      #
+      # @since 0.4.0
+      #
       def each_byte(&block)
         return enum_for(:each_byte) unless block
 
@@ -48,6 +94,20 @@ module Ronin
 
       alias bytes each_byte
 
+      #
+      # Iterates over each output character from the command.
+      #
+      # @yield [char]
+      #   The given block will be passed each output character.
+      #
+      # @yieldparam [String] char
+      #   An output character from the command.
+      #
+      # @return [Enumerator]
+      #   If no block is given, it will be returned an enumerator object.
+      #
+      # @since 0.4.0
+      #
       def each_char
         return enum_for(:each_char) unless block_given?
 
@@ -56,6 +116,14 @@ module Ronin
 
       alias chars each_char
 
+      #
+      # Converts the output from the command to a String.
+      #
+      # @return [String]
+      #   The full output from the command.
+      #
+      # @since 0.4.0
+      #
       def to_s
         each_line.inject('') { |output,line| output << line }
       end
