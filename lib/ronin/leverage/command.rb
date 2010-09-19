@@ -23,7 +23,8 @@ module Ronin
   module Leverage
     #
     # The {Command} class represents commands being executed on remote
-    # systems.
+    # systems. The {Command} class wraps around the `shell_exec` method
+    # defined in the object leveraging shell access.
     #
     class Command
 
