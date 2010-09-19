@@ -42,9 +42,16 @@ module Ronin
       # @param [Array] arguments
       #   The arguments to run with.
       #
+      # @raise [RuntimeError]
+      #   The leveraging object does not define `shell_exec`.
+      #
       # @since 0.4.0
       #
       def initialize(leverage,program,*arguments)
+        unless leverage.respond_to?(:shell_exec)
+          raise(RuntimeError,"#{leverage.inspect} must define shell_exec for #{self.class}",caller)
+        end
+
         @leverage = leverage
         @program = program
         @arguments = arguments
