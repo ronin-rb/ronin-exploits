@@ -431,11 +431,15 @@ module Ronin
       #
       # Place holder method used to read a block from the IO stream.
       #
+      # @since 0.4.0
+      #
       def io_read
       end
 
       #
       # Place holder method used to close the IO stream.
+      #
+      # @since 0.4.0
       #
       def io_close
       end
