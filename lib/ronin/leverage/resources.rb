@@ -21,3 +21,4 @@
 
 require 'ronin/leverage/resources/resource'
 require 'ronin/leverage/resources/shell'
+require 'ronin/leverage/resources/fs'
