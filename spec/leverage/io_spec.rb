@@ -39,6 +39,11 @@ describe Leverage::IO do
   end
 
   it "should read partial sections of the data" do
+    subject.read(3).should == expected[0,3]
+    subject.read(1).should == expected[3,1]
+  end
+
+  it "should read individual blocks of data" do
     subject.read(4).should == expected[0,4]
   end
 
@@ -58,7 +63,7 @@ describe Leverage::IO do
   end
 
   it "should read bytes" do
-    subject.readbytes(4).should == expected_bytes[0,4]
+    subject.readbytes(3).should == expected_bytes[0,3]
   end
 
   it "should read a char" do
