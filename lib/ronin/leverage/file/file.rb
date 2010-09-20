@@ -19,5 +19,34 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/leverage/file/file'
-require 'ronin/leverage/file/stat'
+require 'ronin/leverage/io'
+
+module Ronin
+  module Leverage
+    class File
+
+      include IO
+
+      def initialize(leverage,path)
+        super()
+
+        @leverage = leverage
+        @path = path
+
+        yield self if block_given?
+      end
+
+      def pos=(new_pos)
+        clear_buffer!
+        @pos = new_pos
+      end
+
+      protected
+
+      def io_read
+        @leverage.fs_read(@path,@pos)
+      end
+
+    end
+  end
+end
