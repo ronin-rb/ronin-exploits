@@ -94,9 +94,7 @@ module Ronin
         end
 
         def stat(path)
-          requires_method! :fs_stat
-
-          @leverage.fs_stat(path)
+          File::Stat.new(@leverage,path)
         end
 
         def exists?(path)
