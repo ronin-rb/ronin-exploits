@@ -106,9 +106,10 @@ module Ronin
         #   Additional arguments for the program.
         #
         # @yield [line]
-        #   Each line of output received from the bind-shell will be yielded.
+        #   Each line of output received from the bind-shell will be
+        #   yielded.
         #
-        # @yielparam [String] line
+        # @yieldparam [String] line
         #   A line of output from the shell.
         #
         # @since 0.4.0
