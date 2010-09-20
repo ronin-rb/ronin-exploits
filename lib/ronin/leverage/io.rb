@@ -136,7 +136,7 @@ module Ronin
 
         each_block do |block|
           if remaining < block.length
-            result << block[0..remaining]
+            result << block[0...remaining]
             write_buffer(block[remaining..-1])
             break
           else
@@ -365,7 +365,11 @@ module Ronin
         return enum_for(:each_line,separator) unless block_given?
 
         loop do
-          break unless (line = gets(separator))
+          begin
+            line = gets(separator)
+          rescue EOFError
+            break
+          end
 
           yield line
         end
