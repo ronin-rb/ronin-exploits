@@ -137,7 +137,7 @@ module Ronin
         each_block do |block|
           if remaining < block.length
             result << block[0...remaining]
-            write_buffer(block[remaining..-1])
+            append_buffer(block[remaining..-1])
             break
           else
             result << block
@@ -183,7 +183,9 @@ module Ronin
       # @since 0.4.0
       #
       def getc
-        c.ord if (c = read(1))
+        if (c = read(1))
+          c.ord
+        end
       end
 
       #
@@ -199,7 +201,7 @@ module Ronin
       # @since 0.4.0
       #
       def ungetc(byte)
-        write_buffer(byte.chr)
+        prepend_buffer(byte.chr)
         return nil
       end
 
@@ -553,14 +555,27 @@ module Ronin
       end
 
       #
-      # Writes data into the read buffer.
+      # Prepends data to the front of the read buffer.
       #
       # @param [String] data
-      #   The data to write into the read buffer.
+      #   The data to prepend.
       #
       # @since 0.4.0
       #
-      def write_buffer(data)
+      def prepend_buffer(data)
+        @buffer ||= ''
+        @buffer.insert(0,data)
+      end
+
+      #
+      # Appends data to the read buffer.
+      #
+      # @param [String] data
+      #   The data to append.
+      #
+      # @since 0.4.0
+      #
+      def append_buffer(data)
         @pos -= data.length
 
         @buffer ||= ''
