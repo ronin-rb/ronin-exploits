@@ -178,8 +178,7 @@ module Ronin
       # @since 0.4.0
       #
       def ungetc(byte)
-        @buffer ||= ''
-        @buffer << byte.chr
+        write_buffer(byte.chr)
         return nil
       end
 
@@ -416,7 +415,9 @@ module Ronin
       #
       def write_buffer(data)
         @pos -= data.length
-        @buffer = data
+
+        @buffer ||= ''
+        @buffer << data
       end
 
       #
