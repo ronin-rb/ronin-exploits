@@ -24,6 +24,8 @@ require 'ronin/leverage/stat'
 require 'ronin/leverage/file'
 require 'ronin/ui/hexdump/hexdump'
 
+require 'digest/md5'
+
 module Ronin
   module Leverage
     module Resources
@@ -89,6 +91,16 @@ module Ronin
 
         def stat(path)
           File::Stat.new(@leverage,path)
+        end
+
+        def compare(path,other_path)
+          checksum1 = Digest::MD5.new
+          open(path).each_block { |block| checksum1 << block }
+
+          checksum2 = Digest::MD5.new
+          open(other_path).each_block { |block| checksum2 << block }
+
+          return checksum1 == checksum2
         end
 
         def exists?(path)
