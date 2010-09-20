@@ -76,6 +76,26 @@ module Ronin
         @pos = new_pos
       end
 
+      #
+      # Re-opens the file.
+      #
+      # @param [String] path
+      #   The new path for the file.
+      #
+      # @return [File]
+      #   The re-opened the file.
+      #
+      # @since 0.4.0
+      #
+      def reopen(path)
+        close
+
+        @path = path.to_s
+
+        open
+        return self
+      end
+
       protected
 
       #

@@ -58,14 +58,9 @@ module Ronin
       # @since 0.4.0
       #
       def initialize
-        @pos = 0
-        @eof = false
         @closed = true
 
-        @buffer = nil
-
-        @fd = io_open
-        @closed = false
+        open
       end
 
       #
@@ -638,6 +633,16 @@ module Ronin
       end
 
       #
+      # @raise [NotImplementedError]
+      #   {#reopen} is not implemented.
+      #
+      # @since 0.4.0
+      #   
+      def reopen(*arguments)
+        raise(NotImplementedError,"reopen is not implemented",caller)
+      end
+
+      #
       # Inspects the IO stream.
       #
       # @return [String]
@@ -750,6 +755,21 @@ module Ronin
       # @since 0.4.0
       #
       def io_close
+      end
+
+      #
+      # Opens the IO stream.
+      #
+      # @since 0.4.0
+      #
+      def open
+        @pos = 0
+        @eof = false
+
+        clear_buffer!
+
+        @fd = io_open
+        @closed = false
       end
 
     end
