@@ -69,12 +69,11 @@ module Ronin
         # @since 0.4.0
         #
         def initialize(leverage,path)
-          @leverage = leverage
-
-          unless @leverage.respond_to?(:fs_stat)
-            raise(RuntimeError,"#{@leverage} must define fs_stat needed by #{self.class}",caller)
+         unless leverage.respond_to?(:fs_stat)
+            raise(RuntimeError,"#{leverage.inspect} must define fs_stat for #{self.class}",caller)
           end
 
+          @leverage = leverage
           @path = path.to_s
 
           unless (stat = @leverage.fs_stat(@path))
