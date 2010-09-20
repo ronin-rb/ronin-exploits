@@ -39,16 +39,9 @@ module Ronin
       # @param [String] path
       #   The path of the remote file.
       #
-      # @raise [RuntimeError]
-      #   The leveraging object does not define `fs_read`.
-      #
       # @since 0.4.0
       #
       def initialize(leverage,path)
-        unless leverage.respond_to?(:fs_read)
-          raise(RuntimeError,"#{leverage.inspect} must define fs_read for #{self.class}",caller)
-        end
-
         @leverage = leverage
         @path = path.to_s
 
@@ -125,7 +118,11 @@ module Ronin
       # @since 0.4.0
       #
       def io_read
-        @leverage.fs_read(@fd,@pos)
+        if @leverage.respond_to?(:fs_read)
+          @leverage.fs_read(@fd,@pos)
+        else
+          raise(IOError,"#{@leverage.inspect} does not support reading",caller)
+        end
       end
 
       #
