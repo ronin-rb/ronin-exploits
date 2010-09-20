@@ -126,6 +126,26 @@ module Ronin
       end
 
       #
+      # Writes data to the remote file by calling `fs_write` from the
+      # leveraging object.
+      #
+      # @param [String] data
+      #   The data to write.
+      #
+      # @return [Integer]
+      #   The number of bytes writen.
+      #
+      # @since 0.4.0
+      #
+      def io_write(data)
+        if @leverage.respond_to?(:fs_write)
+          @leverage.fs_write(@fd,@pos)
+        else
+          raise(IOError,"#{@leverage.inspect} does not support writing",caller)
+        end
+      end
+
+      #
       # Attempts calling `fs_close` from the leveraging object to close
       # the file.
       #
