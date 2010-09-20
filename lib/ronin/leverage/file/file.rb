@@ -63,6 +63,11 @@ module Ronin
       #
       def pos=(new_pos)
         clear_buffer!
+
+        if @leverage.respond_to?(:fs_seek)
+          @leverage.fs_seek(@fd,new_pos)
+        end
+
         @pos = new_pos
       end
 
