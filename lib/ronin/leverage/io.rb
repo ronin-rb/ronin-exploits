@@ -83,6 +83,8 @@ module Ronin
         end
       end
 
+      alias tell pos
+
       #
       # Determines if end-of-file has been reached.
       #
@@ -174,6 +176,8 @@ module Ronin
           return result
         end
       end
+
+      alias sysread read
 
       #
       # Reads partial data from the IO stream.
@@ -427,6 +431,8 @@ module Ronin
         io_write(data)
       end
 
+      alias syswrite write
+
       #
       # Writes a byte or a character to the IO stream.
       #
@@ -498,6 +504,24 @@ module Ronin
       end
 
       #
+      # Writes the data to the IO stream as a `String`.
+      #
+      # @param [#to_s] data
+      #   The data to write to the IO stream.
+      #
+      # @return [IO]
+      #   The IO stream.
+      #
+      # @see #write
+      #
+      # @since 0.4.0
+      #
+      def <<(data)
+        write(data.to_s)
+        return self
+      end
+
+      #
       # Determines whether the IO stream is closed.
       #
       # @return [Boolean]
@@ -533,6 +557,67 @@ module Ronin
       end
 
       alias to_i fileno
+
+      #
+      # @return [IO]
+      #   For compatibility with `::IO`.
+      #
+      # @since 0.4.0
+      #
+      def binmode
+        self
+      end
+
+      #
+      # @raise [NotImplementedError]
+      #   {#fcntl} was not implemented in {IO}.
+      #
+      # @since 0.4.0
+      #
+      def fcntl(*arguments)
+        raise(NotImplementedError,"IO#fcntl was not implemented",caller)
+      end
+
+      #
+      # @return [0]
+      #   Returns `0` for compatibility with `::IO`.
+      #
+      def fsync
+        0
+      end
+
+      #
+      # @return [true]
+      #   Returns `true` for compatibility with `::IO`.
+      #
+      # @since 0.4.0.
+      #
+      def sync
+        true
+      end
+
+      #
+      # @param [Boolean] mode
+      #   The sync mode.
+      #
+      # @return [Boolean]
+      #   Returns the sync mode, for compatibility with `::IO`.
+      #
+      # @since 0.4.0
+      #
+      def sync=(mode)
+        mode
+      end
+
+      #
+      # @return [IO]
+      #   For compatibility with `::IO`.
+      #
+      # @since 0.4.0
+      #
+      def flush
+        self
+      end
 
       protected
 
