@@ -87,12 +87,6 @@ module Ronin
           @leverage.fs_chmod(path,mod)
         end
 
-        def compare(path,other_path)
-          requires_method! :fs_compare
-
-          @leverage.fs_compare(path,other_path)
-        end
-
         def stat(path)
           File::Stat.new(@leverage,path)
         end
