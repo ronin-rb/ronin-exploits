@@ -23,6 +23,8 @@ module Ronin
   module Leverage
     module IO
 
+      include Enumerable
+
       # The position within the file
       attr_reader :pos
 
