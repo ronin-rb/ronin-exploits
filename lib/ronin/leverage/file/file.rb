@@ -71,6 +71,18 @@ module Ronin
         @pos = new_pos
       end
 
+      #
+      # The number of the file descriptor.
+      #
+      # @return [Integer, nil]
+      #   The file descriptor, if it is an `Integer`.
+      #
+      def fileno
+        @fd if @fd.kind_of?(Integer)
+      end
+
+      alias to_i fileno
+
       protected
 
       #
