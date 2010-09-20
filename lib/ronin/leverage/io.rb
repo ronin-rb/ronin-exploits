@@ -542,7 +542,7 @@ module Ronin
       #
       def read_buffer
         chunk = @buffer
-        @pos += buffer.length
+        @pos += @buffer.length
 
         clear_buffer!
         return chunk
