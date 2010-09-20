@@ -201,7 +201,13 @@ module Ronin
         @buffer = data
       end
 
+      def io_open
+      end
+
       def io_read
+      end
+
+      def io_close
       end
 
     end

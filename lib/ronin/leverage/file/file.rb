@@ -27,6 +27,9 @@ module Ronin
 
       include IO
 
+      # The file descriptor
+      attr_reader :fd
+
       def initialize(leverage,path)
         super()
 
@@ -37,7 +40,10 @@ module Ronin
         @leverage = leverage
         @path = path.to_s
 
-        yield self if block_given?
+        if block_given?
+          yield self
+          close
+        end
       end
 
       def pos=(new_pos)
@@ -47,8 +53,24 @@ module Ronin
 
       protected
 
+      def io_open
+        @fd = if @leverage.respond_to?(:fs_open)
+                    @leverage.fs_open(@path)
+                  else
+                    @path
+                  end
+      end
+
       def io_read
-        @leverage.fs_read(@path,@pos)
+        @leverage.fs_read(@fd,@pos)
+      end
+
+      def io_close
+        if @leverage.respond_to?(:fs_close)
+          @leverage.fs_close(@fd)
+        end
+        
+        @fd = nil
       end
 
     end
