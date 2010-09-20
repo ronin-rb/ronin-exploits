@@ -44,9 +44,7 @@ module Ronin
       #
       # @since 0.4.0
       #
-      def initialize(leverage,path)
-        super()
-
+      def initialize(leverage,path,&block)
         unless leverage.respond_to?(:fs_read)
           raise(RuntimeError,"#{leverage.inspect} must define fs_read for #{self.class}",caller)
         end
@@ -54,10 +52,7 @@ module Ronin
         @leverage = leverage
         @path = path.to_s
 
-        if block_given?
-          yield self
-          close
-        end
+        super(&block)
       end
 
       #

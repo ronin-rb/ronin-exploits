@@ -32,13 +32,31 @@ module Ronin
       attr_reader :eof
 
       #
-      # Initializes the IO object.
+      # Initializes the IO stream.
+      #
+      # @yield [io]
+      #   The given block will be passed the newly created IO stream.
+      #   When the block has returned, the IO object will be closed.
+      #
+      # @yieldparam [IO]
+      #   The newly created IO stream.
+      #
+      # @since 0.4.0
       #
       def initialize
         @pos = 0
         @eof = false
+        @closed = true
 
         @buffer = nil
+
+        io_open
+        @closed = false
+
+        if block_given?
+          yield self
+          close
+        end
       end
 
       #
@@ -448,6 +466,30 @@ module Ronin
       #
       def printf(format_string,*arguments)
         io_write(format_string % arguments)
+        return nil
+      end
+
+      #
+      # Determines whether the IO stream is closed.
+      #
+      # @return [Boolean]
+      #   Specifies whether the IO stream has been closed.
+      #
+      # @since 0.4.0
+      #   
+      def closed?
+        @closed == true
+      end
+
+      #
+      # Closes the IO stream.
+      #
+      # @since 0.4.0
+      #
+      def close
+        io_close
+
+        @closed = true
         return nil
       end
 
