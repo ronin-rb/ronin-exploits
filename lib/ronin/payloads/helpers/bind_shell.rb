@@ -142,7 +142,7 @@ module Ronin
         end
 
         def fs_read(path,pos)
-          shell.exec('dd',"if=#{path}","skip=#{pos}","count=4096")
+          shell.exec('dd',"if=#{path}",'bs=1',"skip=#{pos}",'count=4096')
         end
 
         def fs_copy(path,new_path)
