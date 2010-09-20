@@ -115,6 +115,9 @@ module Ronin
       # @return [String, nil]
       #   A block of data from the file.
       #
+      # @raise [IOError]
+      #   The leveraging object does not define `fs_read`.
+      #
       # @since 0.4.0
       #
       def io_read
@@ -134,6 +137,9 @@ module Ronin
       #
       # @return [Integer]
       #   The number of bytes writen.
+      #
+      # @raise [IOError]
+      #   The leveraging object does not define `fs_write`.
       #
       # @since 0.4.0
       #
