@@ -366,6 +366,91 @@ module Ronin
         enum_for(:each_line,separator).to_a
       end
 
+      #
+      # Writes data to the IO stream.
+      #
+      # @param [String] data
+      #   The data to write.
+      #
+      # @return [Integer]
+      #   The number of bytes written.
+      #
+      # @since 0.4.0
+      #
+      def write(data)
+        io_write(data)
+      end
+
+      #
+      # Writes a byte or a character to the IO stream.
+      #
+      # @param [String, Integer] data
+      #   The byte or character to write.
+      #
+      # @return [String, Integer]
+      #   The byte or character that was written.
+      #
+      # @since 0.4.0
+      #
+      def putc(data)
+        char = unless data.kind_of?(String)
+                 data.chr
+               else
+                 data
+               end
+
+        io_write(char)
+        return data
+      end
+
+      #
+      # Prints data to the IO stream.
+      #
+      # @param [Array] arguments
+      #   The data to print to the IO stream.
+      #
+      # @return [nil]
+      # 
+      # @since 0.4.0
+      #
+      def print(*arguments)
+        arguments.each { |data| io_write(data) }
+        return nil
+      end
+
+      #
+      # Prints data with new-line characters to the IO stream.
+      #
+      # @param [Array]
+      #   The data to print to the IO stream.
+      #
+      # @return [nil]
+      #
+      # @since 0.4.0
+      #
+      def puts(*arguments)
+        arguments.each { |data| io_write(data + $/) }
+        return nil
+      end
+
+      #
+      # Prints a formatted string to the IO stream.
+      #
+      # @param [String] format_string
+      #   The format string to format the data.
+      #
+      # @param [Array] arguments
+      #   The data to format.
+      #
+      # @return [nil]
+      # 
+      # @since 0.4.0
+      #
+      def printf(format_string,*arguments)
+        io_write(format_string % arguments)
+        return nil
+      end
+
       protected
 
       #
@@ -434,6 +519,18 @@ module Ronin
       # @since 0.4.0
       #
       def io_read
+      end
+
+      #
+      # Place holder method used to write data to the IO stream.
+      #
+      # @param [String] data
+      #   The data to write to the IO stream.
+      #
+      # @since 0.4.0
+      #
+      def io_write(data)
+        0
       end
 
       #
