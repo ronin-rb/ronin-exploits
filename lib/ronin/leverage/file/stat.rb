@@ -39,7 +39,7 @@ module Ronin
         attr_reader :blocks
 
         # The native file-system block size.
-        attr_reader :block_size
+        attr_reader :blocksize
 
         # The Inode number
         attr_reader :inode
@@ -82,7 +82,7 @@ module Ronin
 
           @size = stat[:size]
           @blocks = stat[:blocks]
-          @block_size = stat[:block_size]
+          @blocksize = stat[:blocksize]
           @inode = stat[:inode]
           @nlinks = stat[:nlinks]
 

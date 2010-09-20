@@ -20,8 +20,8 @@
 #
 
 require 'ronin/leverage/resources/resource'
-require 'ronin/leverage/stat'
 require 'ronin/leverage/file'
+require 'ronin/leverage/file/stat'
 require 'ronin/ui/hexdump/hexdump'
 
 require 'digest/md5'
