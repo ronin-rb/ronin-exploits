@@ -50,36 +50,52 @@ module Ronin
         end
 
         def copy(path,new_path)
+          requires_method! :fs_copy
+
           @leverage.fs_copy(path,new_path)
         end
 
         def move(path,new_path)
+          requires_method! :fs_move
+
           @leverage.fs_move(path,new_path)
         end
 
         alias rename move
 
         def link(path,new_path)
+          requires_method! :fs_link
+
           @leverage.fs_link(path,new_path)
         end
 
         def chown(path,owner)
+          requires_method! :fs_chmod
+
           @leverage.fs_chmod(path,owner)
         end
 
         def chgrp(path,group)
-          @leverage.fs_group(path,group)
+          requires_method! :fs_chgrp
+
+          @leverage.fs_chgrp(path,group)
         end
 
         def chmod(path,mod)
+          requires_method! :fs_chmod
+
           @leverage.fs_chmod(path,mod)
         end
 
         def compare(path,other_path)
+          requires_method! :fs_compare
+
           @leverage.fs_compare(path,other_path)
         end
 
         def stat(path)
+          requires_method! :fs_stat
+
           @leverage.fs_stat(path)
         end
 

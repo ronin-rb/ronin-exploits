@@ -43,6 +43,30 @@ module Ronin
           @leverage = leverage
         end
 
+        protected
+
+        #
+        # Requires that the leveraging object define the given method.
+        #
+        # @param [Symbol] name
+        #   The name of the method that is required.
+        #
+        # @return [true]
+        #   The method is defined.
+        #
+        # @raise [RuntimeError]
+        #   The method is not defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
+        def requires_method!(name)
+          unless @leverage.respond_to?(name)
+            raise(RuntimeError,"#{@leverage.inspect} does not define #{name}",caller)
+          end
+
+          return true
+        end
+
       end
     end
   end
