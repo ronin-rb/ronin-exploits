@@ -19,14 +19,15 @@ describe Leverage::IO do
     it "should set the file descriptor returned by io_open" do
       subject.fd.should == 3
     end
+  end
 
-    it "should close the IO stream after the given block returns" do
-      io = FakeIO.new do |io|
-        io.should_not be_closed
-      end
-
-      io.should be_closed
+  it "should close the IO stream after the given block returns" do
+    io = FakeIO.open do |io|
+      io.should_not be_closed
+      io
     end
+
+    io.should be_closed
   end
 
   it "should read each block of data" do

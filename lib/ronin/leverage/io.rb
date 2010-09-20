@@ -21,9 +21,7 @@
 
 module Ronin
   module Leverage
-    module IO
-
-      include Enumerable
+    class IO < ::IO
 
       # The position within the IO stream
       attr_reader :pos
@@ -55,10 +53,33 @@ module Ronin
 
         @fd = io_open
         @closed = false
+      end
+
+      #
+      # Opens an IO stream.
+      #
+      # @param [Array] arguments
+      #   Additional arguments for the IO stream.
+      #
+      # @yield [io]
+      #   The given block will be passed the newly created IO stream.
+      #   When the block has returned, the IO object will be closed.
+      #
+      # @yieldparam [IO]
+      #   The newly created IO stream.
+      #
+      # @since 0.4.0
+      #
+      def self.open(*arguments)
+        io = self.new(*arguments)
 
         if block_given?
-          yield self
-          close
+          value = yield(io)
+
+          io.close
+          return value
+        else
+          return io
         end
       end
 
@@ -376,8 +397,6 @@ module Ronin
           yield line
         end
       end
-
-      alias each each_line
 
       #
       # Reads every line from the IO stream.

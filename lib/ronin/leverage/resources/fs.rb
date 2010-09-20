@@ -30,7 +30,7 @@ module Ronin
       class FS < Resource
 
         def open(path,&block)
-          File.new(@leverage,path,&block)
+          File.open(@leverage,path,&block)
         end
 
         def read(path)

@@ -23,9 +23,7 @@ require 'ronin/leverage/io'
 
 module Ronin
   module Leverage
-    class File
-
-      include IO
+    class File < IO
 
       #
       # Creates a new levered File object.
@@ -41,7 +39,7 @@ module Ronin
       #
       # @since 0.4.0
       #
-      def initialize(leverage,path,&block)
+      def initialize(leverage,path)
         unless leverage.respond_to?(:fs_read)
           raise(RuntimeError,"#{leverage.inspect} must define fs_read for #{self.class}",caller)
         end
@@ -49,7 +47,7 @@ module Ronin
         @leverage = leverage
         @path = path.to_s
 
-        super(&block)
+        super()
       end
 
       #

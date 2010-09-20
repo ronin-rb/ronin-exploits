@@ -1,8 +1,6 @@
 require 'ronin/leverage/io'
 
-class FakeIO
-
-  include Ronin::Leverage::IO
+class FakeIO < Ronin::Leverage::IO
 
   def initialize
     @index = 0
