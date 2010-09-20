@@ -71,14 +71,14 @@ module Ronin
       #
       # @since 0.4.0
       #
-      def each(&block)
-        return enum_for(:each) unless block
+      def each_line(&block)
+        return enum_for(:each_line) unless block
 
         @leverage.shell_exec(@program,*@arguments,&block)
       end
 
-      alias each_line each
       alias lines each_line
+      alias each each_line
 
       #
       # Iterates over each output byte from the command.
