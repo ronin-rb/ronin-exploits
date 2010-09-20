@@ -59,19 +59,22 @@ module Ronin
       #
       module BindShell
         def self.extended(base)
-          base.leverages :shell
+          base.instance_eval do
+            leverage :shell
+            leverage :fs
 
-          # The host the bind-shell is running on
-          base.parameter :host, :type => String,
-                                :description => 'Host to connect to'
+            # The host the bind-shell is running on
+            parameter :host, :type => String,
+                             :description => 'Host to connect to'
 
-          # The port the bind-shell is listening on
-          base.parameter :port, :type => Integer,
-                                :description => 'Port to connect to'
+            # The port the bind-shell is listening on
+            parameter :port, :type => Integer,
+                              :description => 'Port to connect to'
 
-          # The protocol to use (tcp/udp)
-          base.parameter :protocol, :default => :tcp,
-                                    :description => 'Protocol to connect with'
+            # The protocol to use (tcp/udp)
+            parameter :protocol, :default => :tcp,
+                                 :description => 'Protocol to connect with'
+          end
         end
 
         #
@@ -136,6 +139,48 @@ module Ronin
           end
 
           print_debug "#{header} Command finished."
+        end
+
+        def fs_read(path,pos)
+          shell.exec('dd',"if=#{path}","skip=#{pos}","count=4096")
+        end
+
+        def fs_copy(path,new_path)
+          shell.exec('cp',path,new_path).empty?
+        end
+
+        def fs_move(path,new_path)
+          shell.exec('mv',path,new_path).empty?
+        end
+
+        def fs_chown(path,owner)
+          shell.exec('chown',owner,path).empty?
+        end
+
+        def fs_chgrp(path,group)
+          shell.exec('chgrp',group,path).empty?
+        end
+
+        def fs_chmod(path,mode)
+          shell.exec('chmod',mode,path).empty?
+        end
+
+        def fs_stat(path)
+          fields = shell.exec('stat','-t',path).strip.split(' ')
+
+          return {
+            :path => path,
+            :size => fields[1].to_i,
+            :blocks => fields[2].to_i,
+            :uid => fields[4].to_i,
+            :gid => fields[5].to_i,
+            :inode => fields[7].to_i,
+            :links => fields[8].to_i,
+            :atime => Time.at(fields[11].to_i),
+            :mtime => Time.at(fields[12].to_i),
+            :ctime => Time.at(fields[13].to_i),
+            :blocksize => fields[14].to_i
+          }
         end
 
         protected
