@@ -31,6 +31,9 @@ module Ronin
       # The end-of-file indicator
       attr_reader :eof
 
+      # The file descriptor
+      attr_reader :fd
+
       #
       # Initializes the IO stream.
       #
@@ -50,7 +53,7 @@ module Ronin
 
         @buffer = nil
 
-        io_open
+        @fd = io_open
         @closed = false
 
         if block_given?
@@ -489,9 +492,22 @@ module Ronin
       def close
         io_close
 
+        @fd = nil
         @closed = true
         return nil
       end
+
+      #
+      # The number of the file descriptor.
+      #
+      # @return [Integer, nil]
+      #   The file descriptor, if it is an `Integer`.
+      #
+      def fileno
+        @fd if @fd.kind_of?(Integer)
+      end
+
+      alias to_i fileno
 
       protected
 

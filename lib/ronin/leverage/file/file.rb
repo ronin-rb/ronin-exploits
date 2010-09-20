@@ -27,9 +27,6 @@ module Ronin
 
       include IO
 
-      # The file descriptor
-      attr_reader :fd
-
       #
       # Creates a new levered File object.
       #
@@ -71,18 +68,6 @@ module Ronin
         @pos = new_pos
       end
 
-      #
-      # The number of the file descriptor.
-      #
-      # @return [Integer, nil]
-      #   The file descriptor, if it is an `Integer`.
-      #
-      def fileno
-        @fd if @fd.kind_of?(Integer)
-      end
-
-      alias to_i fileno
-
       protected
 
       #
@@ -95,11 +80,11 @@ module Ronin
       # @since 0.4.0
       #
       def io_open
-        @fd = if @leverage.respond_to?(:fs_open)
-                    @leverage.fs_open(@path)
-                  else
-                    @path
-                  end
+        if @leverage.respond_to?(:fs_open)
+          @leverage.fs_open(@path)
+        else
+          @path
+        end
       end
 
       #
@@ -125,8 +110,6 @@ module Ronin
         if @leverage.respond_to?(:fs_close)
           @leverage.fs_close(@fd)
         end
-        
-        @fd = nil
       end
 
     end
