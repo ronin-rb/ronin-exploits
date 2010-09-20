@@ -30,6 +30,20 @@ module Ronin
       # The file descriptor
       attr_reader :fd
 
+      #
+      # Creates a new levered File object.
+      #
+      # @param [#fs_read] leverage
+      #   The object leveraging remote files.
+      #
+      # @param [String] path
+      #   The path of the remote file.
+      #
+      # @raise [RuntimeError]
+      #   The leveraging object does not define `fs_read`.
+      #
+      # @since 0.4.0
+      #
       def initialize(leverage,path)
         super()
 
@@ -46,6 +60,17 @@ module Ronin
         end
       end
 
+      #
+      # Sets the position in the file to read.
+      #
+      # @param [Integer] new_pos
+      #   The new position to read from.
+      #
+      # @return [Integer]
+      #   The new position within the file.
+      #
+      # @since 0.4.0
+      #
       def pos=(new_pos)
         clear_buffer!
         @pos = new_pos
@@ -53,6 +78,15 @@ module Ronin
 
       protected
 
+      #
+      # Attempts calling `fs_open` from the leveraging object to open
+      # the remote file.
+      #
+      # @return [Object]
+      #   The file descriptor returned by `fs_open`.
+      #
+      # @since 0.4.0
+      #
       def io_open
         @fd = if @leverage.respond_to?(:fs_open)
                     @leverage.fs_open(@path)
@@ -61,10 +95,25 @@ module Ronin
                   end
       end
 
+      #
+      # Reads a block from the remote file by calling `fs_read` from the
+      # leveraging object.
+      #
+      # @return [String, nil]
+      #   A block of data from the file.
+      #
+      # @since 0.4.0
+      #
       def io_read
         @leverage.fs_read(@fd,@pos)
       end
 
+      #
+      # Attempts calling `fs_close` from the leveraging object to close
+      # the file.
+      #
+      # @since 0.4.0
+      #
       def io_close
         if @leverage.respond_to?(:fs_close)
           @leverage.fs_close(@fd)
