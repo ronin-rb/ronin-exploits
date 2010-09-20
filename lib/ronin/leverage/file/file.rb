@@ -23,6 +23,11 @@ require 'ronin/leverage/io'
 
 module Ronin
   module Leverage
+    #
+    # The {File} class represents files on a remote system. {File} requires
+    # the leveraging object to define either `fs_read` and/or `fs_write`.
+    # Additionally, {File} can optionally use the `fs_seek` method.
+    #
     class File < IO
 
       #

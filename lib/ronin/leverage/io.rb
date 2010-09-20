@@ -21,6 +21,19 @@
 
 module Ronin
   module Leverage
+    #
+    # The {IO} base class provides an API for communicating with leveraged
+    # resources, that is still compatible with the standard
+    # [IO](http://rubydoc.info/docs/ruby-core/1.8.7/IO) class.
+    #
+    # To utilize the {IO} class, simply extend it and define either
+    # {#io_read} and/or {#io_write}, to handle the reading and writting
+    # of data.
+    #
+    # The {#io_open} method handles optionally opening and assigning the
+    # file descriptor for the IO stream. The {#io_close} method handles
+    # optionally closing the IO stream.
+    #
     class IO < ::IO
 
       # The position within the IO stream
@@ -560,7 +573,8 @@ module Ronin
 
       #
       # @return [IO]
-      #   For compatibility with `::IO`.
+      #   For compatibility with
+      #   [IO](http://rubydoc.info/docs/ruby-core/1.8.7/IO).
       #
       # @since 0.4.0
       #
@@ -580,7 +594,8 @@ module Ronin
 
       #
       # @return [0]
-      #   Returns `0` for compatibility with `::IO`.
+      #   Returns `0` for compatibility with
+      #   [IO](http://rubydoc.info/docs/ruby-core/1.8.7/IO).
       #
       def fsync
         0
@@ -588,7 +603,8 @@ module Ronin
 
       #
       # @return [true]
-      #   Returns `true` for compatibility with `::IO`.
+      #   Returns `true` for compatibility with
+      #   [IO](http://rubydoc.info/docs/ruby-core/1.8.7/IO).
       #
       # @since 0.4.0.
       #
@@ -601,7 +617,8 @@ module Ronin
       #   The sync mode.
       #
       # @return [Boolean]
-      #   Returns the sync mode, for compatibility with `::IO`.
+      #   Returns the sync mode, for compatibility with
+      #   [IO](http://rubydoc.info/docs/ruby-core/1.8.7/IO).
       #
       # @since 0.4.0
       #
@@ -611,12 +628,25 @@ module Ronin
 
       #
       # @return [IO]
-      #   For compatibility with `::IO`.
+      #   For compatibility with
+      #   [IO](http://rubydoc.info/docs/ruby-core/1.8.7/IO).
       #
       # @since 0.4.0
       #
       def flush
         self
+      end
+
+      #
+      # Inspects the IO stream.
+      #
+      # @return [String]
+      #   The inspected IO stream.
+      #
+      # @since 0.4.0
+      #
+      def inspect
+        "#<#{self.class}: #{@fd.inspect if @fd}>"
       end
 
       protected
