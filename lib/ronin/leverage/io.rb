@@ -602,6 +602,15 @@ module Ronin
       #
       # @since 0.4.0
       #
+      def sysseek(offset,whence=SEEK_SET)
+        seek(new_pos,whence)
+      end
+
+      #
+      # @see #seek
+      #
+      # @since 0.4.0
+      #
       def pos=(new_pos)
         seek(new_pos,SEEK_SET)
       end
