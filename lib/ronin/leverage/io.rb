@@ -760,6 +760,9 @@ module Ronin
       #
       # Opens the IO stream.
       #
+      # @return [IO]
+      #   The opened IO stream.
+      #
       # @since 0.4.0
       #
       def open
@@ -770,6 +773,7 @@ module Ronin
 
         @fd = io_open
         @closed = false
+        return self
       end
 
     end

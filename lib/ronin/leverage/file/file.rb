@@ -85,8 +85,7 @@ module Ronin
 
         @path = path.to_s
 
-        open
-        return self
+        return open
       end
 
       protected
