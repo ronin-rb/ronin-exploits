@@ -22,6 +22,8 @@
 require 'ronin/leverage/resources/resource'
 require 'ronin/leverage/command'
 
+require 'date'
+
 module Ronin
   module Leverage
     module Resources
@@ -147,6 +149,14 @@ module Ronin
 
         def rm_rf(*arguments,&block)
           rm('-rf',*arguments,&block)
+        end
+
+        def date
+          Date.parse(exec('date'))
+        end
+
+        def time
+          date.to_time
         end
 
         def id

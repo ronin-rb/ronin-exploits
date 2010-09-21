@@ -226,6 +226,10 @@ module Ronin
           shell.kill(pid)
         end
 
+        def sys_time
+          shell.time
+        end
+
         protected
 
         #
