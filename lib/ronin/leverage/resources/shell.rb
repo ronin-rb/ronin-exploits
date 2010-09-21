@@ -37,7 +37,7 @@ module Ronin
           if block_given?
             cmd.each { |line| yield line.rstrip }
           else
-            cmd.to_s
+            cmd.read
           end
         end
 

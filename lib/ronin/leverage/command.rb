@@ -19,6 +19,8 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'ronin/leverage/io'
+
 module Ronin
   module Leverage
     #
@@ -26,9 +28,13 @@ module Ronin
     # systems. The {Command} class wraps around the `shell_exec` method
     # defined in the object leveraging shell access.
     #
-    class Command
+    class Command < IO
 
-      include Enumerable
+      # The program name
+      attr_reader :program
+
+      # The arguments of the program
+      attr_reader :arguments
 
       #
       # Creates a new Command.
@@ -53,87 +59,88 @@ module Ronin
         end
 
         @leverage = leverage
+
         @program = program
         @arguments = arguments
+
+        super()
       end
 
       #
-      # Iterates over each line of the output from the command.
+      # Reopens the command.
       #
-      # @yield [line]
-      #   The given block will be passed each line of output.
+      # @param [String] program
+      #   The new program to run.
       #
-      # @yieldparam [String] line
-      #   A line of output from the command.
+      # @param [Array] arguments
+      #   The new arguments to run with.
       #
-      # @return [Enumerator]
-      #   If no block is given, it will be returned an enumerator object.
+      # @return [Command]
+      #   The new command.
       #
       # @since 0.4.0
       #
-      def each_line(&block)
-        return enum_for(:each_line) unless block
+      def reopen(program,*arguments)
+        close
 
-        @leverage.shell_exec(@program,*@arguments,&block)
+        @program = program
+        @arguments = arguments
+
+        return open
       end
 
-      alias lines each_line
-      alias each each_line
-
       #
-      # Iterates over each output byte from the command.
-      #
-      # @yield [byte]
-      #   The given block will be passed each byte of output.
-      #
-      # @yieldparam [Integer] byte
-      #   A byte of output from the command.
-      #
-      # @return [Enumerator]
-      #   If no block is given, it will be returned an enumerator object.
-      #
-      # @since 0.4.0
-      #
-      def each_byte(&block)
-        return enum_for(:each_byte) unless block
-
-        each_line { |line| line.each_byte(&block) }
-      end
-
-      alias bytes each_byte
-
-      #
-      # Iterates over each output character from the command.
-      #
-      # @yield [char]
-      #   The given block will be passed each output character.
-      #
-      # @yieldparam [String] char
-      #   An output character from the command.
-      #
-      # @return [Enumerator]
-      #   If no block is given, it will be returned an enumerator object.
-      #
-      # @since 0.4.0
-      #
-      def each_char
-        return enum_for(:each_char) unless block_given?
-
-        each_byte { |b| yield b.chr }
-      end
-
-      alias chars each_char
-
-      #
-      # Converts the output from the command to a String.
+      # Converts the command to a `String`.
       #
       # @return [String]
-      #   The full output from the command.
+      #   The program name and arguments.
       #
       # @since 0.4.0
       #
       def to_s
-        each_line.inject('') { |output,line| output << line }
+        ([@program] + @arguments).join(' ')
+      end
+
+      #
+      # Inspects the command.
+      #
+      # @return [String]
+      #   The inspected command listing the program name and arguments.
+      #
+      # @since 0.4.0
+      #
+      def inspect
+        "#<#{self.class}: #{self}>"
+      end
+
+      protected
+
+      #
+      # Executes and opens the command for reading.
+      #
+      # @return [Enumerator]
+      #   The enumerator that wraps around `shell_exec`.
+      #
+      # @since 0.4.0
+      #
+      def io_open
+        @leverage.enum_for(:shell_exec,@program,*@arguments)
+      end
+
+      #
+      # Reads a line of output from the command.
+      #
+      # @return [String]
+      #   A line of output.
+      #
+      # @since 0.4.0
+      #
+      def io_read
+        begin
+          @fd.next
+        rescue StopIteration
+          return nil
+        end
       end
 
     end
