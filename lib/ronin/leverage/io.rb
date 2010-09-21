@@ -584,7 +584,7 @@ module Ronin
       # @since 0.4.0
       #
       def stat
-        raise(NotImplementedError,"IO#stat is not implemented",caller)
+        raise(NotImplementedError,"#{self.class}#stat is not implemented",caller)
       end
 
       #
@@ -594,7 +594,7 @@ module Ronin
       # @since 0.4.0
       #
       def seek(new_pos,whence=SEEK_SET)
-        raise(NotImplementedError,"IO#seek is not implemented",caller)
+        raise(NotImplementedError,"#{self.class}#seek is not implemented",caller)
       end
 
       #
@@ -624,7 +624,7 @@ module Ronin
       # @since 0.4.0
       #
       def fcntl(*arguments)
-        raise(NotImplementedError,"IO#fcntl was not implemented",caller)
+        raise(NotImplementedError,"#{self.class}#fcntl was not implemented",caller)
       end
 
       #
@@ -679,7 +679,7 @@ module Ronin
       # @since 0.4.0
       #   
       def reopen(*arguments)
-        raise(NotImplementedError,"reopen is not implemented",caller)
+        raise(NotImplementedError,"#{self.class}#reopen is not implemented",caller)
       end
 
       #
