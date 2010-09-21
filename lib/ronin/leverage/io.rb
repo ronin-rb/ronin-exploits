@@ -361,6 +361,15 @@ module Ronin
       end
 
       #
+      # @see #each_byte
+      #
+      # @since 0.4.0
+      #
+      def bytes
+        each_byte
+      end
+
+      #
       # Iterates over each character in the IO stream.
       #
       # @yield [char]
@@ -378,6 +387,15 @@ module Ronin
         return enum_for(:each_char) unless block
 
         each_block { |chunk| chunk.each_char(&block) }
+      end
+
+      #
+      # @see #each_char
+      #
+      # @since 0.4.0
+      #
+      def chars
+        each_char
       end
 
       #
@@ -408,6 +426,15 @@ module Ronin
 
           yield line
         end
+      end
+
+      #
+      # @see #each_line
+      #
+      # @since 0.4.0
+      #
+      def lines(separator=$/)
+        each_line(separator)
       end
 
       #
