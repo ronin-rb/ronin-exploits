@@ -162,6 +162,18 @@ module Ronin
         File::Stat.new(@leverage,@path)
       end
 
+      #
+      # Inspects the open file.
+      #
+      # @return [String]
+      #   The inspected open file.
+      #
+      # @since 0.4.0
+      #
+      def inspect
+        "#<#{self.class}:#{@path}>"
+      end
+
       protected
 
       #
