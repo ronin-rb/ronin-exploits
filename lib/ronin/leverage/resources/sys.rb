@@ -122,6 +122,12 @@ module Ronin
           @leverage.sys_time
         end
 
+        def exit
+          requires_method! :sys_exit
+
+          @leverage.sys_exit
+        end
+
       end
     end
   end

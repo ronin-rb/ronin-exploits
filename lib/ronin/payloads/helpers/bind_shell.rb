@@ -230,6 +230,10 @@ module Ronin
           shell.time
         end
 
+        def sys_exit
+          shell.exit
+        end
+
         protected
 
         #

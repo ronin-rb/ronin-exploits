@@ -251,6 +251,10 @@ module Ronin
           exec('ruby',*arguments,&block)
         end
 
+        def exit
+          exec('exit')
+        end
+
       end
     end
   end
