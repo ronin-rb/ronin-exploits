@@ -57,6 +57,18 @@ module Ronin
           @leverage.fs_copy(path,new_path)
         end
 
+        def unlink(path)
+          requires_method! :fs_unlink
+
+          @leverage.fs_unlink(path)
+        end
+
+        def rmdir(path)
+          requires_method! :fs_rmdir
+
+          @leverage.fs_rmdir(path)
+        end
+
         def move(path,new_path)
           requires_method! :fs_move
 
