@@ -583,8 +583,17 @@ module Ronin
       #
       # @since 0.4.0
       #
-      def seek(new_pos)
+      def seek(new_pos,whence=SEEK_SET)
         raise(NotImplementedError,"IO#seek is not implemented",caller)
+      end
+
+      #
+      # @see #seek
+      #
+      # @since 0.4.0
+      #
+      def pos=(new_pos)
+        seek(new_pos,SEEK_SET)
       end
 
       #
