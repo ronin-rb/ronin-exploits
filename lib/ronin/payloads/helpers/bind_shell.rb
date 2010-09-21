@@ -214,6 +214,10 @@ module Ronin
           }
         end
 
+        def sys_kill(pid)
+          shell.kill(pid)
+        end
+
         protected
 
         #
