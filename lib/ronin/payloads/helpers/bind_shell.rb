@@ -19,6 +19,8 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'ronin/extensions/string'
+
 require 'socket'
 
 module Ronin
@@ -145,24 +147,38 @@ module Ronin
           shell.exec('dd',"if=#{path}",'bs=1',"skip=#{pos}",'count=4096')
         end
 
+        def fs_write(path,pos,data)
+          escaped = data.gsub('%','%%').dump
+
+          shell.exec("printf #{escaped} | dd if=#{path} bs=1 skip=#{pos} count=4096")
+        end
+
         def fs_copy(path,new_path)
-          shell.exec('cp',path,new_path).empty?
+          shell.cp(path,new_path).empty?
+        end
+
+        def fs_unlink(path)
+          shell.rm(path).empty?
+        end
+
+        def fs_rmdir(path)
+          shell.rmdir(path).empty?
         end
 
         def fs_move(path,new_path)
-          shell.exec('mv',path,new_path).empty?
+          shell.mv(path,new_path).empty?
         end
 
         def fs_chown(path,owner)
-          shell.exec('chown',owner,path).empty?
+          shell.chown(owner,path).empty?
         end
 
         def fs_chgrp(path,group)
-          shell.exec('chgrp',group,path).empty?
+          shell.chgrp(group,path).empty?
         end
 
         def fs_chmod(path,mode)
-          shell.exec('chmod',mode,path).empty?
+          shell.chmod(mode,path).empty?
         end
 
         def fs_stat(path)
