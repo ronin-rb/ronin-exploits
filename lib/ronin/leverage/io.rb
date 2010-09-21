@@ -566,31 +566,6 @@ module Ronin
       end
 
       #
-      # Determines whether the IO stream is closed.
-      #
-      # @return [Boolean]
-      #   Specifies whether the IO stream has been closed.
-      #
-      # @since 0.4.0
-      #   
-      def closed?
-        @closed == true
-      end
-
-      #
-      # Closes the IO stream.
-      #
-      # @since 0.4.0
-      #
-      def close
-        io_close
-
-        @fd = nil
-        @closed = true
-        return nil
-      end
-
-      #
       # The number of the file descriptor.
       #
       # @return [Integer, nil]
@@ -601,6 +576,16 @@ module Ronin
       end
 
       alias to_i fileno
+
+      #
+      # @raise [NotImplementedError]
+      #   {#seek} is not implemented.
+      #
+      # @since 0.4.0
+      #
+      def seek(new_pos)
+        raise(NotImplementedError,"IO#seek is not implemented",caller)
+      end
 
       #
       # @return [IO]
@@ -676,6 +661,31 @@ module Ronin
       #   
       def reopen(*arguments)
         raise(NotImplementedError,"reopen is not implemented",caller)
+      end
+
+      #
+      # Determines whether the IO stream is closed.
+      #
+      # @return [Boolean]
+      #   Specifies whether the IO stream has been closed.
+      #
+      # @since 0.4.0
+      #   
+      def closed?
+        @closed == true
+      end
+
+      #
+      # Closes the IO stream.
+      #
+      # @since 0.4.0
+      #
+      def close
+        io_close
+
+        @fd = nil
+        @closed = true
+        return nil
       end
 
       #

@@ -59,7 +59,7 @@ module Ronin
       #
       # @since 0.4.0
       #
-      def pos=(new_pos)
+      def seek(new_pos)
         clear_buffer!
 
         if @leverage.respond_to?(:fs_seek)
@@ -67,6 +67,15 @@ module Ronin
         end
 
         @pos = new_pos
+      end
+
+      #
+      # @see #seek
+      #
+      # @since 0.4.0
+      #
+      def pos=(new_pos)
+        seek(new_pos)
       end
 
       #
