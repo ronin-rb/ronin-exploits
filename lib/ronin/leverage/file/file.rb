@@ -27,7 +27,8 @@ module Ronin
     #
     # The {File} class represents files on a remote system. {File} requires
     # the leveraging object to define either `fs_read` and/or `fs_write`.
-    # Additionally, {File} can optionally use the `fs_seek` method.
+    # Additionally, {File} can optionally use the `fs_open`, `fs_close`,
+    # `fs_tell`, `fs_seek` and `fs_stat` methods.
     #
     class File < IO
 
@@ -68,6 +69,22 @@ module Ronin
         end
 
         @pos = new_pos
+      end
+
+      #
+      # The current offset in the file.
+      #
+      # @return [Integer]
+      #   The current offset in bytes.
+      #
+      # @since 0.4.0
+      #
+      def tell
+        if @leverage.respond_to?(:fs_tell)
+          @pos = @leverage.fs_tell(@fd)
+        else
+          @pos
+        end
       end
 
       #
