@@ -143,6 +143,21 @@ module Ronin
           print_debug "#{header} Command finished."
         end
 
+        #
+        # Writes data to the bind shell.
+        #
+        # @param [String] data
+        #   The data to write.
+        #
+        # @return [Integer]
+        #   The number of bytes writen.
+        #
+        # @since 0.4.0
+        #
+        def shell_write(data)
+          shell_connection.write(data)
+        end
+
         def fs_read(path,pos)
           shell.exec('dd',"if=#{path}",'bs=1',"skip=#{pos}",'count=4096')
         end

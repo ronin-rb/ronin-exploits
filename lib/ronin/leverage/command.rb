@@ -143,6 +143,25 @@ module Ronin
         end
       end
 
+      #
+      # Writes data to the shell.
+      #
+      # @param [String] data
+      #   The data to write to the shell.
+      #
+      # @return [Integer]
+      #   The number of bytes writen.
+      #
+      # @since 0.4.0
+      #
+      def io_write(data)
+        if @leverage.respond_to?(:shell_write)
+          @leverage.shell_write(data)
+        else
+          raise(IOError,"#{@leverage.inspect} does not support writing to the shell",caller)
+        end
+      end
+
     end
   end
 end
