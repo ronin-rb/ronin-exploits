@@ -433,6 +433,15 @@ module Ronin
       #
       # @since 0.4.0
       #
+      def each(&block)
+        each_line(&block)
+      end
+
+      #
+      # @see #each_line
+      #
+      # @since 0.4.0
+      #
       def lines(separator=$/)
         each_line(separator)
       end
