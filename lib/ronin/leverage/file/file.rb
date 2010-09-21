@@ -88,6 +88,50 @@ module Ronin
       end
 
       #
+      # Executes a low-level command to control or query the IO stream.
+      #
+      # @param [String, Array<Integer>] command
+      #   The IOCTL command.
+      #
+      # @param [Object] argument
+      #   Argument of the command.
+      #
+      # @raise [RuntimeError]
+      #   The leveraging object does not define `fs_ioctl`.
+      #
+      # @since 0.4.0
+      #
+      def ioctl(command,argument)
+        unless @leverage.respond_to?(:fs_ioctl)
+          raise(RuntimeError,"#{@leverage.inspect} does not define fs_ioctl",caller)
+        end
+
+        return @leverage.fs_ioctl(command,argument)
+      end
+
+      #
+      # Executes a low-level command to control or query the file stream.
+      #
+      # @param [String, Array<Integer>] command
+      #   The FCNTL command.
+      #
+      # @param [Object] argument
+      #   Argument of the command.
+      #
+      # @raise [RuntimeError]
+      #   The leveraging object does not define `fs_fcntl`.
+      #
+      # @since 0.4.0
+      #
+      def fcntl(command,argument)
+        unless @leverage.respond_to?(:fs_fcntl)
+          raise(RuntimeError,"#{@leverage.inspect} does not define fs_fcntl",caller)
+        end
+
+        return @leverage.fs_fcntl(command,argument)
+      end
+
+      #
       # Re-opens the file.
       #
       # @param [String] path

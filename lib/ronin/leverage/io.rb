@@ -628,11 +628,21 @@ module Ronin
 
       #
       # @raise [NotImplementedError]
+      #   {#ioctl} was not implemented in {IO}.
+      #
+      # @since 0.4.0
+      #
+      def ioctl(command,argument)
+        raise(NotImplementedError,"#{self.class}#ioctl was not implemented",caller)
+      end
+
+      #
+      # @raise [NotImplementedError]
       #   {#fcntl} was not implemented in {IO}.
       #
       # @since 0.4.0
       #
-      def fcntl(*arguments)
+      def fcntl(command,argument)
         raise(NotImplementedError,"#{self.class}#fcntl was not implemented",caller)
       end
 
