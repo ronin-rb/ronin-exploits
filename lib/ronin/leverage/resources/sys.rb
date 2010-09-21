@@ -20,6 +20,37 @@
 #
 
 require 'ronin/leverage/resources/resource'
-require 'ronin/leverage/resources/shell'
-require 'ronin/leverage/resources/fs'
-require 'ronin/leverage/resources/sys'
+
+module Ronin
+  module Leverage
+    module Resources
+      class Sys < Resource
+
+        def kill(pid)
+          requires_method! :sys_kill
+
+          @leverage.sys_kill(pid)
+        end
+
+        def getcwd
+          requires_method! :sys_getcwd
+
+          @leverage.sys_getcwd
+        end
+
+        def chdir(path)
+          requires_method! :sys_chdir
+
+          @leverage.sys_chdir(path)
+        end
+
+        def time
+          requires_method! :sys_time
+
+          @leverage.sys_time
+        end
+
+      end
+    end
+  end
+end
