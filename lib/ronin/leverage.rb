@@ -20,4 +20,4 @@
 #
 
 require 'ronin/leverage/exceptions'
-require 'ronin/leverage/mixin'
+require 'ronin/leverage/api'

@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'ronin/leverage/mixin'
+require 'ronin/leverage/api'
 
-describe Leverage::Mixin do
+describe Leverage::API do
   let(:leverage_class) do
     Class.new do
-      include Ronin::Leverage::Mixin
+      include Ronin::Leverage::API
 
       leverage :shell
     end
@@ -28,7 +28,7 @@ describe Leverage::Mixin do
     end
 
     it "should define methods for accessing the resources" do
-      obj = Class.new { include Ronin::Leverage::Mixin }.new
+      obj = Class.new { include Ronin::Leverage::API }.new
       obj.instance_eval { leverage :shell }
 
       obj.should respond_to(:shell)

@@ -130,7 +130,7 @@ module Ronin
       include Engine
       include Model::TargetsArch
       include Model::TargetsOS
-      include Leverage::Mixin
+      include Leverage::API
 
       #
       # Creates a new payload object.

@@ -26,7 +26,7 @@ require 'ronin/extensions/meta'
 
 module Ronin
   module Leverage
-    module Mixin
+    module API
       def self.included(base)
         base.send :extend, ClassMethods
       end
