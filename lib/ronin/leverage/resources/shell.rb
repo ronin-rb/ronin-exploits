@@ -149,8 +149,20 @@ module Ronin
           rm('-rf',*arguments,&block)
         end
 
+        def id
+          exec('id')
+        end
+
+        def uid
+          exec('id','-u')
+        end
+
+        def gid
+          exec('id','-g')
+        end
+
         def whoami(*arguments)
-          command('whoami',*arguments).first
+          exec('whoami',*arguments)
         end
 
         def who(*arguments,&block)
