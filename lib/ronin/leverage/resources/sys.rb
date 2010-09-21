@@ -26,6 +26,78 @@ module Ronin
     module Resources
       class Sys < Resource
 
+        def pid
+          requires_method! :sys_getpid
+
+          @leverage.sys_getpid
+        end
+
+        def ppid
+          requires_method! :sys_getppid
+
+          @leverage.sys_getppid
+        end
+
+        def uid
+          requires_method! :sys_getuid
+
+          @leverage.sys_getuid
+        end
+
+        def uid=(new_uid)
+          requires_method! :sys_setuid
+
+          @leverage.sys_setuid(new_uid)
+        end
+
+        def euid
+          requires_method! :sys_geteuid
+
+          @leverage.sys_geteuid
+        end
+
+        def euid=(new_euid)
+          requires_method! :sys_seteuid
+
+          @leverage.sys_seteuid(new_euid)
+        end
+
+        def gid
+          requires_method! :sys_getgid
+
+          @leverage.sys_getgid
+        end
+
+        def gid=(gid)
+          requires_method! :sys_setgid
+
+          @leverage.sys_setgid(new_gid)
+        end
+
+        def egid
+          requires_method! :sys_getegid
+
+          @leverage.sys_getegid
+        end
+
+        def egid=(new_egid)
+          requires_method! :sys_setegid
+
+          @leverage.sys_setegid(new_egid)
+        end
+
+        def sid
+          requires_method! :sys_getsid
+
+          @leverage.sys_getsid
+        end
+
+        def setsid(new_sid)
+          requires_method! :sys_setsid
+
+          @leverage.sys_setsid(new_sid)
+        end
+
         def kill(pid)
           requires_method! :sys_kill
 
