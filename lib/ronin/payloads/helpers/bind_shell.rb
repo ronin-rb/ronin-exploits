@@ -214,6 +214,14 @@ module Ronin
           }
         end
 
+        def sys_getuid
+          shell.command('id','-u').first.to_i
+        end
+
+        def sys_getgid
+          shell.command('id','-g').first.to_i
+        end
+
         def sys_kill(pid)
           shell.kill(pid)
         end
