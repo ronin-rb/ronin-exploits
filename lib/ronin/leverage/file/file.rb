@@ -19,6 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'ronin/leverage/file/stat'
 require 'ronin/leverage/io'
 
 module Ronin
@@ -86,6 +87,18 @@ module Ronin
         @path = path.to_s
 
         return open
+      end
+
+      #
+      # The status information for the file.
+      #
+      # @return [Stat]
+      #   The status information.
+      #
+      # @since 0.4.0
+      #
+      def stat
+        File::Stat.new(@leverage,@path)
       end
 
       protected

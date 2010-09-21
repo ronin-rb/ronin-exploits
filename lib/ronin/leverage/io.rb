@@ -579,6 +579,16 @@ module Ronin
 
       #
       # @raise [NotImplementedError]
+      #   {#stat} is not implemented.
+      #
+      # @since 0.4.0
+      #
+      def stat
+        raise(NotImplementedError,"IO#stat is not implemented",caller)
+      end
+
+      #
+      # @raise [NotImplementedError]
       #   {#seek} is not implemented.
       #
       # @since 0.4.0

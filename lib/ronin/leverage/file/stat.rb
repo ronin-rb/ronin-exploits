@@ -19,9 +19,11 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'ronin/leverage/io'
+
 module Ronin
   module Leverage
-    class File
+    class File < IO
       #
       # Represents the status information of a remote file. The {Stat} class
       # using the `fs_stat` method defined by the leveraging object to
