@@ -579,6 +579,16 @@ module Ronin
 
       #
       # @raise [NotImplementedError]
+      #   {#pid} is not implemented.
+      #
+      # @since 0.4.0
+      #
+      def pid
+        raise(NotImplementedError,"#{self.class}#pid is not implemented",caller)
+      end
+
+      #
+      # @raise [NotImplementedError]
       #   {#stat} is not implemented.
       #
       # @since 0.4.0
