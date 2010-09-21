@@ -146,7 +146,7 @@ module Ronin
         if @leverage.respond_to?(:fs_write)
           @leverage.fs_write(@fd,@pos,data)
         else
-          raise(IOError,"#{@leverage.inspect} does not support writing",caller)
+          raise(IOError,"#{@leverage.inspect} does not support writing to files",caller)
         end
       end
 
