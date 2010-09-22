@@ -99,9 +99,11 @@ module Ronin
     # * {#verify} - Optional method which handles verifying a built payload.
     # * {#deploy} - Handles deploying a built and verified payload against a
     #   host.
+    # * {#cleanup} - Handles cleaning up after a deployed payload.
     #
-    # The {#build}, {#verify}, {#deploy} methods can be invoked individually
-    # using the {#build!}, {#verify!}, {#deploy!} methods, respectively.
+    # The {#build}, {#verify}, {#deploy}, {#cleanup} methods can be invoked
+    # individually using the {#build!}, {#verify!}, {#deploy!}, {#cleanup!}
+    # methods, respectively.
     #
     # # Exploit/Payload Coupling
     # 
@@ -155,6 +157,9 @@ module Ronin
       #
       #     deploy do
       #     end
+      #
+      #     cleanup do
+      #     end
       #   end
       #
       contextify :ronin_payload
@@ -187,6 +192,9 @@ module Ronin
 
         @deploy_block = nil
         @deployed = false
+
+        @cleanup_block = nil
+        @cleanedup = false
       end
 
       #
@@ -294,6 +302,53 @@ module Ronin
       end
 
       #
+      # @return [Boolean]
+      #   Specifies whether the payload has previously been cleaned up.
+      #
+      # @since 0.4.0
+      #
+      def cleanedup?
+        @cleanedup == true
+      end
+
+      #
+      # Cleans up after the deployed payload.
+      #
+      # @yield [payload]
+      #   If a block is given, it will be passed the payload before it has
+      #   been cleaned up.
+      #
+      # @yieldparam [Payload] payload
+      #   The payload before it has been cleaned up.
+      #
+      # @return [Payload]
+      #   The cleaned up payload.
+      #
+      # @since 0.4.0
+      #
+      # @see #cleanup
+      #
+      def cleanup!(&block)
+        if block
+          if block.arity == 1
+            block.call(self)
+          else
+            block.call()
+          end
+        end
+
+        print_info "Cleaning up the payload ..."
+        @cleanedup = false
+
+        @cleanup_block.call() if @cleanup_block
+
+        print_info "Payload cleaned up."
+        @cleanedup = true
+        
+        return self
+      end
+
+      #
       # Converts the payload to a String.
       #
       # @return [String]
@@ -392,6 +447,23 @@ module Ronin
       #
       def deploy(&block)
         @deploy_block = block
+        return self
+      end
+
+      #
+      # Registers a given block to be called when the payload is being
+      # cleaned up.
+      #
+      # @yield []
+      #   The given block will be called when the payload is being cleaned up.
+      #
+      # @return [Payload]
+      #   The payload.
+      #
+      # @since 0.4.0
+      #
+      def cleanup(&block)
+        @cleanup_block = block
         return self
       end
 
