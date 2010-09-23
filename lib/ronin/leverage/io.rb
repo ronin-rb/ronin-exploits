@@ -525,7 +525,7 @@ module Ronin
       # @since 0.4.0
       #
       def puts(*arguments)
-        arguments.each { |data| io_write(data + $/) }
+        arguments.each { |data| io_write("#{data}#{$/}") }
         return nil
       end
 
