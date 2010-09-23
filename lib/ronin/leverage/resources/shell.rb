@@ -21,6 +21,7 @@
 
 require 'ronin/leverage/resources/resource'
 require 'ronin/leverage/command'
+require 'ronin/ui/shell'
 
 require 'date'
 
@@ -253,6 +254,12 @@ module Ronin
 
         def exit
           exec('exit')
+        end
+
+        def console
+          UI::Shell.start(:prompt => '$') do |shell,line|
+            command(line).each_block { |block| shell.write(block) }
+          end
         end
 
       end

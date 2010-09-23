@@ -43,6 +43,18 @@ module Ronin
           @leverage = leverage
         end
 
+        #
+        # Allows resources to spawn interactive consoles.
+        #
+        # @raise [NotImplementedError]
+        #   The console method is not implemented by default.
+        #
+        # @since 0.4.0
+        #
+        def console
+          raise(NotImplementedError,"#{self.class} does not provide a console",caller)
+        end
+
         protected
 
         #
