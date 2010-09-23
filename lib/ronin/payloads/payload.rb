@@ -28,6 +28,8 @@ require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
 require 'ronin/extensions/kernel'
 
+require 'set'
+
 module Ronin
   module Payloads
     #
@@ -170,6 +172,9 @@ module Ronin
       # Validations
       validates_uniqueness_of :version, :scope => [:name]
 
+      # The helpers used by the payload
+      attr_reader :helpers
+
       # The exploit to deploy with
       attr_accessor :exploit
 
@@ -184,6 +189,8 @@ module Ronin
       #
       def initialize(attributes={})
         super(attributes)
+
+        @helpers = Set[]
 
         @build_block = nil
         @built = false
@@ -374,8 +381,9 @@ module Ronin
       #   The underscored name of the payload helper to load and extend the
       #   payload with.
       #
-      # @return [true]
-      #   The payload helper was successfully loaded.
+      # @return [Boolean]
+      #   Specifies whether the payload helper was successfully loaded.
+      #   Returns `false` if the payload helper has already been loaded.
       #
       # @raise [UnknownHelper]
       #   No valid helper module could be found or loaded with the similar
@@ -385,16 +393,19 @@ module Ronin
       #   helper :shell
       #
       def helper(name)
-        name = name.to_s
+        name = name.to_sym
+
+        return false if @helpers.include?(name)
 
         unless (helper_module = Helpers.require_const(name))
-          raise(UnknownHelper,"unknown helper #{name.dump}",caller)
+          raise(UnknownHelper,"unknown helper #{name}",caller)
         end
 
         unless helper_module.kind_of?(Module)
-          raise(UnknownHelper,"unknown helper #{name.dump}",caller)
+          raise(UnknownHelper,"unknown helper #{name}",caller)
         end
 
+        @helpers << name
         extend helper_module
         return true
       end
