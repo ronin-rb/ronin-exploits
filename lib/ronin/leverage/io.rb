@@ -472,7 +472,7 @@ module Ronin
       # @since 0.4.0
       #
       def write(data)
-        io_write(data)
+        io_write(data.to_s)
       end
 
       alias syswrite write
@@ -547,23 +547,7 @@ module Ronin
         return nil
       end
 
-      #
-      # Writes the data to the IO stream as a `String`.
-      #
-      # @param [#to_s] data
-      #   The data to write to the IO stream.
-      #
-      # @return [IO]
-      #   The IO stream.
-      #
-      # @see #write
-      #
-      # @since 0.4.0
-      #
-      def <<(data)
-        write(data.to_s)
-        return self
-      end
+      alias << write
 
       #
       # The number of the file descriptor.
