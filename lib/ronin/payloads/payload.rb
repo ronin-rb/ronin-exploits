@@ -455,7 +455,8 @@ module Ronin
       # cleaned up.
       #
       # @yield []
-      #   The given block will be called when the payload is being cleaned up.
+      #   The given block will be called when the payload is being
+      #   cleaned up.
       #
       # @return [Payload]
       #   The payload.
