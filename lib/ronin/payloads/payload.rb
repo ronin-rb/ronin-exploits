@@ -24,6 +24,8 @@ require 'ronin/payloads/exceptions/deploy_failed'
 require 'ronin/payloads/helpers'
 require 'ronin/leverage'
 require 'ronin/engine'
+require 'ronin/engine/buildable'
+require 'ronin/engine/deployable'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
 require 'ronin/extensions/kernel'
@@ -101,10 +103,10 @@ module Ronin
     # * {#verify} - Optional method which handles verifying a built payload.
     # * {#deploy} - Handles deploying a built and verified payload against a
     #   host.
-    # * {#cleanup} - Handles cleaning up after a deployed payload.
+    # * {#evacuate} - Handles cleaning up after a deployed payload.
     #
-    # The {#build}, {#verify}, {#deploy}, {#cleanup} methods can be invoked
-    # individually using the {#build!}, {#verify!}, {#deploy!}, {#cleanup!}
+    # The {#build}, {#verify}, {#deploy}, {#evacuate} methods can be invoked
+    # individually using the {#build!}, {#verify!}, {#deploy!}, {#evacuate!}
     # methods, respectively.
     #
     # # Exploit/Payload Coupling
@@ -132,6 +134,8 @@ module Ronin
     class Payload
 
       include Engine
+      include Engine::Buildable
+      include Engine::Deployable
       include Model::TargetsArch
       include Model::TargetsOS
       include Leverage::API
@@ -160,7 +164,7 @@ module Ronin
       #     deploy do
       #     end
       #
-      #     cleanup do
+      #     evacuate do
       #     end
       #   end
       #
@@ -191,184 +195,6 @@ module Ronin
         super(attributes)
 
         @helpers = Set[]
-
-        @build_block = nil
-        @built = false
-
-        @verify_block = nil
-
-        @deploy_block = nil
-        @deployed = false
-
-        @cleanup_block = nil
-        @cleanedup = false
-      end
-
-      #
-      # @return [Boolean]
-      #   Specifies whether the payload is built.
-      #
-      def built?
-        @built == true
-      end
-
-      #
-      # Builds the payload.
-      #
-      # @param [Hash] options
-      #   Additional options to build the payload with and use as
-      #   parameters.
-      #
-      # @yield [payload]
-      #   If a block is given, it will be yielded the result of the
-      #   payload building.
-      #
-      # @yieldparam [String] payload
-      #   The built payload.
-      #
-      # @return [String]
-      #   The built payload.
-      #
-      def build!(options={},&block)
-        self.params = options
-
-        print_debug "Payload parameters: #{self.params.inspect}"
-
-        @built = false
-        @raw_payload = ''
-
-        print_info "Building payload ..."
-
-        @build_block.call() if @build_block
-
-        print_info "Payload built!"
-
-        @built = true
-
-        if block
-          if block.arity == 1
-            block.call(self)
-          else
-            block.call()
-          end
-        end
-
-        return self
-      end
-
-      #
-      # Verifies the payload is properly configured and ready to be
-      # deployed.
-      #
-      def verify!
-        print_info "Verifying payload ..."
-
-        @verify_block.call() if @verify_block
-
-        print_info "Payload verified!"
-      end
-
-      #
-      # @return [Boolean]
-      #   Specifies whether the payload has previously been deployed.
-      #
-      def deployed?
-        @deployed == true
-      end
-
-      #
-      # Verifies the built payload and deploys the payload.
-      #
-      # @yield [payload]
-      #   If a block is given, it will be passed the deployed payload.
-      #
-      # @yieldparam [Payload] payload
-      #   The deployed payload.
-      #
-      def deploy!(&block)
-        # verify the payload
-        verify!
-
-        print_info "Deploying payload ..."
-        @deployed = false
-
-        @deploy_block.call() if @deploy_block
-
-        print_info "Payload deployed!"
-        @deployed = true
-        
-        if block
-          if block.arity == 1
-            block.call(self)
-          else
-            block.call()
-          end
-        end
-
-        return self
-      end
-
-      #
-      # @return [Boolean]
-      #   Specifies whether the payload has previously been cleaned up.
-      #
-      # @since 0.4.0
-      #
-      def cleanedup?
-        @cleanedup == true
-      end
-
-      #
-      # Cleans up after the deployed payload.
-      #
-      # @yield [payload]
-      #   If a block is given, it will be passed the payload before it has
-      #   been cleaned up.
-      #
-      # @yieldparam [Payload] payload
-      #   The payload before it has been cleaned up.
-      #
-      # @return [Payload]
-      #   The cleaned up payload.
-      #
-      # @since 0.4.0
-      #
-      # @see #cleanup
-      #
-      def cleanup!(&block)
-        if block
-          if block.arity == 1
-            block.call(self)
-          else
-            block.call()
-          end
-        end
-
-        print_info "Cleaning up the payload ..."
-        @cleanedup = false
-
-        @cleanup_block.call() if @cleanup_block
-
-        print_info "Payload cleaned up."
-        @cleanedup = true
-        
-        return self
-      end
-
-      #
-      # Converts the payload to a String.
-      #
-      # @return [String]
-      #   The name and version of the payload.
-      #
-      def to_s
-        if (self.name && self.version)
-          "#{self.name} #{self.version}"
-        elsif self.name
-          self.name
-        elsif self.version
-          self.version
-        end
       end
 
       protected
@@ -408,87 +234,6 @@ module Ronin
         @helpers << name
         extend helper_module
         return true
-      end
-
-      #
-      # Registers a given block to be called when the payload is being
-      # built.
-      #
-      # @yield []
-      #   The given block will be called when the payload is being built.
-      #
-      # @return [Payload]
-      #   The payload.
-      #
-      # @since 0.4.0
-      #
-      def build(&block)
-        @build_block = block
-        return self
-      end
-
-      #
-      # Registers a given block to be called when the payload is being
-      # verified.
-      #
-      # @yield []
-      #   The given block will be called when the payload is being verified.
-      #
-      # @return [Payload]
-      #   The payload.
-      #
-      # @since 0.4.0
-      #
-      def verify(&block)
-        @verify_block = block
-        return self
-      end
-
-      #
-      # Registers a given block to be called when the payload is being
-      # deployed.
-      #
-      # @yield []
-      #   The given block will be called when the payload is being deployed.
-      #
-      # @return [Payload]
-      #   The payload.
-      #
-      # @since 0.4.0
-      #
-      def deploy(&block)
-        @deploy_block = block
-        return self
-      end
-
-      #
-      # Registers a given block to be called when the payload is being
-      # cleaned up.
-      #
-      # @yield []
-      #   The given block will be called when the payload is being
-      #   cleaned up.
-      #
-      # @return [Payload]
-      #   The payload.
-      #
-      # @since 0.4.0
-      #
-      def cleanup(&block)
-        @cleanup_block = block
-        return self
-      end
-
-      #
-      # Indicates that the deployment of the payload has failed.
-      #
-      # @raise [DeployFailed]
-      #   The deployment of the payload failed.
-      #
-      # @since 0.4.0
-      #
-      def deploy_failed!(message)
-        raise(DeployFailed,message,caller)
       end
 
     end

@@ -64,16 +64,6 @@ describe Payloads::Payload do
     @payload.exploit.should be_nil
   end
 
-  it "should be 'unbuilt' by default" do
-    @payload.should_not be_built
-  end
-
-  it "should have 'built' and 'unbuilt' states" do
-    @payload.should_not be_built
-    @payload.build!
-    @payload.should be_built
-  end
-
   it "should store the raw payload in the @raw_payload instance variable" do
     @payload.build!
     @payload.raw_payload.should == "code.func"
@@ -84,54 +74,9 @@ describe Payloads::Payload do
     @payload.raw_payload.should == "code.func"
   end
 
-  it "should pass the raw payload to the block given to build!" do
-    @payload.build! do |payload|
-      payload.should == @payload
-    end
-  end
-
-  it "should respect the arity of blocks passed to build!" do
-    @payload.build! do
-      @payload.should be_built
-    end
-  end
-
   it "should use parameters in the building of the payload" do
     @payload.custom = 'hello'
     @payload.build!
     @payload.raw_payload.should == "code.hello"
-  end
-
-  it "should be 'undeployed' by default" do
-    @payload.should_not be_deployed
-  end
-
-  it "should have 'deployed' and 'undeployed' states" do
-    @payload.should_not be_deployed
-    @payload.build!
-    @payload.deploy!
-    @payload.should be_deployed
-  end
-
-  it "should have a default deployer method" do
-    @payload.deploy! do |payload|
-      payload.should == @payload
-    end
-  end
-
-  it "should pass the deployed payload to the block given to deploy!" do
-    @payload.deploy! do |payload|
-      payload.should be_deployed
-    end
-  end
-
-  it "should respect the arity of blocks passed to deploy!" do
-    @payload.deploy! do
-      @payload.should be_deployed
-    end
-  end
-
-  it "should return the name and the version when calling to_s" do
-    @payload.to_s.should == 'simple 0.1'
   end
 end
