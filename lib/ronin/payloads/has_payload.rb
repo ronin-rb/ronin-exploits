@@ -33,6 +33,31 @@ module Ronin
       attr_accessor :payload
 
       #
+      # Initializes the default payload.
+      #
+      # @param [Hash] attributes
+      #   Additiona attributes.
+      #
+      # @since 0.4.0
+      #
+      def initialize(attributes={})
+        super(attributes)
+
+        self.payload = default_payload
+      end
+
+      #
+      # The default payload to use, if no other payload has been selected.
+      #
+      # @return [Payload]
+      #   The default payload.
+      #
+      # @since 0.4.0
+      #
+      def default_payload
+      end
+
+      #
       # Specifies that the {Payload} class will be used when searching for
       # compatible payloads.
       #
