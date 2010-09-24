@@ -31,6 +31,22 @@ module Ronin
     module Resources
       class FS < Resource
 
+        def chdir(path)
+          if @leverage.respond_to?(:fs_chdir)
+            @leverage.fs_chdir(path)
+          else
+            @cwd = path
+          end
+        end
+
+        def join(path)
+          if (@cwd && path[0,1] == '/')
+            File.join(@cwd,path)
+          else
+            path
+          end
+        end
+
         def open(path,&block)
           File.open(@leverage,path,&block)
         end
@@ -171,6 +187,8 @@ module Ronin
             args = line.strip.split(' ')
 
             case args[0]
+            when 'cd'
+              chdir(args[1])
             when 'read'
               shell.write(read(args[1]))
             when 'hexdump'
