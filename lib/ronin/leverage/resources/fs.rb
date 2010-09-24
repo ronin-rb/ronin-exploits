@@ -63,6 +63,8 @@ module Ronin
           @leverage.fs_unlink(path)
         end
 
+        alias rm unlink
+
         def rmdir(path)
           requires_method! :fs_rmdir
 
@@ -161,6 +163,50 @@ module Ronin
             stat(path).zero?
           rescue Errno::ENOENT
             return false
+          end
+        end
+
+        def console
+          UI::Shell.start(:prompt => 'fs>') do |shell,line|
+            args = line.strip.split(' ')
+
+            case args[0]
+            when 'read'
+              shell.write(read(args[1]))
+            when 'hexdump'
+              hexdump(args[1],shell)
+            when 'copy'
+              copy(args[1],args[2])
+            when 'rmdir'
+              rmdir(args[1])
+            when 'rm'
+              unlink(args[1])
+            when 'move'
+              move(args[1],args[2])
+            when 'chown'
+              chown(*args[1..-1])
+            when 'chgrp'
+              chgrp(*args[1..-1])
+            when 'chmod'
+              chmod(*args[1..-1])
+            when 'stat'
+              stat(args[1])
+            when 'help'
+              shell.puts(
+                "read PATH\t\t\treads data from the given PATH",
+                "hexdump FILE\t\t\thexdumps the given FILE",
+                "copy SRC DEST\t\t\tcopies a file from SRC to DEST",
+                "rmdir DIR\t\t\tremoves the given DIR",
+                "rm FILE\t\t\t\tremoves the given FILE",
+                "move SRC DEST\t\t\tmoves a file or directory from SRC to DEST",
+                "ln SRC DEST\t\t\tlinks a file or directory from SRC to DEST",
+                "chown USER [GROUP] LIST...\tchanges ownership on one or more paths",
+                "chgrp GROUP LIST...\t\tchanges group ownership on one or more paths",
+                "chmod MODE LIST...\t\tchanges permissions on one or more paths",
+                "stat PATH\t\t\tlists status information about the PATH",
+                "help\t\t\t\tthis message"
+              )
+            end
           end
         end
 
