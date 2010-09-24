@@ -43,7 +43,7 @@ module Ronin
 
         def join(path)
           if (@cwd && path[0,1] != '/')
-            File.expand_path(::File.join(@cwd,path))
+            ::File.expand_path(::File.join(@cwd,path))
           else
             path
           end
@@ -195,6 +195,8 @@ module Ronin
             when 'chdir', 'cd'
               chdir(args[1])
               print_info "Current working directory is now: #{@cwd}"
+            when 'cwd', 'pwd'
+              print_info "Current working directory: #{@cwd}"
             when 'read', 'cat'
               shell.write(read(args[1]))
             when 'hexdump'
