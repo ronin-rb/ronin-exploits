@@ -50,7 +50,7 @@ module Ronin
         end
 
         def open(path,&block)
-          File.open(@leverage,path,&block)
+          File.open(@leverage,join(path),&block)
         end
 
         def read(path)
@@ -72,13 +72,13 @@ module Ronin
         def copy(path,new_path)
           requires_method! :fs_copy
 
-          @leverage.fs_copy(path,new_path)
+          @leverage.fs_copy(join(path),join(new_path))
         end
 
         def unlink(path)
           requires_method! :fs_unlink
 
-          @leverage.fs_unlink(path)
+          @leverage.fs_unlink(join(path))
         end
 
         alias rm unlink
@@ -86,13 +86,13 @@ module Ronin
         def rmdir(path)
           requires_method! :fs_rmdir
 
-          @leverage.fs_rmdir(path)
+          @leverage.fs_rmdir(join(path))
         end
 
         def move(path,new_path)
           requires_method! :fs_move
 
-          @leverage.fs_move(path,new_path)
+          @leverage.fs_move(join(path),join(new_path))
         end
 
         alias rename move
@@ -106,23 +106,26 @@ module Ronin
         def chown(*arguments)
           requires_method! :fs_chmod
 
-          @leverage.fs_chmod(*arguments)
+          paths = arguments.pop.map { |path| join(path) }
+          @leverage.fs_chmod(*arguments,paths)
         end
 
         def chgrp(*arguments)
           requires_method! :fs_chgrp
 
-          @leverage.fs_chgrp(*arguments)
+          paths = arguments.pop.map { |path| join(path) }
+          @leverage.fs_chgrp(*arguments,paths)
         end
 
         def chmod(*arguments)
           requires_method! :fs_chmod
 
-          @leverage.fs_chmod(*arguments)
+          paths = arguments.pop.map { |path| join(path) }
+          @leverage.fs_chmod(*arguments,paths)
         end
 
         def stat(path)
-          File::Stat.new(@leverage,path)
+          File::Stat.new(@leverage,join(path))
         end
 
         def compare(path,other_path)
@@ -191,24 +194,32 @@ module Ronin
             case args[0]
             when 'chdir', 'cd'
               chdir(args[1])
+              print_info "Current working directory is now: #{@cwd}"
             when 'read'
               shell.write(read(args[1]))
             when 'hexdump'
               hexdump(args[1],shell)
             when 'copy'
               copy(args[1],args[2])
+              print_info "Copied #{join(args[1])} -> #{join(args[2])}"
             when 'unlink', 'rm'
               unlink(args[1])
+              print_info "Removed #{join(args[1])}"
             when 'rmdir'
               rmdir(args[1])
+              print_info "Removed directory #{join(args[1])}"
             when 'move', 'mv'
               move(args[1],args[2])
+              print_info "moved #{join(args[1])} -> #{join(args[2])}"
             when 'chown'
               chown(*args[1..-1])
+              print_info "Changed ownership of #{join(args[1])}"
             when 'chgrp'
               chgrp(*args[1..-1])
+              print_info "Changed group ownership of #{join(args[1])}"
             when 'chmod'
               chmod(*args[1..-1])
+              print_info "Changed permissions on #{join(args[1])}"
             when 'stat'
               stat(args[1])
             when 'help', '?'
