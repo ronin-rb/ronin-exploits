@@ -43,7 +43,7 @@ module Ronin
 
         def join(path)
           if (@cwd && path[0,1] != '/')
-            File.expand_path(File.join(@cwd,path))
+            File.expand_path(::File.join(@cwd,path))
           else
             path
           end
@@ -224,7 +224,7 @@ module Ronin
               stat(args[1])
             when 'help', '?'
               shell.puts(
-                "cd DIR\t\t\tchanges the working directory to DIR",
+                "cd DIR\t\t\t\tchanges the working directory to DIR",
                 "read PATH\t\t\treads data from the given PATH",
                 "hexdump FILE\t\t\thexdumps the given FILE",
                 "copy SRC DEST\t\t\tcopies a file from SRC to DEST",
