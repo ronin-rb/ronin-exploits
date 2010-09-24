@@ -32,15 +32,15 @@ module Ronin
       class FS < Resource
 
         def chdir(path)
-          if @leverage.respond_to?(:fs_chdir)
-            @leverage.fs_chdir(path)
-          else
-            @cwd = path
-          end
+          @cwd = if @leverage.respond_to?(:fs_chdir)
+                   @leverage.fs_chdir(path)
+                 else
+                   path
+                 end
         end
 
         def join(path)
-          if (@cwd && path[0,1] == '/')
+          if (@cwd && path[0,1] != '/')
             File.join(@cwd,path)
           else
             path
