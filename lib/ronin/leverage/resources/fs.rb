@@ -187,7 +187,7 @@ module Ronin
             args = line.strip.split(' ')
 
             case args[0]
-            when 'cd'
+            when 'chdir', 'cd'
               chdir(args[1])
             when 'read'
               shell.write(read(args[1]))
@@ -195,11 +195,11 @@ module Ronin
               hexdump(args[1],shell)
             when 'copy'
               copy(args[1],args[2])
+            when 'unlink', 'rm'
+              unlink(args[1])
             when 'rmdir'
               rmdir(args[1])
-            when 'rm'
-              unlink(args[1])
-            when 'move'
+            when 'move', 'mv'
               move(args[1],args[2])
             when 'chown'
               chown(*args[1..-1])
@@ -209,7 +209,7 @@ module Ronin
               chmod(*args[1..-1])
             when 'stat'
               stat(args[1])
-            when 'help'
+            when 'help', '?'
               shell.puts(
                 "read PATH\t\t\treads data from the given PATH",
                 "hexdump FILE\t\t\thexdumps the given FILE",
