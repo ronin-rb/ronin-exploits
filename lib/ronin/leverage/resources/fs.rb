@@ -195,7 +195,7 @@ module Ronin
             when 'chdir', 'cd'
               chdir(args[1])
               print_info "Current working directory is now: #{@cwd}"
-            when 'read'
+            when 'read', 'cat'
               shell.write(read(args[1]))
             when 'hexdump'
               hexdump(args[1],shell)
@@ -238,6 +238,8 @@ module Ronin
                 "stat PATH\t\t\tlists status information about the PATH",
                 "help\t\t\t\tthis message"
               )
+            else
+              print_error "Unknown command #{args[0].dump}"
             end
           end
         end
