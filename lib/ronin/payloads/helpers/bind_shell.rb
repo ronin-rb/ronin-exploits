@@ -158,6 +158,11 @@ module Ronin
           shell_connection.write(data)
         end
 
+        def fs_chdir(path)
+          shell.cd(path)
+          return shell.pwd
+        end
+
         def fs_read(path,pos)
           shell.exec('dd',"if=#{path}",'bs=1',"skip=#{pos}",'count=4096')
         end

@@ -53,7 +53,7 @@ module Ronin
         end
 
         def pwd
-          command('pwd').first
+          command('pwd').first.rstrip
         end
 
         def ls(*arguments,&block)
