@@ -126,18 +126,26 @@ module Ronin
           # generate a random id for the command
           id = (rand(1_000_000) + 10_000_000).to_s
           header = "#{self.host}:#{self.port} [#{id}]"
+          output_entered = false
 
           print_debug "#{header} Sending command: #{command}"
 
           # send the command
-          shell_connection.puts("#{command}; echo #{id}")
+          shell_connection.puts("echo #{id}; #{command}; echo #{id}")
 
           shell_connection.each_line do |line|
-            # stop when we see the id being echoed
-            break if line.rstrip == id
-
-            print_debug "#{header}   #{line.dump}"
-            yield line
+            if line.rstrip == id
+              if output_entered
+                # leaving command output
+                break
+              else
+                # command output has been entered
+                output_entered = true
+              end
+            elsif output_entered
+              print_debug "#{header}   #{line.dump}"
+              yield line
+            end
           end
 
           print_debug "#{header} Command finished."
