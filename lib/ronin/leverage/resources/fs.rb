@@ -85,22 +85,22 @@ module Ronin
           @leverage.fs_link(path,new_path)
         end
 
-        def chown(path,owner)
+        def chown(*arguments)
           requires_method! :fs_chmod
 
-          @leverage.fs_chmod(path,owner)
+          @leverage.fs_chmod(*arguments)
         end
 
-        def chgrp(path,group)
+        def chgrp(*arguments)
           requires_method! :fs_chgrp
 
-          @leverage.fs_chgrp(path,group)
+          @leverage.fs_chgrp(*arguments)
         end
 
-        def chmod(path,mod)
+        def chmod(*arguments)
           requires_method! :fs_chmod
 
-          @leverage.fs_chmod(path,mod)
+          @leverage.fs_chmod(*arguments)
         end
 
         def stat(path)
