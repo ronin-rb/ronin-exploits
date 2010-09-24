@@ -23,6 +23,7 @@ require 'ronin/leverage/resources/resource'
 require 'ronin/leverage/file'
 require 'ronin/leverage/file/stat'
 require 'ronin/ui/hexdump/hexdump'
+require 'ronin/ui/shell'
 
 require 'digest/md5'
 
