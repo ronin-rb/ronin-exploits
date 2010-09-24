@@ -212,7 +212,10 @@ module Ronin
               print_info "Removed directory #{join(args[1])}"
             when 'move', 'mv'
               move(args[1],args[2])
-              print_info "moved #{join(args[1])} -> #{join(args[2])}"
+              print_info "Moved #{join(args[1])} -> #{join(args[2])}"
+            when 'link', 'ln'
+              link(args[1],args[2])
+              print_info "Linked #{join(args[1])} -> #{args[2]}"
             when 'chown'
               chown(*args[1..-1])
               print_info "Changed ownership of #{join(args[1])}"
@@ -227,7 +230,7 @@ module Ronin
             when 'help', '?'
               shell.puts(
                 "cd DIR\t\t\t\tchanges the working directory to DIR",
-                "read PATH\t\t\treads data from the given PATH",
+                "cat PATH\t\t\treads data from the given PATH",
                 "hexdump FILE\t\t\thexdumps the given FILE",
                 "copy SRC DEST\t\t\tcopies a file from SRC to DEST",
                 "rmdir DIR\t\t\tremoves the given DIR",
