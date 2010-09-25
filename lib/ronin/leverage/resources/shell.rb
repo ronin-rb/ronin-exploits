@@ -72,6 +72,10 @@ module Ronin
           exec('ls','-la',*arguments,&block)
         end
 
+        def find(*arguments,&block)
+          exec('find',*arguments,&block)
+        end
+
         def file(*arguments)
           command('file',*arguments).first
         end
