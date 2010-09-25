@@ -74,6 +74,10 @@ module Ronin
           open(@leverage.fs_mktemp(basename),&block)
         end
 
+        def mkdir(path)
+          @leverage.fs_mkdir(path)
+        end
+
         def copy(path,new_path)
           requires_method! :fs_copy
 
