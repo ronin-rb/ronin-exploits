@@ -185,6 +185,10 @@ module Ronin
           shell.exec("printf #{escaped} | dd if=#{path} bs=1 skip=#{pos} count=4096")
         end
 
+        def fs_mktemp(basename)
+          shell.mktemp(basename).rstrip
+        end
+
         def fs_mkdir(path)
           shell.mkdir(path)
         end
