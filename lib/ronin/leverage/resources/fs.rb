@@ -50,10 +50,14 @@ module Ronin
           end
         end
 
-        def glob(pattern)
+        def glob(pattern,&block)
           requires_method! :fs_glob
 
-          @leverage.fs_glob(join(pattern))
+          if block
+            @leverage.fs_glob(join(pattern),&block)
+          else
+            @leverage.enum_for(:fs_glob,join(pattern)).to_a
+          end
         end
 
         def open(path,&block)
