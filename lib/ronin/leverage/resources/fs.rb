@@ -71,10 +71,14 @@ module Ronin
         end
 
         def tmpfile(basename,&block)
+          requires_method! :fs_mktemp
+
           open(@leverage.fs_mktemp(basename),&block)
         end
 
         def mkdir(path)
+          requires_method! :fs_mkdir
+
           @leverage.fs_mkdir(path)
         end
 
