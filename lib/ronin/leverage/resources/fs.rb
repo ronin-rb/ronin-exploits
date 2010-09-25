@@ -50,6 +50,12 @@ module Ronin
           end
         end
 
+        def glob(pattern)
+          requires_method! :fs_glob
+
+          @leverage.fs_glob(join(pattern))
+        end
+
         def open(path,&block)
           File.open(@leverage,join(path),&block)
         end
