@@ -30,8 +30,18 @@ module Ronin
     module Resources
       class Shell < Resource
 
+        attr_reader :paths
+
+        def initialize(leverage)
+          super(leverage)
+
+          @paths = {}
+        end
+
         def command(program,*arguments)
-          Command.new(@leverage,program,*arguments)
+          program = (@paths[program] || program)
+
+          return Command.new(@leverage,program,*arguments)
         end
 
         def exec(program,*arguments)
