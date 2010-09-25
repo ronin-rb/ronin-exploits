@@ -116,6 +116,14 @@ module Ronin
           command('touch',*arguments).first
         end
 
+        def mktemp(*arguments)
+          command('mktemp',*arguments).first
+        end
+
+        def mktempdir(*arguments)
+          mktemp('-d',*arguments)
+        end
+
         def mkdir(*arguments)
           command('mkdir',*arguments).first
         end
