@@ -39,7 +39,7 @@ module Ronin
         end
 
         def command(program,*arguments)
-          program = (@paths[program] || program)
+          program = (@paths[program.scan(/^[^\s]+/).first] || program)
 
           return Command.new(@leverage,program,*arguments)
         end
