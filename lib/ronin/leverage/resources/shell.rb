@@ -122,6 +122,10 @@ module Ronin
           grep('-E',*arguments,&block)
         end
 
+        def fgrep(*arguments,&block)
+          grep('-F',*arguments,&block)
+        end
+
         def touch(*arguments)
           command('touch',*arguments).first
         end
