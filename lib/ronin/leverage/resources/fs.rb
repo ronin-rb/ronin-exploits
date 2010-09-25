@@ -34,7 +34,7 @@ module Ronin
 
         def getcwd
           if @leverage.respond_to?(:fs_getcwd)
-            @cwd = @leverage.fs_getcwd(path)
+            @cwd = @leverage.fs_getcwd
           end
 
           return @cwd
