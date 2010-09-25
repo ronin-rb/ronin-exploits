@@ -34,12 +34,20 @@ module Ronin
 
         def chdir(path)
           path = join(path)
+          old_cwd = @cwd
 
           @cwd = if @leverage.respond_to?(:fs_chdir)
                    @leverage.fs_chdir(path)
                  else
                    path
                  end
+
+          if block_given?
+            yield @cwd
+            @cwd = old_cwd
+          end
+
+          return @cwd
         end
 
         def join(path)
