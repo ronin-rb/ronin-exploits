@@ -38,7 +38,7 @@ module Ronin
           cmd = command(program,*arguments)
 
           if block_given?
-            cmd.each { |line| yield line.rstrip }
+            cmd.each { |line| yield line.chomp }
           else
             cmd.read
           end
@@ -53,7 +53,7 @@ module Ronin
         end
 
         def pwd
-          command('pwd').first.rstrip
+          command('pwd').first.chomp
         end
 
         def ls(*arguments,&block)
@@ -74,7 +74,7 @@ module Ronin
 
         def find(*arguments)
           if block_given?
-            exec('find',*arguments) { |line| yield line.rstrip }
+            exec('find',*arguments) { |line| yield line.chomp }
           else
             enum_for(:find,*arguments).to_a
           end
@@ -131,7 +131,7 @@ module Ronin
         end
 
         def mktemp(*arguments)
-          command('mktemp',*arguments).first.rstrip
+          command('mktemp',*arguments).first.chomp
         end
 
         def mktempdir(*arguments)

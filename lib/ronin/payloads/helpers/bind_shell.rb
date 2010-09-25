@@ -134,7 +134,7 @@ module Ronin
           shell_connection.puts("echo #{id}; #{command}; echo #{id}")
 
           shell_connection.each_line do |line|
-            if line.rstrip == id
+            if line.chomp == id
               if output_entered
                 # leaving command output
                 break
