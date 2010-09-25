@@ -171,6 +171,10 @@ module Ronin
           return shell.pwd
         end
 
+        def fs_glob(pattern)
+          shell.find(pattern) { |line| yield line.rstrip }
+        end
+
         def fs_read(path,pos)
           shell.exec('dd',"if=#{path}",'bs=1',"skip=#{pos}",'count=4096')
         end
@@ -179,6 +183,10 @@ module Ronin
           escaped = data.gsub('%','%%').dump
 
           shell.exec("printf #{escaped} | dd if=#{path} bs=1 skip=#{pos} count=4096")
+        end
+
+        def fs_mkdir(path)
+          shell.mkdir(path)
         end
 
         def fs_copy(path,new_path)
