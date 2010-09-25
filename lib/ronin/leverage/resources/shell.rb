@@ -159,7 +159,7 @@ module Ronin
         end
 
         def wget(*arguments)
-          @session.shell_exec('wget',*arguments)
+          exec('wget',*arguments)
         end
 
         def wget_out(path,*arguments)
@@ -167,7 +167,7 @@ module Ronin
         end
 
         def curl(*arguments)
-          @session.shell_exec('curl',*arguments)
+          exec('curl',*arguments)
         end
 
         def curl_out(path,*arguments)
