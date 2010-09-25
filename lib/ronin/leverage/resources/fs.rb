@@ -67,7 +67,7 @@ module Ronin
         end
 
         def touch(path)
-          open(path) { |file| file << data }
+          open(path) { |file| file << '' }
         end
 
         def tmpfile(basename,&block)
