@@ -70,6 +70,10 @@ module Ronin
           open(path) { |file| file << data }
         end
 
+        def tmpfile(basename,&block)
+          open(@leverage.fs_mktemp(basename),&block)
+        end
+
         def copy(path,new_path)
           requires_method! :fs_copy
 
