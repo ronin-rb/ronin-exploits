@@ -32,6 +32,17 @@ module Ronin
     module Resources
       class FS < Resource
 
+        def getcwd
+          if @leverage.respond_to?(:fs_getcwd)
+            @cwd = @leverage.fs_getcwd(path)
+          end
+
+          return @cwd
+        end
+
+        alias getwd getcwd
+        alias pwd getcwd
+
         def chdir(path)
           path = join(path)
           old_cwd = @cwd

@@ -166,6 +166,10 @@ module Ronin
           shell_connection.write(data)
         end
 
+        def fs_getcwd
+          shell.pwd
+        end
+
         def fs_chdir(path)
           shell.cd(path)
           return shell.pwd
