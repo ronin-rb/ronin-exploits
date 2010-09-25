@@ -119,7 +119,7 @@ module Ronin
         end
 
         def egrep(*arguments,&block)
-          exec('egrep',*arguments,&block)
+          grep('-E',*arguments,&block)
         end
 
         def touch(*arguments)
