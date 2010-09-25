@@ -57,7 +57,7 @@ module Ronin
         end
 
         def ls(*arguments,&block)
-          exec('dir',*arguments,&block)
+          exec('ls',*arguments,&block)
         end
 
         def file(*arguments)
