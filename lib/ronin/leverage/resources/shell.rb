@@ -72,8 +72,12 @@ module Ronin
           exec('ls','-la',*arguments,&block)
         end
 
-        def find(*arguments,&block)
-          exec('find',*arguments,&block)
+        def find(*arguments)
+          if block_given?
+            exec('find',*arguments) { |line| yield line.rstrip }
+          else
+            enum_for(:find,*arguments).to_a
+          end
         end
 
         def file(*arguments)
@@ -105,7 +109,13 @@ module Ronin
         end
 
         def grep(*arguments,&block)
-          exec('grep',*arguments,&block)
+          if block_given?
+            exec('grep',*arguments) do |line|
+              yield(*line.split(':',2))
+            end
+          else
+            enum_for(:grep,*arguments).to_a
+          end
         end
 
         def egrep(*arguments,&block)
@@ -117,7 +127,7 @@ module Ronin
         end
 
         def mktemp(*arguments)
-          command('mktemp',*arguments).first
+          command('mktemp',*arguments).first.rstrip
         end
 
         def mktempdir(*arguments)
@@ -193,11 +203,11 @@ module Ronin
         end
 
         def uid
-          exec('id','-u')
+          exec('id','-u').to_i
         end
 
         def gid
-          exec('id','-g')
+          exec('id','-g').to_i
         end
 
         def whoami(*arguments)

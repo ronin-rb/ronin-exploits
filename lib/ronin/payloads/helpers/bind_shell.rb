@@ -171,8 +171,8 @@ module Ronin
           return shell.pwd
         end
 
-        def fs_glob(pattern)
-          shell.find(pattern) { |line| yield line.rstrip }
+        def fs_glob(pattern,&block)
+          shell.find(pattern,&block)
         end
 
         def fs_read(path,pos)
@@ -186,7 +186,7 @@ module Ronin
         end
 
         def fs_mktemp(basename)
-          shell.mktemp(basename).rstrip
+          shell.mktemp(basename)
         end
 
         def fs_mkdir(path)
