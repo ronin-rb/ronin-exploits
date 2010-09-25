@@ -60,6 +60,18 @@ module Ronin
           exec('ls',*arguments,&block)
         end
 
+        def ls_a(*arguments,&block)
+          exec('ls','-a',*arguments,&block)
+        end
+
+        def ls_l(*arguments,&block)
+          exec('ls','-l',*arguments,&block)
+        end
+
+        def ls_la(*arguments,&block)
+          exec('ls','-la',*arguments,&block)
+        end
+
         def file(*arguments)
           command('file',*arguments).first
         end
