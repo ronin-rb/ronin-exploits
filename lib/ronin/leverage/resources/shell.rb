@@ -116,6 +116,10 @@ module Ronin
           command('touch',*arguments).first
         end
 
+        def mkdir(*arguments)
+          command('mkdir',*arguments).first
+        end
+
         def cp(*arguments)
           command('cp',*arguments).first
         end
