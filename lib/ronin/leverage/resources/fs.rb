@@ -171,6 +171,8 @@ module Ronin
           return checksum1 == checksum2
         end
 
+        alias cmp compare
+
         def exists?(path)
           begin
             stat(path)
