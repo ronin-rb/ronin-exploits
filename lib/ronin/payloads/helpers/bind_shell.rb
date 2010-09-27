@@ -71,35 +71,30 @@ module Ronin
 
             # The port the bind-shell is listening on
             parameter :port, :type => Integer,
-                              :description => 'Port to connect to'
+                             :description => 'Port to connect to'
 
             # The protocol to use (tcp/udp)
             parameter :protocol, :default => :tcp,
                                  :description => 'Protocol to connect with'
+
+            verify_in :protocol, [:tcp, :udp]
+
+            deploy do
+              socket = case self.protocol
+                       when :tcp
+                         TCPSocket
+                       when :udp
+                         UDPSocket
+                       end
+
+              @bind_shell = socket.new(self.host,self.port)
+            end
+
+            evacuate do
+              @bind_shell.close if (@bind_shell && !(@bind_shell.closed?))
+              @bind_shell = nil
+            end
           end
-        end
-
-        #
-        # Determines if there is a connection with the bind-shell.
-        #
-        # @return [Boolean]
-        #   Specifies whether there is an active connection with the
-        #   bind-shell.
-        #
-        # @since 0.4.0
-        #
-        def shell_connected?
-          (@shell_connection && !(@shell_connection.closed?))
-        end
-
-        #
-        # Closes the bind-shell connection.
-        #
-        # @since 0.4.0
-        #
-        def shell_disconnect!
-          @shell_connection.close if shell_connected?
-          @shell_connection = nil
         end
 
         #
@@ -131,9 +126,9 @@ module Ronin
           print_debug "#{header} Sending command: #{command}"
 
           # send the command
-          shell_connection.puts("echo #{id}; #{command}; echo #{id}")
+          @bind_shell.puts("echo #{id}; #{command}; echo #{id}")
 
-          shell_connection.each_line do |line|
+          @bind_shell.each_line do |line|
             if line.chomp == id
               if output_entered
                 # leaving command output
@@ -163,7 +158,7 @@ module Ronin
         # @since 0.4.0
         #
         def shell_write(data)
-          shell_connection.write(data)
+          @bind_shell.write(data)
         end
 
         def fs_getcwd
@@ -261,42 +256,6 @@ module Ronin
 
         def sys_exit
           shell.exit
-        end
-
-        protected
-
-        #
-        # The socket class to use when connecting to the bind-shell.
-        #
-        # @return [Class]
-        #   The socket class to use.
-        #
-        # @raise [RuntimeError]
-        #   An unknown protocol was given for the bind-shell.
-        #
-        # @since 0.4.0
-        #
-        def shell_socket
-          case self.protocol
-          when :tcp
-            TCPSocket
-          when :udp
-            UDPSocket
-          else
-            raise(RuntimeError,"unknown bind-shell protocol #{self.protocol}",caller)
-          end
-        end
-
-        #
-        # Transparently opens a connection to the bind-shell.
-        #
-        # @return [TCPSocket, UDPSocket]
-        #   The bind-shell connection.
-        #
-        # @since 0.4.0
-        #
-        def shell_connection
-          @shell_connection ||= shell_socket.new(self.host,self.port)
         end
       end
     end
