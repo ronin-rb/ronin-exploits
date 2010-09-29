@@ -23,12 +23,14 @@ describe Payloads::Helpers::BindShell do
 
   describe "verify!" do
     before(:each) do
+      @payload.host = 'localhost'
+      @payload.port = 9999
+
       @payload.build!
     end
 
     it "should verify the host is set" do
       @payload.host = nil
-      @payload.port = 9999
 
       lambda {
         @payload.verify!
@@ -39,7 +41,6 @@ describe Payloads::Helpers::BindShell do
     end
 
     it "should verify the port is set" do
-      @payload.host = 'localhost'
       @payload.port = nil
 
       lambda {
@@ -51,9 +52,6 @@ describe Payloads::Helpers::BindShell do
     end
 
     it "should verify that protocol is either tcp or udp" do
-      @payload.host = 'localhost'
-      @payload.port = 9999
-
       @payload.protocol = :fail
 
       lambda {
