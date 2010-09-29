@@ -77,6 +77,8 @@ module Ronin
             parameter :protocol, :default => :tcp,
                                  :description => 'Protocol to connect with'
 
+            verify_set :host
+            verify_set :port
             verify_in :protocol, [:tcp, :udp]
 
             deploy do
