@@ -4,6 +4,8 @@ ronin_payload do
             :default => :func,
             :description => 'Custom value to use in building the payload'
 
+  leverage :fs
+
   cache do
     self.name = 'simple'
 
