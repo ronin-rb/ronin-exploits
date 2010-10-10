@@ -266,7 +266,7 @@ module Ronin
 
         if line.empty?
           # a line should atleast contain the separator
-          raise(EOFError,"end of file reached",caller)
+          raise(EOFError,"end of file reached")
         end
 
         return line
@@ -287,7 +287,7 @@ module Ronin
       #
       def readchar
         unless (c = getc)
-          raise(EOFError,"end of file reached",caller)
+          raise(EOFError,"end of file reached")
         end
 
         return c
@@ -309,7 +309,7 @@ module Ronin
       #
       def readbytes(n)
         unless (chunk = read(n))
-          raise(EOFError,"end of file reached",caller)
+          raise(EOFError,"end of file reached")
         end
 
         return chunk.enum_for(:each_byte).to_a
@@ -334,7 +334,7 @@ module Ronin
       #
       def readline(separator=$/)
         unless (line = gets(separator))
-          raise(EOFError,"end of file reached",caller)
+          raise(EOFError,"end of file reached")
         end
 
         return line
@@ -568,7 +568,7 @@ module Ronin
       # @since 0.4.0
       #
       def pid
-        raise(NotImplementedError,"#{self.class}#pid is not implemented",caller)
+        raise(NotImplementedError,"#{self.class}#pid is not implemented")
       end
 
       #
@@ -578,7 +578,7 @@ module Ronin
       # @since 0.4.0
       #
       def stat
-        raise(NotImplementedError,"#{self.class}#stat is not implemented",caller)
+        raise(NotImplementedError,"#{self.class}#stat is not implemented")
       end
 
       #
@@ -588,7 +588,7 @@ module Ronin
       # @since 0.4.0
       #
       def seek(new_pos,whence=SEEK_SET)
-        raise(NotImplementedError,"#{self.class}#seek is not implemented",caller)
+        raise(NotImplementedError,"#{self.class}#seek is not implemented")
       end
 
       #
@@ -627,7 +627,7 @@ module Ronin
       # @since 0.4.0
       #
       def ioctl(command,argument)
-        raise(NotImplementedError,"#{self.class}#ioctl was not implemented",caller)
+        raise(NotImplementedError,"#{self.class}#ioctl was not implemented")
       end
 
       #
@@ -637,7 +637,7 @@ module Ronin
       # @since 0.4.0
       #
       def fcntl(command,argument)
-        raise(NotImplementedError,"#{self.class}#fcntl was not implemented",caller)
+        raise(NotImplementedError,"#{self.class}#fcntl was not implemented")
       end
 
       #
@@ -692,7 +692,7 @@ module Ronin
       # @since 0.4.0
       #   
       def reopen(*arguments)
-        raise(NotImplementedError,"#{self.class}#reopen is not implemented",caller)
+        raise(NotImplementedError,"#{self.class}#reopen is not implemented")
       end
 
       #

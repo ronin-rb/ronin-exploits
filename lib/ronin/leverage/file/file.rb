@@ -103,7 +103,7 @@ module Ronin
       #
       def ioctl(command,argument)
         unless @leverage.respond_to?(:fs_ioctl)
-          raise(RuntimeError,"#{@leverage.inspect} does not define fs_ioctl",caller)
+          raise(RuntimeError,"#{@leverage.inspect} does not define fs_ioctl")
         end
 
         return @leverage.fs_ioctl(command,argument)
@@ -125,7 +125,7 @@ module Ronin
       #
       def fcntl(command,argument)
         unless @leverage.respond_to?(:fs_fcntl)
-          raise(RuntimeError,"#{@leverage.inspect} does not define fs_fcntl",caller)
+          raise(RuntimeError,"#{@leverage.inspect} does not define fs_fcntl")
         end
 
         return @leverage.fs_fcntl(command,argument)
@@ -209,7 +209,7 @@ module Ronin
         if @leverage.respond_to?(:fs_read)
           @leverage.fs_read(@fd,@pos)
         else
-          raise(IOError,"#{@leverage.inspect} does not support reading",caller)
+          raise(IOError,"#{@leverage.inspect} does not support reading")
         end
       end
 
@@ -232,7 +232,7 @@ module Ronin
         if @leverage.respond_to?(:fs_write)
           @leverage.fs_write(@fd,@pos,data)
         else
-          raise(IOError,"#{@leverage.inspect} does not support writing to files",caller)
+          raise(IOError,"#{@leverage.inspect} does not support writing to files")
         end
       end
 

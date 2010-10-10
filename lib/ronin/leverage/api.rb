@@ -83,7 +83,7 @@ module Ronin
         name = name.to_sym
 
         unless (resource = Resources.require_const(name))
-          raise(UnknownResource,"Unknown resource for #{name}",caller)
+          raise(UnknownResource,"Unknown resource for #{name}")
         end
 
         return resource.new(self)

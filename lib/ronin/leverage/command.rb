@@ -55,7 +55,7 @@ module Ronin
       #
       def initialize(leverage,program,*arguments)
         unless leverage.respond_to?(:shell_exec)
-          raise(RuntimeError,"#{leverage.inspect} must define shell_exec for #{self.class}",caller)
+          raise(RuntimeError,"#{leverage.inspect} must define shell_exec for #{self.class}")
         end
 
         @leverage = leverage
@@ -158,7 +158,7 @@ module Ronin
         if @leverage.respond_to?(:shell_write)
           @leverage.shell_write(data)
         else
-          raise(IOError,"#{@leverage.inspect} does not support writing to the shell",caller)
+          raise(IOError,"#{@leverage.inspect} does not support writing to the shell")
         end
       end
 
