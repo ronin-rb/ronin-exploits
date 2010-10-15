@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/gen/file_generator'
+require 'ronin/gen/ruby_generator'
 require 'ronin/payloads/config'
 require 'ronin/author'
 
@@ -30,7 +30,7 @@ module Ronin
         #
         # Generates a new ronin payload file.
         #
-        class Payload < FileGenerator
+        class Payload < RubyGenerator
 
           # Default name to give the payload
           DEFAULT_NAME = 'Payload'
@@ -51,16 +51,13 @@ module Ronin
           class_option :os, :type => :string
           class_option :os_version, :type => :string
 
-          argument :path, :type => :string, :require => true
-
           #
           # Generate a basic payload.
           #
           # @since 0.3.0
           #
           def generate
-            erb File.join('ronin','gen','payloads','payload.erb'),
-                self.path
+            erb File.join('ronin','gen','payloads','payload.erb'), self.path
           end
 
         end

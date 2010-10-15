@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'gen/generators/spec_helper'
 
 shared_examples_for "a Payload" do
   it "should set the name property" do
