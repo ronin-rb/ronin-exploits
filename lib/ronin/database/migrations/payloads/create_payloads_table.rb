@@ -20,9 +20,8 @@
 #
 
 require 'ronin/database/migrations/migrations'
-
 require 'ronin/database/migrations/create_licenses_table'
-require 'ronin/database/migrations/platform/create_cached_files_table'
+require 'ronin/database/migrations/create_cached_files_table'
 
 module Ronin
   module Database
