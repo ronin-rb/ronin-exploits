@@ -51,9 +51,16 @@ module Ronin
             column :url_path, String
             column :url_query, String
           end
+
+          create_table :ronin_author_payloads do
+            column :id, Serial
+            column :author_id, Integer, :not_null => true
+            column :payload_id, Integer, :not_null => true
+          end
         end
 
         down do
+          drop_table :ronin_author_payloads
           drop_table :ronin_payloads_payloads
         end
       end

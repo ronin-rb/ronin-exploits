@@ -39,9 +39,16 @@ module Ronin
             column :arch_id, Integer
             column :os_id, Integer
           end
+
+          create_table(:ronin_author_payloads_encoders) do
+            column :id, Serial
+            column :author_id, Integer, :not_null => true
+            column :encoder_id, Integer, :not_null => true
+          end
         end
 
         down do
+          drop_table :ronin_author_payloads_encoders
           drop_table :ronin_exploits_targets
         end
       end
