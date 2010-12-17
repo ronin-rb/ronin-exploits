@@ -30,8 +30,23 @@ require 'digest/md5'
 module Ronin
   module Leverage
     module Resources
+      #
+      # Leverages the resources of a File System.
+      #
       class FS < Resource
 
+        #
+        # Gets the current working directory.
+        #
+        # @return [String]
+        #   The path of the current working directory.
+        #
+        # @note
+        #   May call the `fs_getcwd` method, if defined by the leveraging
+        #   object.
+        #
+        # @since 0.4.0
+        #
         def getcwd
           if @leverage.respond_to?(:fs_getcwd)
             @cwd = @leverage.fs_getcwd
@@ -43,6 +58,21 @@ module Ronin
         alias getwd getcwd
         alias pwd getcwd
 
+        #
+        # Changes the current working directory.
+        #
+        # @param [String] path
+        #   The path to use as the new current working directory.
+        #
+        # @return [String]
+        #   The new current working directory.
+        #
+        # @note
+        #   May call the `fs_chdir` method, if defined by the leveraging
+        #   object.
+        #
+        # @since 0.4.0
+        #
         def chdir(path)
           path = join(path)
           old_cwd = @cwd
@@ -61,6 +91,17 @@ module Ronin
           return @cwd
         end
 
+        #
+        # Joins the path with the current working directory.
+        #
+        # @param [String]
+        #   The path to join.
+        #
+        # @return [String]
+        #   The absolute path.
+        #
+        # @since 0.4.0
+        #
         def join(path)
           if (@cwd && path[0,1] != '/')
             ::File.expand_path(::File.join(@cwd,path))
@@ -69,6 +110,35 @@ module Ronin
           end
         end
 
+        #
+        # Searches the file-system for matching paths.
+        #
+        # @param [String] pattern
+        #   A path-glob pattern.
+        #
+        # @yield [path]
+        #   The given block, will be passed each matching path.
+        #
+        # @yieldparam [String] path
+        #   A path in the file-system that matches the pattern.
+        #
+        # @return [Array<String>]
+        #   If no block is given, the matching paths will be returned.
+        #
+        # @example
+        #   exploit.fs.glob('*.txt')
+        #   # => [...]
+        #
+        # @example
+        #   exploit.fs.glob('**/*.xml') do |path|
+        #     # ...
+        #   end
+        #
+        # @note
+        #   Requires the `fs_glob` method be defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
         def glob(pattern,&block)
           requires_method! :fs_glob
 
@@ -81,44 +151,169 @@ module Ronin
           end
         end
 
+        #
+        # Opens a file for reading.
+        #
+        # @param [String] path
+        #   The path to file.
+        #
+        # @yield [file]
+        #   If a block is given, it will be passed the newly opened file.
+        #   After the block has returned, the file will be closed and
+        #   `nil` will be returned.
+        #
+        # @yieldparam [File] file
+        #   The temporarily opened file.
+        #
+        # @return [File, nil]
+        #   The newly opened file.
+        #
+        # @since 0.4.0
+        #
         def open(path,&block)
           File.open(@leverage,join(path),&block)
         end
 
+        #
+        # Reads the contents of a file.
+        #
+        # @param [String] path
+        #   The path of the file.
+        #
+        # @return [String]
+        #   The contents of the file.
+        #
+        # @since 0.4.0
+        #
         def read(path)
           open(path).read
         end
 
+        #
+        # Hexdumps the contents of a file.
+        #
+        # @param [String] path
+        #   The path of the file.
+        #
+        # @param [IO] output
+        #   The output stream to write the hexdump to.
+        #
+        # @return [nil]
+        #
+        # @since 0.4.0
+        #
         def hexdump(path,output=STDOUT)
           open(path) { |file| UI::Hexdump.dump(file,output) }
         end
 
+        #
+        # Writes data to a file.
+        #
+        # @param [String] path
+        #   The path to the file.
+        #
+        # @param [String] data
+        #   The data to write.
+        #
+        # @return [nil]
+        # 
+        # @since 0.4.0
+        #
         def write(path,data)
           open(path) { |file| file.write(data) }
         end
 
+        #
+        # Touches a file.
+        #
+        # @param [String] path
+        #   The path of the file.
+        #
+        # @return [nil]
+        #
+        # @since 0.4.0
+        #
         def touch(path)
           open(path) { |file| file << '' }
         end
 
+        #
+        # Opens a tempfile.
+        #
+        # @param [String] basename
+        #   The base-name to use in the tempfile.
+        #
+        # @yield [tempfile]
+        #   The given block will be passed the newly opened tempfile.
+        #   After the block has returned, the tempfile will be closed
+        #   and `nil` will be returned.
+        #
+        # @yieldparam [File] tempfile
+        #   The temporarily opened tempfile.
+        #
+        # @return [File, nil]
+        #   The newly opened tempfile.
+        #
+        # @note
+        #   Requires the `fs_mktemp` method be defined by the leveraging
+        #   object.
+        #
+        # @since 0.4.0
+        #
         def tmpfile(basename,&block)
           requires_method! :fs_mktemp
 
           open(@leverage.fs_mktemp(basename),&block)
         end
 
+        #
+        # Creates a directory.
+        #
+        # @param [String] path
+        #   The path of the directory.
+        #
+        # @note
+        #   Requires the `fs_mkdir` method be defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
         def mkdir(path)
           requires_method! :fs_mkdir
 
           @leverage.fs_mkdir(path)
         end
 
+        #
+        # Copies a file.
+        #
+        # @param [String] path
+        #   The path of the file to copy.
+        #
+        # @param [String] new_path
+        #   The destination path to copy to.
+        #
+        # @note
+        #   Requires the `fs_copy` method be defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
         def copy(path,new_path)
           requires_method! :fs_copy
 
           @leverage.fs_copy(join(path),join(new_path))
         end
 
+        #
+        # Unlinks a file.
+        #
+        # @param [String] path
+        #   The path of the file.
+        #
+        # @note
+        #   Requires the `fs_unlink` method be defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
         def unlink(path)
           requires_method! :fs_unlink
 
@@ -127,12 +322,37 @@ module Ronin
 
         alias rm unlink
 
+        #
+        # Removes a directory.
+        #
+        # @param [String] path
+        #   The path of the directory.
+        #
+        # @note
+        #   Requires the `fs_rmdir` method be defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
         def rmdir(path)
           requires_method! :fs_rmdir
 
           @leverage.fs_rmdir(join(path))
         end
 
+        #
+        # Moves a file or directory.
+        #
+        # @param [String] path
+        #   The path of the file or directory to be moved.
+        #
+        # @param [String] new_path
+        #   The destination path for the file or directory to be moved to.
+        #
+        # @note
+        #   Requires the `fs_move` method be defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
         def move(path,new_path)
           requires_method! :fs_move
 
@@ -141,12 +361,40 @@ module Ronin
 
         alias rename move
 
+        #
+        # Creates a symbolic link.
+        #
+        # @param [String] path
+        #   The path that the link will point to.
+        #
+        # @param [String] new_path
+        #   The path of the link.
+        #
+        # @note
+        #   Requires the `fs_link` method be defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
         def link(path,new_path)
           requires_method! :fs_link
 
           @leverage.fs_link(path,new_path)
         end
 
+        #
+        # Changes ownership on one or more files or directories.
+        #
+        # @param [Array] arguments
+        #   The user, optional group and one or more paths to change ownership.
+        #
+        # @example
+        #   exploit.fs.chown('www', ['one.html'])
+        #
+        # @note
+        #   Requires the `fs_chmod` method be defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
         def chown(*arguments)
           requires_method! :fs_chmod
 
@@ -154,6 +402,20 @@ module Ronin
           @leverage.fs_chmod(*arguments,paths)
         end
 
+        #
+        # Changes group ownership on one or more files or directories.
+        #
+        # @param [Array] arguments
+        #   The user, optional group and one or more paths to change ownership.
+        #
+        # @example
+        #   exploit.fs.chgrp('www', ['one.html'])
+        #
+        # @note
+        #   Requires the `fs_chgrp` method be defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
         def chgrp(*arguments)
           requires_method! :fs_chgrp
 
@@ -161,6 +423,21 @@ module Ronin
           @leverage.fs_chgrp(*arguments,paths)
         end
 
+        #
+        # Changes permissions on one or more files or directories.
+        #
+        # @param [Array] arguments
+        #   The user, optional group and one or more paths to change
+        #   permissions.
+        #
+        # @example
+        #   exploit.fs.chmod('www', ['one.html'])
+        #
+        # @note
+        #   Requires the `fs_chmod` method be defined by the leveraging object.
+        #
+        # @since 0.4.0
+        #
         def chmod(*arguments)
           requires_method! :fs_chmod
 
@@ -168,10 +445,33 @@ module Ronin
           @leverage.fs_chmod(*arguments,paths)
         end
 
+        #
+        # Gathers statistics on a file or directory.
+        #
+        # @param [String] path
+        #   The path of the file or directory.
+        #
+        # @return [File::Stat]
+        #   The statistics on the file or directory.
+        #
+        # @since 0.4.0
+        #
         def stat(path)
           File::Stat.new(@leverage,join(path))
         end
 
+        #
+        # Compares the contents of two files.
+        #
+        # @param [String] path
+        #   The path of the first file.
+        #
+        # @param [String] path
+        #   The path of the second file.
+        #
+        # @return [Boolean]
+        #   Specifies whether the two files are identical.
+        #
         def compare(path,other_path)
           checksum1 = Digest::MD5.new
           open(path).each_block { |block| checksum1 << block }
@@ -184,6 +484,17 @@ module Ronin
 
         alias cmp compare
 
+        #
+        # Tests whether a file or directory exists.
+        #
+        # @param [String] path
+        #   The path of the file or directory in question.
+        #
+        # @return [Boolean]
+        #   Specifies whether the file or directory exists.
+        #
+        # @since 0.4.0
+        #
         def exists?(path)
           begin
             stat(path)
@@ -193,6 +504,17 @@ module Ronin
           end
         end
 
+        #
+        # Tests whether a file exists.
+        #
+        # @param [String] path
+        #   The path of the file in question.
+        #
+        # @return [Boolean]
+        #   Specifies whether the file exists.
+        #
+        # @since 0.4.0
+        #
         def file?(path)
           begin
             stat(path).file?
@@ -201,6 +523,17 @@ module Ronin
           end
         end
 
+        #
+        # Tests whether a directory exists.
+        #
+        # @param [String] path
+        #   The path of the directory in question.
+        #
+        # @return [Boolean]
+        #   Specifies whether the directory exists.
+        #
+        # @since 0.4.0
+        #
         def directory?(path)
           begin
             stat(path).directory?
@@ -209,6 +542,17 @@ module Ronin
           end
         end
 
+        #
+        # Tests whether a FIFO pipe exists.
+        #
+        # @param [String] path
+        #   The path of the FIFO pipe in question.
+        #
+        # @return [Boolean]
+        #   Specifies whether the FIFO pipe exists.
+        #
+        # @since 0.4.0
+        #
         def pipe?(path)
           begin
             stat(path).pipe?
@@ -217,6 +561,17 @@ module Ronin
           end
         end
 
+        #
+        # Tests whether a UNIX socket exists.
+        #
+        # @param [String] path
+        #   The path of the UNIX socket in question.
+        #
+        # @return [Boolean]
+        #   Specifies whether the UNIX socket exists.
+        #
+        # @since 0.4.0
+        #
         def socket?(path)
           begin
             stat(path).socket?
@@ -225,6 +580,17 @@ module Ronin
           end
         end
 
+        #
+        # Tests whether a file is empty.
+        #
+        # @param [String] path
+        #   The path of the file in question.
+        #
+        # @return [Boolean]
+        #   Specifies whether the file is empty.
+        #
+        # @since 0.4.0
+        #
         def zero?(path)
           begin
             stat(path).zero?
@@ -233,6 +599,11 @@ module Ronin
           end
         end
 
+        #
+        # Starts an interactive File System console.
+        #
+        # @since 0.4.0
+        #
         def console
           UI::Shell.start(:prompt => 'fs>') do |shell,line|
             args = line.strip.split(' ')
