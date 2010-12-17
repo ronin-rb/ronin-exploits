@@ -252,7 +252,8 @@ module Ronin
         #   The PID of the process to kill.
         #
         # @note
-        #   Requires the `sys_kill` method be defined by the leveraging object.
+        #   Requires the `sys_kill` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #

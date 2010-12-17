@@ -135,7 +135,8 @@ module Ronin
         #   end
         #
         # @note
-        #   Requires the `fs_glob` method be defined by the leveraging object.
+        #   Requires the `fs_glob` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #
@@ -273,7 +274,8 @@ module Ronin
         #   The path of the directory.
         #
         # @note
-        #   Requires the `fs_mkdir` method be defined by the leveraging object.
+        #   Requires the `fs_mkdir` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #
@@ -293,7 +295,8 @@ module Ronin
         #   The destination path to copy to.
         #
         # @note
-        #   Requires the `fs_copy` method be defined by the leveraging object.
+        #   Requires the `fs_copy` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #
@@ -310,7 +313,8 @@ module Ronin
         #   The path of the file.
         #
         # @note
-        #   Requires the `fs_unlink` method be defined by the leveraging object.
+        #   Requires the `fs_unlink` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #
@@ -329,7 +333,8 @@ module Ronin
         #   The path of the directory.
         #
         # @note
-        #   Requires the `fs_rmdir` method be defined by the leveraging object.
+        #   Requires the `fs_rmdir` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #
@@ -349,7 +354,8 @@ module Ronin
         #   The destination path for the file or directory to be moved to.
         #
         # @note
-        #   Requires the `fs_move` method be defined by the leveraging object.
+        #   Requires the `fs_move` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #
@@ -371,7 +377,8 @@ module Ronin
         #   The path of the link.
         #
         # @note
-        #   Requires the `fs_link` method be defined by the leveraging object.
+        #   Requires the `fs_link` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #
@@ -385,13 +392,15 @@ module Ronin
         # Changes ownership on one or more files or directories.
         #
         # @param [Array] arguments
-        #   The user, optional group and one or more paths to change ownership.
+        #   The user, optional group and one or more paths to change
+        #   ownership.
         #
         # @example
         #   exploit.fs.chown('www', ['one.html'])
         #
         # @note
-        #   Requires the `fs_chown` method be defined by the leveraging object.
+        #   Requires the `fs_chown` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #
@@ -406,13 +415,15 @@ module Ronin
         # Changes group ownership on one or more files or directories.
         #
         # @param [Array] arguments
-        #   The user, optional group and one or more paths to change ownership.
+        #   The user, optional group and one or more paths to change
+        #   ownership.
         #
         # @example
         #   exploit.fs.chgrp('www', ['one.html'])
         #
         # @note
-        #   Requires the `fs_chgrp` method be defined by the leveraging object.
+        #   Requires the `fs_chgrp` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #
@@ -434,7 +445,8 @@ module Ronin
         #   exploit.fs.chmod('www', ['one.html'])
         #
         # @note
-        #   Requires the `fs_chmod` method be defined by the leveraging object.
+        #   Requires the `fs_chmod` method be defined by the leveraging
+        #   object.
         #
         # @since 0.4.0
         #
