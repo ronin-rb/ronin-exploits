@@ -391,15 +391,15 @@ module Ronin
         #   exploit.fs.chown('www', ['one.html'])
         #
         # @note
-        #   Requires the `fs_chmod` method be defined by the leveraging object.
+        #   Requires the `fs_chown` method be defined by the leveraging object.
         #
         # @since 0.4.0
         #
         def chown(*arguments)
-          requires_method! :fs_chmod
+          requires_method! :fs_chown
 
           paths = arguments.pop.map { |path| join(path) }
-          @leverage.fs_chmod(*arguments,paths)
+          @leverage.fs_chown(*arguments,paths)
         end
 
         #
