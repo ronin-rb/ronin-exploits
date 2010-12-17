@@ -26,6 +26,34 @@ require 'ronin/extensions/meta'
 
 module Ronin
   module Leverage
+    #
+    # Classes or objects can include {Leverage::API} so they can declare
+    # what specific resources they leverage. To leverage a resource the
+    # class or object must first declare the resource:
+    #
+    #     leverage :fs
+    #
+    # Objects will then gain a `#fs` method, which will return an
+    # {Leverage::Resources::FS} object. {Leverage::Resources} contains
+    # classes that provide convience methods for leveraging resources.
+    # In turn, these convience methods call methods defined in the object
+    # which leverages the Resource. For example,
+    # the {Leverage::Resources::FS#mkdir} method relies on the `fs_mkdir`
+    # method to handle the making of the directory:
+    #
+    #       leverages :fs
+    #       # ...
+    #
+    #       #
+    #       # Injects a `mkdir` command.
+    #       #
+    #       def fs_mkdir(path)
+    #         inject_command("; mkdir #{path}; ")
+    #       end
+    #
+    #     # ...
+    #     obj.fs.mkdir('.temp')
+    #
     module API
       def self.included(base)
         base.send :extend, ClassMethods
