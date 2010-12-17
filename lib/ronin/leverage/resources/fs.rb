@@ -454,6 +454,8 @@ module Ronin
         # @return [File::Stat]
         #   The statistics on the file or directory.
         #
+        # @see File::Stat.new
+        #
         # @since 0.4.0
         #
         def stat(path)
