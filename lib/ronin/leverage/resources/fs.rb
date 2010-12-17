@@ -599,6 +599,8 @@ module Ronin
           end
         end
 
+        alias empty? zero?
+
         #
         # Starts an interactive File System console.
         #
