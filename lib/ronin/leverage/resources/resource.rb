@@ -24,6 +24,9 @@ require 'ronin/ui/output/helpers'
 module Ronin
   module Leverage
     module Resources
+      #
+      # A base-class for all leveraged Resources.
+      #
       class Resource
 
         include UI::Output::Helpers
