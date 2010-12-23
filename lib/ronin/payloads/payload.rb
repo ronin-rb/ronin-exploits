@@ -62,7 +62,7 @@ module Ronin
     # ## License
     #
     # A {Payload} may associate with a specific software license using the
-    # `#license!` method:
+    # `license!` method:
     #
     #     cache do
     #       # ...
@@ -99,14 +99,14 @@ module Ronin
     #
     # The functionality of a {Payload} is defined by three main methods.
     #
-    # * {#build} - Handles building the payload.
-    # * {#verify} - Optional method which handles verifying a built payload.
-    # * {#deploy} - Handles deploying a built and verified payload against a
+    # * `build` - Handles building the payload.
+    # * `verify` - Optional method which handles verifying a built payload.
+    # * `deploy` - Handles deploying a built and verified payload against a
     #   host.
-    # * {#evacuate} - Handles cleaning up after a deployed payload.
+    # * `evacuate` - Handles cleaning up after a deployed payload.
     #
-    # The {#build}, {#verify}, {#deploy}, {#evacuate} methods can be invoked
-    # individually using the {#build!}, {#verify!}, {#deploy!}, {#evacuate!}
+    # The `build`, `verify`, `deploy`, `evacuate` methods can be invoked
+    # individually using the `build!`, `verify!`, `deploy!`, `evacuate!`
     # methods, respectively.
     #
     # # Exploit/Payload Coupling
@@ -122,12 +122,12 @@ module Ronin
     # another payload to be chained together with a {Payload}.
     #
     # To chain a cached payload, from the Ronin Database, simply use the
-    # `#use_payload!` method:
+    # `use_payload!` method:
     #
     #     payload.use_payload!(:name.like => '%Bind Shell%')
     #
     # In order to chain a payload, loaded directly from a file, call the 
-    # `#use_payload_from!` method:
+    # `use_payload_from!` method:
     #
     #     payload.use_payload_from!('path/to/my_payload.rb')
     #
