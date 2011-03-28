@@ -22,10 +22,10 @@
 require 'ronin/leverage/resources/resource'
 require 'ronin/leverage/file'
 require 'ronin/leverage/file/stat'
-require 'ronin/ui/hexdump/hexdump'
 require 'ronin/ui/shell'
 
 require 'digest/md5'
+require 'hexdump'
 
 module Ronin
   module Leverage
@@ -204,7 +204,7 @@ module Ronin
         # @since 0.4.0
         #
         def hexdump(path,output=STDOUT)
-          open(path) { |file| UI::Hexdump.dump(file,output) }
+          open(path) { |file| Hexdump.dump(file,:output => output) }
         end
 
         #
