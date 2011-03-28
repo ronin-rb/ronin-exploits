@@ -19,7 +19,12 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/leverage/resources/resource'
-require 'ronin/leverage/resources/shell'
-require 'ronin/leverage/resources/fs'
-require 'ronin/leverage/resources/sys'
+require 'open_namespace'
+
+module Ronin
+  module Leverage
+    module Resources
+      include OpenNamespace
+    end
+  end
+end
