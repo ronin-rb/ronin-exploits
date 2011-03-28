@@ -35,35 +35,6 @@ module Ronin
 
       include Network::Mixins::HTTP
 
-      #
-      # Creates a new web payload object.
-      #
-      # @yield []
-      #   The given block will be used to create a new web payload object.
-      #
-      # @return [Ronin::Payloads::Web]
-      #   The new web payload object.
-      #
-      # @example
-      #   ronin_web_payload do
-      #     cache do
-      #       self.name = 'some web payload'
-      #       self.description = %{
-      #         This is an example web payload.
-      #       }
-      #     end
-      #
-      #     build do
-      #       # ...
-      #     end
-      #
-      #     deploy do
-      #       # ...
-      #     end
-      #   end
-      #
-      contextify :ronin_web_payload
-
     end
   end
 end

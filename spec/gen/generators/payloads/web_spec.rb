@@ -11,22 +11,18 @@ describe Gen::Generators::Payloads::Web do
     @path = File.join(Dir.tmpdir,'generated_payload.rb')
 
     Gen::Generators::Payloads::Web.generate(
-      {
-        :leverages => ['shell']
-      },
+      {:leverages => ['shell']},
       [@path]
     )
-
-    @payload = Payloads::Web.load_context(@path)
   end
+
+  subject { Payloads::Web.load_object(@path) }
 
   it_should_behave_like "a Payload"
 
   it "should define a Web payload" do
-    @payload.class.should == Payloads::Web
+    subject.class.should == Payloads::Web
   end
 
-  after(:all) do
-    FileUtils.rm(@path)
-  end
+  after(:all) { FileUtils.rm(@path) }
 end

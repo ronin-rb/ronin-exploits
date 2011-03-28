@@ -1,4 +1,6 @@
-ronin_payload do
+require 'ronin/payloads/payload'
+
+Ronin::Payloads::Payload.object do
   parameter :custom,
             :type => Symbol,
             :default => :func,

@@ -10,23 +10,19 @@ describe Gen::Generators::Payloads::BinaryPayload do
   before(:all) do
     @path = File.join(Dir.tmpdir,'generated_payload.rb')
 
-    Gen::Generators::Payloads::BinaryPayload.generate(
-      {
-        :leverages => ['shell']
-      },
+    described_class.generate(
+      {:leverages => ['shell']},
       [@path]
     )
-
-    @payload = Payloads::BinaryPayload.load_context(@path)
   end
+
+  subject { Payloads::BinaryPayload.load_object(@path) }
 
   it_should_behave_like "a Payload"
 
   it "should define a BinaryPayload" do
-    @payload.class.should == Payloads::BinaryPayload
+    subject.class.should == Payloads::BinaryPayload
   end
 
-  after(:all) do
-    FileUtils.rm(@path)
-  end
+  after(:all) { FileUtils.rm(@path) }
 end

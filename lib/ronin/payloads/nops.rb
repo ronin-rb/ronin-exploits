@@ -29,35 +29,6 @@ module Ronin
     #
     class Nops < ASMPayload
 
-      #
-      # Creates a new NOPs payload object.
-      #
-      # @yield []
-      #   The given block will be used to create a new NOPs payload object.
-      #
-      # @return [Nops]
-      #   The new NOPs payload object.
-      #
-      # @example
-      #   ronin_nops do
-      #     cache do
-      #       self.name = 'some NOPs payload'
-      #       self.description = %{
-      #         This is an example NOPs payload.
-      #       }
-      #     end
-      #
-      #     build do
-      #       # ...
-      #     end
-      #
-      #     deploy do
-      #       # ...
-      #     end
-      #   end
-      #
-      contextify :ronin_nops
-
     end
   end
 end

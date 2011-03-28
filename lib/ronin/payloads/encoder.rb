@@ -31,16 +31,6 @@ module Ronin
       include Model::TargetsArch
       include Model::TargetsOS
 
-      #
-      # Creates a new Ronin::Payload::Encoder object using the given
-      # _block_.
-      #
-      #   ronin_payload_encoder do
-      #     ...
-      #   end
-      #
-      contextify :ronin_payload_encoder
-
       # Primary key of the payload
       property :id, Serial
 

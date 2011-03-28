@@ -3,66 +3,66 @@ require 'ronin/payloads/payload'
 require 'ronin/payloads/helpers/bind_shell'
 
 describe Payloads::Helpers::BindShell do
-  before(:all) do
-    @payload = ronin_payload do
+  subject do
+    Payloads::Payload.object do
       helper :bind_shell
     end
   end
 
   it "should define a host parameter" do
-    @payload.should have_param(:host)
+    subject.should have_param(:host)
   end
 
   it "should define a port parameter" do
-    @payload.should have_param(:port)
+    subject.should have_param(:port)
   end
 
   it "should define a protocol parameter" do
-    @payload.should have_param(:protocol)
+    subject.should have_param(:protocol)
   end
 
   describe "verify!" do
     before(:each) do
-      @payload.host = 'localhost'
-      @payload.port = 9999
+      subject.host = 'localhost'
+      subject.port = 9999
 
-      @payload.build!
+      subject.build!
     end
 
     it "should verify the host is set" do
-      @payload.host = nil
+      subject.host = nil
 
       lambda {
-        @payload.verify!
+        subject.verify!
       }.should raise_error(Engine::VerificationFailed)
 
-      @payload.host = 'localhost'
-      @payload.verify!.should == true
+      subject.host = 'localhost'
+      subject.verify!.should == true
     end
 
     it "should verify the port is set" do
-      @payload.port = nil
+      subject.port = nil
 
       lambda {
-        @payload.verify!
+        subject.verify!
       }.should raise_error(Engine::VerificationFailed)
 
-      @payload.port = 9999
-      @payload.verify!.should == true
+      subject.port = 9999
+      subject.verify!.should == true
     end
 
     it "should verify that protocol is either tcp or udp" do
-      @payload.protocol = :fail
+      subject.protocol = :fail
 
       lambda {
-        @payload.verify!
+        subject.verify!
       }.should raise_error(Engine::VerificationFailed)
 
-      @payload.protocol = :tcp
-      @payload.verify!.should == true
+      subject.protocol = :tcp
+      subject.verify!.should == true
 
-      @payload.protocol = :udp
-      @payload.verify!.should == true
+      subject.protocol = :udp
+      subject.verify!.should == true
     end
   end
 end

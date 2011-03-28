@@ -140,36 +140,6 @@ module Ronin
       include Model::TargetsOS
       include Leverage::API
 
-      #
-      # Creates a new payload object.
-      #
-      # @yield []
-      #   The given block will be used to create a new payload object.
-      #
-      # @return [Payload]
-      #   The new payload object.
-      #
-      # @example
-      #   ronin_payload do
-      #     cache do
-      #       self.name = 'some payload'
-      #       self.description = %{
-      #         This is an example payload.
-      #       }
-      #     end
-      #
-      #     build do
-      #     end
-      #
-      #     deploy do
-      #     end
-      #
-      #     evacuate do
-      #     end
-      #   end
-      #
-      contextify :ronin_payload
-
       # Primary key of the payload
       property :id, Serial
 

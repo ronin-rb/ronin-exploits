@@ -10,23 +10,19 @@ describe Gen::Generators::Payloads::Payload do
   before(:all) do
     @path = File.join(Dir.tmpdir,'generated_payload.rb')
 
-    Gen::Generators::Payloads::Payload.generate(
-      {
-        :leverages => ['shell']
-      },
+    described_class.generate(
+      {:leverages => ['shell']},
       [@path]
     )
-
-    @payload = Payloads::Payload.load_context(@path)
   end
+
+  subject { Payloads::Payload.load_object(@path) }
 
   it_should_behave_like "a Payload"
 
   it "should define a Payload" do
-    @payload.class.should == Payloads::Payload
+    subject.class.should == Payloads::Payload
   end
 
-  after(:all) do
-    FileUtils.rm(@path)
-  end
+  after(:all) { FileUtils.rm(@path) }
 end
