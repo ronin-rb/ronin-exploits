@@ -21,4 +21,3 @@
 
 require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/exceptions/not_implemented'
-require 'ronin/payloads/exceptions/deploy_failed'

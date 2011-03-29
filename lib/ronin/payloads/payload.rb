@@ -20,7 +20,6 @@
 #
 
 require 'ronin/payloads/exceptions/unknown_helper'
-require 'ronin/payloads/exceptions/deploy_failed'
 require 'ronin/payloads/helpers'
 require 'ronin/leverage'
 require 'ronin/engine'
