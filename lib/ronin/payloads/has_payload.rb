@@ -38,7 +38,7 @@ module Ronin
       # @param [Hash] attributes
       #   Additiona attributes.
       #
-      # @since 0.4.0
+      # @since 1.0.0
       #
       def initialize(attributes={})
         super(attributes)
@@ -52,7 +52,7 @@ module Ronin
       # @return [Payload]
       #   The default payload.
       #
-      # @since 0.4.0
+      # @since 1.0.0
       #
       def default_payload
       end

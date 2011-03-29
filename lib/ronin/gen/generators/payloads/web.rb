@@ -33,7 +33,7 @@ module Ronin
           #
           # Generate a Web payload.
           #
-          # @since 0.4.0
+          # @since 1.0.0
           #
           def generate
             erb File.join('ronin','gen','payloads','web.erb'),

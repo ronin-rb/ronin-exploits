@@ -115,7 +115,7 @@ module Ronin
         # @yieldparam [String] line
         #   A line of output from the shell.
         #
-        # @since 0.4.0
+        # @since 1.0.0
         #
         def shell_exec(program,*arguments)
           command = ([program] + arguments).join(' ')
@@ -157,7 +157,7 @@ module Ronin
         # @return [Integer]
         #   The number of bytes writen.
         #
-        # @since 0.4.0
+        # @since 1.0.0
         #
         def shell_write(data)
           @bind_shell.write(data)
