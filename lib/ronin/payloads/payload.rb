@@ -21,7 +21,7 @@
 
 require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/helpers'
-require 'ronin/leverage'
+require 'ronin/post_exploitation'
 require 'ronin/engine'
 require 'ronin/engine/buildable'
 require 'ronin/engine/deployable'
@@ -137,7 +137,7 @@ module Ronin
       include Engine::Deployable
       include Model::TargetsArch
       include Model::TargetsOS
-      include Leverage::API
+      include PostExploitation
 
       # Primary key of the payload
       property :id, Serial
