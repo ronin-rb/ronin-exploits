@@ -24,13 +24,13 @@ require 'ronin/payloads/helpers/bind_shell'
 
 module Ronin
   module Payloads
-    class NetcatBindShell < Payload
+    class BindShell < Payload
 
       #
-      # Creates a new `netcat` bind shell.
+      # Creates a new bind shell payload.
       #
       # @param [Hash] attributes
-      #   Attributes for the `netcat` bind shell.
+      #   Attributes for the bind shell.
       #
       def initialize(attributes={})
         super(attributes)
