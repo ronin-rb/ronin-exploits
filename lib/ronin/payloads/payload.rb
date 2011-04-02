@@ -96,7 +96,7 @@ module Ronin
     #
     # # Methods
     #
-    # The functionality of a {Payload} is defined by three main methods.
+    # The functionality of a {Payload} is defined by three main methods:
     #
     # * `build` - Handles building the payload.
     # * `verify` - Optional method which handles verifying a built payload.
