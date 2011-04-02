@@ -15,6 +15,6 @@ shared_examples_for "a Payload" do
   end
 
   it "should define leveraged resources" do
-    subject.should be_leveraged(:shell)
+    subject.should be_leverages(:shell)
   end
 end

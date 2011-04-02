@@ -161,13 +161,13 @@ module Ronin
             end
 
             if options.shell_console?
-              if @payload.leveraged?(:shell)
+              if @payload.leverages?(:shell)
                 @payload.shell.console
               else
                 print_error "The payload does not leverage the shell"
               end
             elsif options.fs_console?
-              if @payload.leveraged?(:fs)
+              if @payload.leverages?(:fs)
                 @payload.fs.console
               else
                 print_error "The payload does not leverage the file system"
