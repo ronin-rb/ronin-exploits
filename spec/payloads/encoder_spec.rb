@@ -2,28 +2,27 @@ require 'spec_helper'
 require 'ronin/payloads/encoder'
 
 describe Payloads::Encoder do
-  before(:all) do
-    @encoder = Payloads::Encoder.new(:name => 'test')
-    @data = 'some data'
-  end
+  subject { described_class.new(:name => 'test') }
+
+  let(:data) { 'some data' }
 
   it "should require a name" do
-    encoder = Payloads::Encoder.new
+    encoder = described_class.new
     encoder.should_not be_valid
 
-    encoder = Payloads::Encoder.new(:name => 'encoder')
+    encoder = described_class.new(:name => 'encoder')
     encoder.should be_valid
   end
 
-  it "should provide a #encode method" do
-    @encoder.should respond_to(:encode)
-  end
+  describe "#encode" do
+    it { should respond_to(:encode) }
 
-  it "should return the data to be encoded by default" do
-    @encoder.encode(@data).should == @data
+    it "should return the data to be encoded by default" do
+      subject.encode(data).should == data
+    end
   end
 
   it "should have a custom inspect method" do
-    @encoder.inspect.should == '#<Ronin::Payloads::Encoder: test>'
+    subject.inspect.should == '#<Ronin::Payloads::Encoder: test>'
   end
 end

@@ -9,19 +9,11 @@ describe Payloads::Helpers::BindShell do
     end
   end
 
-  it "should define a host parameter" do
-    subject.should have_param(:host)
-  end
+  it { should have_param(:host) }
+  it { should have_param(:port) }
+  it { should have_param(:protocol) }
 
-  it "should define a port parameter" do
-    subject.should have_param(:port)
-  end
-
-  it "should define a protocol parameter" do
-    subject.should have_param(:protocol)
-  end
-
-  describe "verify!" do
+  describe "#verify!" do
     before(:each) do
       subject.host = 'localhost'
       subject.port = 9999
@@ -51,18 +43,24 @@ describe Payloads::Helpers::BindShell do
       subject.verify!.should == true
     end
 
-    it "should verify that protocol is either tcp or udp" do
-      subject.protocol = :fail
+    context "protocol" do
+      it "should accept :tcp" do
+        subject.protocol = :tcp
+        subject.verify!.should == true
+      end
 
-      lambda {
-        subject.verify!
-      }.should raise_error(Engine::VerificationFailed)
+      it "should accept :udp" do
+        subject.protocol = :udp
+        subject.verify!.should == true
+      end
 
-      subject.protocol = :tcp
-      subject.verify!.should == true
+      it "should verify that protocol is either :tcp or :udp" do
+        subject.protocol = :fail
 
-      subject.protocol = :udp
-      subject.verify!.should == true
+        lambda {
+          subject.verify!
+        }.should raise_error(Engine::VerificationFailed)
+      end
     end
   end
 end
