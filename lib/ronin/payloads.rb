@@ -22,3 +22,6 @@
 require 'ronin/database/migrations/payloads'
 
 require 'ronin/payloads/payloads'
+require 'ronin/config'
+
+Ronin::Config.load :payloads
