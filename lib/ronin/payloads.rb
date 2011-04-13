@@ -21,11 +21,4 @@
 
 require 'ronin/database/migrations/payloads'
 
-require 'ronin/payloads/encoders'
-require 'ronin/payloads/payload'
-require 'ronin/payloads/binary_payload'
-require 'ronin/payloads/asm_payload'
-require 'ronin/payloads/nops'
-require 'ronin/payloads/shellcode'
-require 'ronin/payloads/bind_shell'
 require 'ronin/payloads/payloads'
