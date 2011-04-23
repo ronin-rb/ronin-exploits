@@ -99,13 +99,13 @@ module Ronin
     # The functionality of a {Payload} is defined by three main methods:
     #
     # * `build` - Handles building the payload.
-    # * `verify` - Optional method which handles verifying a built payload.
+    # * `test` - Optional method which handles testing a built payload.
     # * `deploy` - Handles deploying a built and verified payload against a
     #   host.
     # * `evacuate` - Handles cleaning up after a deployed payload.
     #
-    # The `build`, `verify`, `deploy`, `evacuate` methods can be invoked
-    # individually using the `build!`, `verify!`, `deploy!`, `evacuate!`
+    # The `build`, `test`, `deploy`, `evacuate` methods can be invoked
+    # individually using the `build!`, `test!`, `deploy!`, `evacuate!`
     # methods, respectively.
     #
     # # Exploit/Payload Coupling

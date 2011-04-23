@@ -13,7 +13,7 @@ describe Payloads::Helpers::BindShell do
   it { should have_param(:port) }
   it { should have_param(:protocol) }
 
-  describe "#verify!" do
+  describe "#test!" do
     before(:each) do
       subject.host = 'localhost'
       subject.port = 9999
@@ -21,45 +21,45 @@ describe Payloads::Helpers::BindShell do
       subject.build!
     end
 
-    it "should verify the host is set" do
+    it "should test the host is set" do
       subject.host = nil
 
       lambda {
-        subject.verify!
-      }.should raise_error(Engine::VerificationFailed)
+        subject.test!
+      }.should raise_error(Engine::TestFailed)
 
       subject.host = 'localhost'
-      subject.verify!.should == true
+      subject.test!.should == true
     end
 
-    it "should verify the port is set" do
+    it "should test the port is set" do
       subject.port = nil
 
       lambda {
-        subject.verify!
-      }.should raise_error(Engine::VerificationFailed)
+        subject.test!
+      }.should raise_error(Engine::TestFailed)
 
       subject.port = 9999
-      subject.verify!.should == true
+      subject.test!.should == true
     end
 
     context "protocol" do
       it "should accept :tcp" do
         subject.protocol = :tcp
-        subject.verify!.should == true
+        subject.test!.should == true
       end
 
       it "should accept :udp" do
         subject.protocol = :udp
-        subject.verify!.should == true
+        subject.test!.should == true
       end
 
-      it "should verify that protocol is either :tcp or :udp" do
+      it "should test that protocol is either :tcp or :udp" do
         subject.protocol = :fail
 
         lambda {
-          subject.verify!
-        }.should raise_error(Engine::VerificationFailed)
+          subject.test!
+        }.should raise_error(Engine::TestFailed)
       end
     end
   end
