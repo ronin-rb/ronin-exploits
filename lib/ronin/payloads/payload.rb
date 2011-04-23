@@ -23,6 +23,7 @@ require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/helpers'
 require 'ronin/post_exploitation'
 require 'ronin/engine'
+require 'ronin/engine/testable'
 require 'ronin/engine/buildable'
 require 'ronin/engine/deployable'
 require 'ronin/model/targets_arch'
@@ -133,6 +134,7 @@ module Ronin
     class Payload
 
       include Engine
+      include Engine::Testable
       include Engine::Buildable
       include Engine::Deployable
       include Model::TargetsArch
