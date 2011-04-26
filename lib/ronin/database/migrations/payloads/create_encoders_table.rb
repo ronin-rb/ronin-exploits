@@ -19,16 +19,15 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
+require 'ronin/database/migrations/create_script_paths_table'
 require 'ronin/database/migrations/migrations'
-
-require 'ronin/database/migrations/payloads/create_payloads_table'
 
 module Ronin
   module Database
     module Migrations
       migration(
         :create_payloads_encoders_table,
-        :needs => :create_payloads_table
+        :needs => :create_script_paths_table
       ) do
         up do
           create_table(:ronin_payloads_encoders) do
@@ -38,6 +37,7 @@ module Ronin
             column :description, Ronin::Model::Types::Description
             column :arch_id, Integer
             column :os_id, Integer
+            column :script_path_id, Integer
           end
 
           create_table(:ronin_author_payloads_encoders) do
