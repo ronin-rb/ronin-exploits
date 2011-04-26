@@ -21,7 +21,7 @@
 
 require 'ronin/database/migrations/migrations'
 require 'ronin/database/migrations/create_licenses_table'
-require 'ronin/database/migrations/create_cached_files_table'
+require 'ronin/database/migrations/create_script_paths_table'
 
 module Ronin
   module Database
@@ -29,7 +29,7 @@ module Ronin
       migration(
         :create_payloads_table, :needs => [
           :create_licenses_table,
-          :create_cached_files_table
+          :create_script_paths_table
         ]
       ) do
         up do
@@ -40,7 +40,7 @@ module Ronin
             column :description, Ronin::Model::Types::Description
             column :version, String, :default => '0.1'
             column :license_id, Integer
-            column :cached_file_id, Integer
+            column :script_path_id, Integer
             column :arch_id, Integer
             column :os_id, Integer
 
