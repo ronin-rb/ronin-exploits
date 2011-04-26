@@ -21,13 +21,13 @@
 
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
-require 'ronin/engine'
+require 'ronin/script'
 
 module Ronin
   module Payloads
     class Encoder
 
-      include Engine
+      include Script
       include Model::TargetsArch
       include Model::TargetsOS
 

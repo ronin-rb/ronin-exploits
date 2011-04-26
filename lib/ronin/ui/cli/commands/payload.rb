@@ -155,7 +155,7 @@ module Ronin
           def deploy_payload!
             begin
               @payload.deploy!
-            rescue Engine::VerificationFailed, Payloads::Exception => e
+            rescue Script::TestFailed, Payloads::Exception => e
               print_error(e.message)
               exit -1
             end

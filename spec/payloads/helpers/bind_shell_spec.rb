@@ -26,7 +26,7 @@ describe Payloads::Helpers::BindShell do
 
       lambda {
         subject.test!
-      }.should raise_error(Engine::TestFailed)
+      }.should raise_error(Script::TestFailed)
 
       subject.host = 'localhost'
       subject.test!.should == true
@@ -37,7 +37,7 @@ describe Payloads::Helpers::BindShell do
 
       lambda {
         subject.test!
-      }.should raise_error(Engine::TestFailed)
+      }.should raise_error(Script::TestFailed)
 
       subject.port = 9999
       subject.test!.should == true
@@ -59,7 +59,7 @@ describe Payloads::Helpers::BindShell do
 
         lambda {
           subject.test!
-        }.should raise_error(Engine::TestFailed)
+        }.should raise_error(Script::TestFailed)
       end
     end
   end
