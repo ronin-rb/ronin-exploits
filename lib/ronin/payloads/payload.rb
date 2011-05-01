@@ -168,6 +168,15 @@ module Ronin
         @helpers = Set[]
       end
 
+      #
+      # Builds the payload.
+      #
+      # @since 1.0.0
+      #
+      def run(*arguments)
+        build!(*arguments)
+      end
+
       protected
 
       #

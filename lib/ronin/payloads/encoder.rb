@@ -50,6 +50,17 @@ module Ronin
       end
 
       #
+      # Runs the encoder.
+      #
+      # @see #encode
+      #
+      # @since 1.0.0
+      #
+      def run(*arguments)
+        encode(*arguments)
+      end
+
+      #
       # Converts the encoder to a String.
       #
       # @return [String]
