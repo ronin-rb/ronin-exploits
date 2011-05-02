@@ -26,11 +26,11 @@ module Ronin
   module Database
     module Migrations
       migration(
-        :create_payloads_encoders_table,
+        :create_encoders_table,
         :needs => :create_script_paths_table
       ) do
         up do
-          create_table(:ronin_payloads_encoders) do
+          create_table(:ronin_encoders_encoders) do
             column :id, Serial
             column :type, String, :not_null => true
             column :name, String, :not_null => true
@@ -40,7 +40,7 @@ module Ronin
             column :script_path_id, Integer
           end
 
-          create_table(:ronin_author_payloads_encoders) do
+          create_table(:ronin_author_encoders_encoders) do
             column :id, Serial
             column :author_id, Integer, :not_null => true
             column :encoder_id, Integer, :not_null => true
@@ -48,8 +48,7 @@ module Ronin
         end
 
         down do
-          drop_table :ronin_author_payloads_encoders
-          drop_table :ronin_exploits_targets
+          drop_table :ronin_author_encoders_encoders
         end
       end
     end

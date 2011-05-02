@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/database/migrations/payloads/create_payloads_table'
+require 'ronin/database/migrations/encoders/create_encoders_table'
 
 require 'ronin/database/database'
 

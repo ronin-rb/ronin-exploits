@@ -24,7 +24,7 @@ require 'ronin/model/targets_os'
 require 'ronin/script'
 
 module Ronin
-  module Payloads
+  module Encoders
     class Encoder
 
       include Script

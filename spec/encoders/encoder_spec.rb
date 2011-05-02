@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ronin/payloads/encoder'
+require 'ronin/encoders/encoder'
 
-describe Payloads::Encoder do
+describe Encoders::Encoder do
   subject { described_class.new(:name => 'test') }
 
   let(:data) { 'some data' }
@@ -23,6 +23,6 @@ describe Payloads::Encoder do
   end
 
   it "should have a custom inspect method" do
-    subject.inspect.should == '#<Ronin::Payloads::Encoder: test>'
+    subject.inspect.should == '#<Ronin::Encoders::Encoder: test>'
   end
 end
