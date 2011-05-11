@@ -19,47 +19,42 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/ui/cli/command'
+require 'ronin/ui/cli/script_command'
+require 'ronin/payloads/payload'
 require 'ronin/ui/console'
-require 'ronin/payloads'
-require 'ronin/database'
 
 module Ronin
   module UI
     module CLI
       module Commands
-        class Payload < Command
+        class Payload < ScriptCommand
+
+          self.script_class = Ronin::Payloads::Payload
 
           desc 'Builds the specified Payload'
-          class_option :params, :type => :hash,
-                                :default => {},
-                                :banner => 'NAME:VALUE ...',
-                                :aliases => '-p'
+          query_option :targeting_arch, :type => :string, :aliases => '-a'
+          query_option :targeting_os, :type => :string, :aliases => '-o'
+
           class_option :host, :type => :string
           class_option :port, :type => :numeric
           class_option :local_host, :type => :string
           class_option :local_port, :type => :numeric
-          class_option :file, :type => :string, :aliases => '-f'
-          class_option :describing, :type => :string, :aliases => '-d'
-          class_option :version, :type => :string, :aliases => '-V'
-          class_option :license, :type => :string, :aliases => '-l'
-          class_option :arch, :type => :string, :aliases => '-a'
-          class_option :os, :type => :string, :aliases => '-o'
+
           class_option :dump, :type => :boolean, :default => true
           class_option :raw, :type => :boolean, :aliases => '-r'
           class_option :deploy, :type => :boolean,
                                 :default => false,
                                 :aliases => '-D'
-          class_option :console, :type => :boolean, :default => true
           class_option :shell_console, :type => :boolean, :default => false
           class_option :fs_console, :type => :boolean, :default => false
+
           argument :name, :type => :string, :required => false
 
           def execute
+            # silence all output, if we are to print the built payload
             UI::Output.silent = true if options.raw?
-            Database.setup(options[:database])
-            
-            select_payload!
+
+            @payload = load_script
 
             params = options[:params]
             params[:host] = options[:host] if options[:host]
@@ -83,54 +78,6 @@ module Ronin
           end
 
           protected
-
-          def load_payload!
-            @payload = Payloads::Payload.load_from(options[:file])
-          end
-
-          def find_payload!(name=nil)
-            @payload = Payloads::Payload.load_first do |payloads|
-              if name
-                payloads = payloads.named(name)
-              end
-
-              if options[:describing]
-                payloads = payloads.describing(options[:describing])
-              end
-
-              if options[:version]
-                payloads = payloads.revision(options[:version])
-              end
-
-              if options[:license]
-                payloads = payloads.licensed_under(options[:license])
-              end
-
-              if options[:arch]
-                payloads = payloads.targeting_arch(options[:arch])
-              end
-
-              if options[:os]
-                payloads = payloads.targeting_os(options[:os])
-              end
-
-              payloads
-            end
-          end
-
-          def select_payload!
-            # Load the payload
-            if options[:file]
-              load_payload!
-            else
-              find_payload!(name)
-            end
-
-            unless @payload
-              print_error "Could not find the specified payload"
-              exit -1
-            end
-          end
 
           def dump_payload!
             raw_payload = @payload.raw_payload
