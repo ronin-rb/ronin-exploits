@@ -19,72 +19,55 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/ui/cli/command'
+require 'ronin/ui/cli/model_command'
 
-require 'ronin/payloads'
+require 'ronin/payloads/payload'
 require 'ronin/database'
 
 module Ronin
   module UI
     module CommandLine
       module Commands
-        class Payloads < Command
+        class Payloads < ModelCommand
+
+          self.model = Ronin::Payloads::Payload
 
           desc 'Lists the available Payloads'
-          class_option :name, :type => :string, :aliases => '-n'
-          class_option :version, :type => :string, :aliases => '-v'
-          class_option :describing, :stype => :string, :aliases => '-d'
-          class_option :license, :type => :string, :aliases => '-l'
-          class_option :arch, :type => :string, :aliases => '-a'
-          class_option :os, :type => :string, :aliases => '-o'
+
+          query_option :named, :type => :string,
+                               :aliases => '-n',
+                               :banner => 'NAME'
+
+          query_option :revision, :type => :string,
+                                  :aliases => '-v',
+                                  :banner => 'VERSION'
+
+          query_option :describing, :stype => :string,
+                                    :aliases => '-d',
+                                    :banner => 'TEXT'
+
+          query_option :licensed_under, :type => :string,
+                                        :aliases => '-l',
+                                        :banner => 'LICENSE'
+
+          query_option :targeting_arch, :type => :string,
+                                        :aliases => '-a',
+                                        :banner => 'x86|x86_64|ia64|ppc|ppc64|sparc|sparc64|mips|mips_le|arm|arm_le'
+
+          query_option :targeting_os, :type => :string,
+                                      :aliases => '-o',
+                                      :banner => 'Linux|FreeBSD|OpenBSD|NetBSD|OSX|Solaris|Windows|UNIX'
+
           class_option :verbose, :type => :boolean, :aliases => '-v'
-
-          def execute
-            Database.setup(options[:database])
-
-            payloads = Ronin::Payloads::Payload.all
-
-            if options[:name]
-              payloads = payloads.named(options[:name])
-            end
-
-            if options[:version]
-              payloads = payloads.revision(options[:version])
-            end
-
-            if options[:describing]
-              payloads = payloads.describing(options[:describing])
-            end
-
-            if options[:license]
-              payloads = payloads.licensed_under(options[:license])
-            end
-
-            if options[:arch]
-              payloads = payloads.targeting_arch(options[:arch])
-            end
-
-            if options[:os]
-              payloads = payloads.targeting_os(options[:os])
-            end
-
-            if payloads.empty?
-              print_error "Could not find similar payloads"
-              exit -1
-            end
-
-            if options.verbose?
-              payloads.each { |payload| print_payload(payload) }
-            else
-              indent do
-                payloads.each { |payload| puts payload }
-              end
-            end
-          end
 
           protected
 
-          def print_payload(payload)
+          def print_resource(payload)
+            unless options.verbose?
+              puts "  #{payload}"
+              return
+            end
+
             attributes = payload.humanize_attributes(
               :exclude => [:description]
             )
