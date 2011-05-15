@@ -29,9 +29,10 @@ module Ronin
       module Commands
         class Payload < ScriptCommand
 
-          self.script_class = Ronin::Payloads::Payload
-
           desc 'Builds the specified Payload'
+
+          script_class Ronin::Payloads::Payload
+
           query_option :targeting_arch, :type => :string, :aliases => '-a'
           query_option :targeting_os, :type => :string, :aliases => '-o'
 

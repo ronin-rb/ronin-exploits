@@ -30,9 +30,9 @@ module Ronin
       module Commands
         class Payloads < ModelCommand
 
-          self.model = Ronin::Payloads::Payload
-
           desc 'Lists the available Payloads'
+
+          model Ronin::Payloads::Payload
 
           query_option :named, :type => :string,
                                :aliases => '-n',
