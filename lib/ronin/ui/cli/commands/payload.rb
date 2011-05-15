@@ -53,7 +53,7 @@ module Ronin
 
           def execute
             # silence all output, if we are to print the built payload
-            UI::Output.silent = true if options.raw?
+            UI::Output.silent! if options.raw?
 
             @payload = load_script
 
