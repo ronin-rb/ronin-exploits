@@ -19,15 +19,14 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/ui/cli/model_command'
-
+require 'ronin/ui/cli/resources_command'
 require 'ronin/payloads/payload'
 
 module Ronin
   module UI
     module CommandLine
       module Commands
-        class Payloads < ModelCommand
+        class Payloads < ResourcesCommand
 
           desc 'Lists the available Payloads'
 

@@ -19,15 +19,14 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #
 
-require 'ronin/ui/cli/model_command'
-
+require 'ronin/ui/cli/resources_command'
 require 'ronin/encoders/encoder'
 
 module Ronin
   module UI
     module CLI
       module Commands
-        class Exploits < ModelCommand
+        class Exploits < ResourcesCommand
 
           desc 'Lists available encoders'
 
