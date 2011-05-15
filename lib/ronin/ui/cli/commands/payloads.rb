@@ -22,7 +22,6 @@
 require 'ronin/ui/cli/model_command'
 
 require 'ronin/payloads/payload'
-require 'ronin/database'
 
 module Ronin
   module UI
@@ -74,7 +73,7 @@ module Ronin
             attributes['Arch'] = payload.arch if payload.arch
             attributes['OS'] = payload.os if payload.os
 
-            print_hash(attributes, :title => "Payload: #{payload}")
+            print_hash attributes, :title => "Payload: #{payload}"
 
             indent do
               if payload.description
@@ -87,22 +86,22 @@ module Ronin
 
               unless payload.authors.empty?
                 payload.authors.each do |author|
-                  print_hash(author.humanize_attributes, :title => 'Author')
+                  print_hash author.humanize_attributes, :title => 'Author'
                 end
               end
 
               unless payload.behaviors.empty?
-                print_array(payload.behaviors, :title => 'Exploits')
+                print_array payload.behaviors, :title => 'Exploits'
               end
 
               begin
-                payload.load_original!
-              rescue Exception => e
-                print_exception e
+                payload.load_code!
+              rescue Exception => error
+                print_exception error
               end
 
               unless payload.params.empty?
-                print_array(payload.params.values, :title => 'Parameters')
+                print_array payload.params.values, :title => 'Parameters'
               end
             end
           end
