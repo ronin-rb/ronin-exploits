@@ -32,7 +32,7 @@ module Ronin
 
           script_class Ronin::Encoders::Encoder
 
-          # exploit options
+          # encoder options
           class_option :input, :type => :string,
                                :aliases => '-I',
                                :banner => 'DATA'
@@ -68,9 +68,7 @@ module Ronin
             open_input do |intput|
               encoded = begin
                           @encoder.encode(input)
-                        rescue Script::TestFailed,
-                               Exploits::Exception,
-                               Payloads::Exception => error
+                        rescue Script::TestFailed => error
                           print_exception(error)
                           exit -1
                         end
