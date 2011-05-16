@@ -65,7 +65,7 @@ module Ronin
 
             @encoder.params = options[:params]
 
-            open_input do |intput|
+            open_input do |input|
               encoded = begin
                           @encoder.encode(input)
                         rescue Script::TestFailed => error
