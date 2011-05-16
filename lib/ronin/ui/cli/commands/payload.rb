@@ -66,8 +66,9 @@ module Ronin
             begin
               # Build the payload
               @payload.build!(params)
-            rescue Payloads::Exception => e
-              print_error(e.message)
+            rescue Script::Exception,
+                   Payloads::Exception => error
+              print_error error.message
               exit -1
             end
 

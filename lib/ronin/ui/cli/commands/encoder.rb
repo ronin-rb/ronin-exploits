@@ -68,8 +68,8 @@ module Ronin
             open_input do |input|
               encoded = begin
                           @encoder.encode(input)
-                        rescue Script::TestFailed => error
-                          print_exception(error)
+                        rescue Script::Exception => error
+                          print_exception error
                           exit -1
                         end
 
