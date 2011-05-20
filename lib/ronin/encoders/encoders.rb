@@ -20,13 +20,13 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/autoload'
+require 'ronin/auto_load'
 
 module Ronin
   #
   # The {Encoders} namespace contains all {Encoder} classes.
   #
   module Encoders
-    include Autoload
+    include AutoLoad
   end
 end

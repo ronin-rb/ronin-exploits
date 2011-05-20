@@ -20,13 +20,13 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/autoload'
+require 'ronin/auto_load'
 
 module Ronin
   #
   # The {Payloads} namespace contains all {Payload} classes.
   #
   module Payloads
-    include Autoload
+    include AutoLoad
   end
 end
