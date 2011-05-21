@@ -18,7 +18,7 @@ describe Gen::Generators::Payloads::Payload do
 
   subject { Payloads::Payload.load_object(@path) }
 
-  it_should_behave_like "a Payload"
+  it_should_behave_like "a generated Payload"
 
   it "should define a Payload" do
     subject.class.should == Payloads::Payload

@@ -18,7 +18,7 @@ describe Gen::Generators::Payloads::Nops do
 
   subject { Payloads::Nops.load_object(@path) }
 
-  it_should_behave_like "a Payload"
+  it_should_behave_like "a generated Payload"
 
   it "should define a Nops payload" do
     subject.class.should == Payloads::Nops

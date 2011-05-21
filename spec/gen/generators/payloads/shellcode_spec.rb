@@ -18,7 +18,7 @@ describe Gen::Generators::Payloads::Shellcode do
 
   subject { Payloads::Shellcode.load_object(@path) }
 
-  it_should_behave_like "a Payload"
+  it_should_behave_like "a generated Payload"
 
   it "should define a Shellcode payload" do
     subject.class.should == Payloads::Shellcode

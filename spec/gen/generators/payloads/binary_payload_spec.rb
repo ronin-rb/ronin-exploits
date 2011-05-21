@@ -18,7 +18,7 @@ describe Gen::Generators::Payloads::BinaryPayload do
 
   subject { Payloads::BinaryPayload.load_object(@path) }
 
-  it_should_behave_like "a Payload"
+  it_should_behave_like "a generated Payload"
 
   it "should define a BinaryPayload" do
     subject.class.should == Payloads::BinaryPayload
