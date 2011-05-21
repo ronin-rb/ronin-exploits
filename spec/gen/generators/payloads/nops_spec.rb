@@ -8,7 +8,7 @@ require 'fileutils'
 
 describe Gen::Generators::Payloads::Nops do
   before(:all) do
-    @path = File.join(Dir.tmpdir,'generated_payload.rb')
+    @path = File.join(Dir.tmpdir,'generated_nops_payload.rb')
 
     described_class.generate(
       {:leverages => ['shell']},

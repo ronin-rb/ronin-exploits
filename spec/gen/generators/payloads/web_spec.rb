@@ -8,7 +8,7 @@ require 'fileutils'
 
 describe Gen::Generators::Payloads::Web do
   before(:all) do
-    @path = File.join(Dir.tmpdir,'generated_payload.rb')
+    @path = File.join(Dir.tmpdir,'generated_web_payload.rb')
 
     Gen::Generators::Payloads::Web.generate(
       {:leverages => ['shell']},
