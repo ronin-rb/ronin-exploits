@@ -79,8 +79,8 @@ module Ronin
     #     cache do
     #       # ...
     #
-    #       author(:name => 'evoltech', :organization => 'HackBloc')
-    #       author(:name => 'postmodern', :organization => 'SophSec')
+    #       author :name => 'evoltech', :organization => 'HackBloc'
+    #       author :name => 'postmodern', :organization => 'SophSec'
     #     end
     #
     # ## Targeting

@@ -3,7 +3,7 @@
     self.description = %{<%= options[:description] %>}
 
     <% options[:authors].each do |author| %>
-    author(:name => <%= author.inspect %>)
+    author :name => <%= author.inspect %>
     <% end %>
 
     <% if options[:arch] %>arch! <%= options[:arch].to_sym.inspect %><% end %>
