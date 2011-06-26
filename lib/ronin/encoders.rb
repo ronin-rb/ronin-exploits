@@ -20,6 +20,6 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/database/migrations/encoders'
+require 'ronin/database/migrations/exploits'
 
 require 'ronin/encoders/encoders'

@@ -20,7 +20,7 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/database/migrations/payloads'
+require 'ronin/database/migrations/exploits'
 
 require 'ronin/payloads/payloads'
 require 'ronin/config'
