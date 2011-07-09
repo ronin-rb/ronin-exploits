@@ -67,7 +67,7 @@ module Ronin
       #
       # @since 0.3.0
       #
-      def use_payload_class
+      def payload_class
         Ronin::Payloads::Payload
       end
 
@@ -83,7 +83,7 @@ module Ronin
       # @since 0.3.0
       #
       def use_payload!(query={})
-        self.payload = use_payload_class.load_first(query)
+        self.payload = payload_class.load_first(query)
       end
 
       #
@@ -98,7 +98,7 @@ module Ronin
       # @since 0.3.0
       #
       def use_payload_from!(path)
-        self.payload = use_payload_class.load_from(path)
+        self.payload = payload_class.load_from(path)
       end
 
       protected
