@@ -101,6 +101,29 @@ module Ronin
         self.payload = payload_class.load_from(path)
       end
 
+      #
+      # Determines if the object responds to a method defined in the payload.
+      #
+      # @param [Symbol, String] name
+      #   The method name.
+      #
+      # @param [Boolean] include_private
+      #   Specifies whether to include private methods.
+      #
+      # @return [Boolean]
+      #   Specifies whether the object responds to the method.
+      #
+      # @since 1.0.0
+      #
+      # @api public
+      #
+      def respond_to?(name,include_private=false)
+        super(name,include_private=false) || (
+          @payload.kind_of?(Payload) &&
+          @payload.respond_to?(name,include_private=false)
+        )
+      end
+
       protected
 
       #
@@ -110,7 +133,7 @@ module Ronin
       # @since 0.3.0
       #
       def method_missing(name,*arguments,&block)
-        if @payload.kind_of?(Ronin::Payloads::Payload)
+        if (@payload.kind_of?(Payload) && @payload.respond_to?(name))
           return @payload.send(name,*arguments,&block)
         end
 
