@@ -86,7 +86,7 @@ module Ronin
     # ## Targeting
     #
     # A {Payload} may target a specific Architecture or Operating System.
-    # Targetting information can be set using the {#arch!} and {#os!}
+    # Targetting information can be set using the `arch` and `os!`
     # methods.
     #
     #     cache do
