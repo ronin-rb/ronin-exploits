@@ -63,12 +63,12 @@ module Ronin
     # ## License
     #
     # A {Payload} may associate with a specific software license using the
-    # `license!` method:
+    # `licensed_under` method:
     #
     #     cache do
     #       # ...
     #
-    #       license! :cc_sa_by
+    #       licensed_under :cc_sa_by
     #     end
     #
     # ## Authors
