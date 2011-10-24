@@ -241,41 +241,41 @@ module Ronin
           }
         end
 
-        def sys_getuid
+        def process_getuid
           shell.uid
         end
 
-        def sys_getgid
+        def process_getgid
           shell.gid
         end
 
-        def sys_getenv(name)
+        def process_getenv(name)
           shell.exec('echo',"$#{name}")
         end
 
-        def sys_setenv(name,value)
+        def process_setenv(name,value)
           shell.exec('export',"#{name}=#{value}")
         end
 
-        def sys_unsetenv(name)
+        def process_unsetenv(name)
           shell.exec('unset',name)
         end
 
-        def sys_kill(pid)
+        def process_kill(pid)
           shell.kill(pid)
         end
 
-        def sys_time
+        def process_time
           shell.time
         end
 
-        def sys_spawn(program,*arguments)
+        def process_spawn(program,*arguments)
           arguments += %w[2>&1 >/dev/null]
 
           shell.exec(program,*arguments)
         end
 
-        def sys_exit
+        def process_exit
           shell.exit
         end
       end

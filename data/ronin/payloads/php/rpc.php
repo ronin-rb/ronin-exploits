@@ -65,20 +65,20 @@ function rpc_fs_chown($args)  { return chown($args[0],$args[1]); }
 function rpc_fs_chgrp($args)  { return chgrp($args[0],$args[1]); }
 function rpc_fs_chmod($args)  { return chmod($args[0],$args[1]); }
 
-function rpc_sys_getpid($args)  { return @posix_getpid(); }
-function rpc_sys_getppid($args) { return @posix_getppid(); }
-function rpc_sys_getuid($args)  { return @posix_getuid(); }
-function rpc_sys_setuid($args)  { return @posix_setuid(intval($args[0])); }
-function rpc_sys_geteuid($args) { return @posix_geteuid(); }
-function rpc_sys_seteuid($args) { return @posix_seteuid(intval($args[0])); }
-function rpc_sys_getgid($args)  { return @posix_getgid(); }
-function rpc_sys_setgid($args)  { return @posix_setgid(intval($args[0])); }
-function rpc_sys_getegid($args) { return @posix_getegid(); }
-function rpc_sys_setegid($args) { return @posix_setegid(intval($args[0])); }
-function rpc_sys_getsid($args)  { return @posix_getsid(); }
-function rpc_sys_setsid($args)  { return @posix_setsid(); }
+function rpc_process_getpid($args)  { return @posix_getpid(); }
+function rpc_process_getppid($args) { return @posix_getppid(); }
+function rpc_process_getuid($args)  { return @posix_getuid(); }
+function rpc_process_setuid($args)  { return @posix_setuid(intval($args[0])); }
+function rpc_process_geteuid($args) { return @posix_geteuid(); }
+function rpc_process_seteuid($args) { return @posix_seteuid(intval($args[0])); }
+function rpc_process_getgid($args)  { return @posix_getgid(); }
+function rpc_process_setgid($args)  { return @posix_setgid(intval($args[0])); }
+function rpc_process_getegid($args) { return @posix_getegid(); }
+function rpc_process_setegid($args) { return @posix_setegid(intval($args[0])); }
+function rpc_process_getsid($args)  { return @posix_getsid(); }
+function rpc_process_setsid($args)  { return @posix_setsid(); }
 
-function rpc_sys_spawn($args)
+function rpc_process_spawn($args)
 {
   $pid = pcntl_fork();
 
@@ -93,7 +93,7 @@ function rpc_sys_spawn($args)
   }
 }
 
-function rpc_sys_kill($args)
+function rpc_process_kill($args)
 {
   if (isset($args[1])) { $signal = constant("SIG{$args[1]}"); }
   else                 { $signal = SIGKILL;                   }
@@ -101,9 +101,9 @@ function rpc_sys_kill($args)
   return posix_kill(intval($args[0]),$signal);
 }
 
-function rpc_sys_getcwd($args)  { return rpc_fs_getcwd($args); }
-function rpc_sys_chdir($args)   { return rpc_fs_chdir($args); }
-function rpc_sys_time($args)    { return time(); }
+function rpc_process_getcwd($args)  { return rpc_fs_getcwd($args); }
+function rpc_process_chdir($args)   { return rpc_fs_chdir($args); }
+function rpc_process_time($args)    { return time(); }
 
 define('RPC_SHELL_DELIMINATOR',str_repeat('#',80));
 
