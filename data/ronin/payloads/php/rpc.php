@@ -52,7 +52,7 @@ function rpc_fs_stat($args)
 }
 
 function rpc_fs_getcwd($args) { return getcwd(); }
-function rpc_fs_chdir($args)  { return chdir($args[0]); }
+function rpc_fs_chdir($args)  { chdir($args[0]); return getcwd(); }
 function rpc_fs_glob($args)   { return glob($args[0]); }
 function rpc_fs_mktemp($args) { return tempnam(sys_get_temp_dir(),$args[0]); }
 function rpc_fs_mkdir($args)  { return mkdir($args[0]); }
