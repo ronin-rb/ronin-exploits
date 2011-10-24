@@ -2,6 +2,14 @@
 
 define('BLOCK_SIZE', 1024 * 512);
 
+function rpc_format_command($args)
+{
+    $program   = $args[0];
+    $arguments = array_map('escapeshellarg',array_slice($args,1,-1));
+
+    return $program . ' ' . join(' ',$arguments);
+}
+
 function rpc_fs_read($args)
 {
   $file = fopen($args[0],"rb");
@@ -79,7 +87,7 @@ function rpc_sys_spawn($args)
   case -1:
     return false
   case 0:
-    exec(join(' ',$args[0]));
+    exec(rpc_format_command($args));
   default:
     return true;
   }
@@ -99,7 +107,7 @@ define('SHELL_OUTPUT_DELIMINATOR', str_repeat('#',80));
 
 function rpc_shell_exec($args)
 {
-  $command = join(' ',$args);
+  $command = rpc_format_command($args);
   $command .= '; echo "' . SHELL_OUTPUT_DELIMINATOR . '"';
   $command .= '; env';
 
