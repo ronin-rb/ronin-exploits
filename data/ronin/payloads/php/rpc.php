@@ -262,18 +262,18 @@ function rpc_error_handler($errno,$errstr)
 
 function rpc_call($request)
 {
-  if (isset($request['cwd'])) { chdir($request['cwd']); }
+  if (isset($request->cwd)) { chdir($request->cwd); }
 
-  if (is_array($request['env']))
+  if (is_array($request->env))
   {
-    foreach ($request['env'] as $name => $value)
+    foreach ($request->env as $name => $value)
     {
       putenv("{$name}={$value}");
     }
   }
 
-  $method    = "rpc_{$request['method']}";
-  $arguments = $request['arguments'];
+  $method    = "rpc_{$request->method}";
+  $arguments = $request->arguments;
 
   set_error_handler('rpc_error_handler');
   $value = call_user_func($method,$arguments);
