@@ -106,6 +106,7 @@ function rpc_shell_exec($args)
 
 if (!function_exists('json_encode'))
 {
+  // https://code.google.com/p/simplejson-php/
   function json_encode($value)
   {
     if ($value === null) { return 'null'; };  // gettype fails on null?
@@ -160,6 +161,7 @@ if (!function_exists('json_encode'))
 
 if (!function_exists('json_decode'))
 {
+  // https://code.google.com/p/simplejson-php/
   function json_decode($json, $assoc = false) {
     /* by default we don't tolerate ' as string delimiters
        if you need this, then simply change the comments on
