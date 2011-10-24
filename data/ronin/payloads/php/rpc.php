@@ -95,7 +95,8 @@ function rpc_sys_spawn($args)
 
 function rpc_sys_kill($args)
 {
-  $signal = constant("SIG{$args[1]}");
+  if (isset($args[1])) { $signal = constant("SIG{$args[1]}"); }
+  else                 { $signal = SIGKILL;                   }
 
   return posix_kill(intval($args[0]),$signal);
 }
