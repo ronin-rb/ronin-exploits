@@ -69,6 +69,22 @@ function rpc_sys_getegid($args) { return @posix_getegid(); }
 function rpc_sys_setegid($args) { return @posix_setegid(intval($args[0])); }
 function rpc_sys_getsid($args)  { return @posix_getsid(); }
 function rpc_sys_setsid($args)  { return @posix_setsid(); }
+
+function rpc_sys_spawn($args)
+{
+  $pid = pcntl_fork();
+
+  switch ($pid)
+  {
+  case -1:
+    return false
+  case 0:
+    exec(join(' ',$args[0]));
+  default:
+    return true;
+  }
+}
+
 function rpc_sys_kill($args)
 {
   $signal = constant("SIG{$args[1]}");
