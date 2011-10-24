@@ -249,6 +249,18 @@ module Ronin
           shell.gid
         end
 
+        def sys_getenv(name)
+          shell.exec('echo',"$#{name}")
+        end
+
+        def sys_setenv(name,value)
+          shell.exec('export',"#{name}=#{value}")
+        end
+
+        def sys_unsetenv(name)
+          shell.exec('unset',name)
+        end
+
         def sys_kill(pid)
           shell.kill(pid)
         end
