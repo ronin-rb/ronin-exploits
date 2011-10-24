@@ -257,6 +257,12 @@ module Ronin
           shell.time
         end
 
+        def sys_spawn(program,*arguments)
+          arguments += %w[2>&1 >/dev/null]
+
+          shell.exec(program,*arguments)
+        end
+
         def sys_exit
           shell.exit
         end
