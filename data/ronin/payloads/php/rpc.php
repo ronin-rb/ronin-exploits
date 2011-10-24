@@ -1,7 +1,5 @@
 <?php
 
-define('BLOCK_SIZE', 1024 * 512);
-
 function rpc_format_command($args)
 {
     $program   = $args[0];
@@ -10,12 +8,14 @@ function rpc_format_command($args)
     return $program . ' ' . join(' ',$arguments);
 }
 
+define('RPC_FS_BLOCK_SIZE', 1024 * 512);
+
 function rpc_fs_read($args)
 {
   $file = fopen($args[0],"rb");
   fseek($file,intval($args[1]));
 
-  $data = fread($file,BLOCK_SIZE);
+  $data = fread($file,RPC_FS_BLOCK_SIZE);
 
   fclose($file);
   return $data;
@@ -105,17 +105,17 @@ function rpc_sys_getcwd($args)  { return rpc_fs_getcwd($args); }
 function rpc_sys_chdir($args)   { return rpc_fs_chdir($args); }
 function rpc_sys_time($args)    { return time(); }
 
-define('SHELL_OUTPUT_DELIMINATOR', str_repeat('#',80));
+define('RPC_SHELL_OUTPUT_DELIMINATOR', str_repeat('#',80));
 
 function rpc_shell_exec($args)
 {
   $command = rpc_format_command($args);
-  $command .= '; echo "' . SHELL_OUTPUT_DELIMINATOR . '"';
+  $command .= '; echo "' . RPC_SHELL_OUTPUT_DELIMINATOR . '"';
   $command .= '; env';
 
   $output  = shell_exec($command);
 
-  list($output,$env_dump) = explode(SHELL_OUTPUT_DELIMINATOR,$output,2);
+  list($output,$env_dump) = explode(RPC_SHELL_OUTPUT_DELIMINATOR,$output,2);
 
   $output   = chop($output);
   $env_dump = preg_split('/\r?\n/',trim($env_dump,"\r\n"));
