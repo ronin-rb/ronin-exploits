@@ -20,6 +20,7 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
+require 'ronin/payloads/helpers/shell'
 require 'ronin/extensions/string'
 
 require 'socket'
@@ -61,6 +62,8 @@ module Ronin
       #     Downloads  Pictures  src\t   Videos\n"
       #
       module BindShell
+        include Shell
+
         def self.extended(base)
           base.instance_eval do
             leverage :shell
@@ -162,121 +165,6 @@ module Ronin
         #
         def shell_write(data)
           @bind_shell.write(data)
-        end
-
-        def fs_getcwd
-          shell.pwd
-        end
-
-        def fs_chdir(path)
-          shell.cd(path)
-          return shell.pwd
-        end
-
-        def fs_glob(pattern,&block)
-          shell.find(pattern,&block)
-        end
-
-        def fs_read(path,pos)
-          shell.exec('dd',"if=#{path}",'bs=1',"skip=#{pos}",'count=4096')
-        end
-
-        def fs_write(path,pos,data)
-          escaped = data.gsub('%','%%').dump
-
-          shell.exec("printf #{escaped} | dd if=#{path} bs=1 skip=#{pos} count=4096")
-        end
-
-        def fs_mktemp(basename)
-          shell.mktemp(basename)
-        end
-
-        def fs_mkdir(path)
-          shell.mkdir(path)
-        end
-
-        def fs_copy(path,new_path)
-          shell.cp(path,new_path).empty?
-        end
-
-        def fs_unlink(path)
-          shell.rm(path).empty?
-        end
-
-        def fs_rmdir(path)
-          shell.rmdir(path).empty?
-        end
-
-        def fs_move(path,new_path)
-          shell.mv(path,new_path).empty?
-        end
-
-        def fs_chown(path,owner)
-          shell.chown(owner,path).empty?
-        end
-
-        def fs_chgrp(path,group)
-          shell.chgrp(group,path).empty?
-        end
-
-        def fs_chmod(path,mode)
-          shell.chmod(mode,path).empty?
-        end
-
-        def fs_stat(path)
-          fields = shell.exec('stat','-t',path).strip.split(' ')
-
-          return {
-            :path => path,
-            :size => fields[1].to_i,
-            :blocks => fields[2].to_i,
-            :uid => fields[4].to_i,
-            :gid => fields[5].to_i,
-            :inode => fields[7].to_i,
-            :links => fields[8].to_i,
-            :atime => Time.at(fields[11].to_i),
-            :mtime => Time.at(fields[12].to_i),
-            :ctime => Time.at(fields[13].to_i),
-            :blocksize => fields[14].to_i
-          }
-        end
-
-        def process_getuid
-          shell.uid
-        end
-
-        def process_getgid
-          shell.gid
-        end
-
-        def process_getenv(name)
-          shell.exec('echo',"$#{name}")
-        end
-
-        def process_setenv(name,value)
-          shell.exec('export',"#{name}=#{value}")
-        end
-
-        def process_unsetenv(name)
-          shell.exec('unset',name)
-        end
-
-        def process_kill(pid)
-          shell.kill(pid)
-        end
-
-        def process_time
-          shell.time
-        end
-
-        def process_spawn(program,*arguments)
-          arguments += %w[2>&1 >/dev/null]
-
-          shell.exec(program,*arguments)
-        end
-
-        def process_exit
-          shell.exit
         end
       end
     end
