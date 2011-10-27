@@ -8,6 +8,20 @@ function rpc_format_command($args)
     return $program . ' ' . join(' ',$arguments);
 }
 
+function rpc_parse_env($text)
+{
+  $lines = preg_split('/\r?\n/',$text);
+  $env = Array();
+
+  foreach ($lines as $line)
+  {
+    list($name,$value) = split('=',$line,2);
+    $env[$name] = $value;
+  }
+
+  return $env;
+}
+
 define('RPC_FS_BLOCK_SIZE', 1024 * 512);
 
 function rpc_fs_read($args)
@@ -123,10 +137,13 @@ function rpc_shell_exec($args)
   list($orig_env,$output,$new_env) = explode(RPC_SHELL_DELIMINATOR,$output,3);
 
   $output   = chop($output);
-  $orig_env = preg_split('/\r?\n/',$orig_env);
-  $new_env  = preg_split('/\r?\n/',$new_env);
+  $orig_env = rpc_parse_env($orig_env);
+  $new_env  = rpc_parse_env($new_env);
 
-  return Array('output' => $output, 'env' => array_diff($orig_env,$new_env));
+  return Array(
+    'output' => $output,
+    'env' => array_diff_assoc($orig_env,$new_env)
+  );
 }
 
 if (!function_exists('json_encode'))
