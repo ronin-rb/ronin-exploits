@@ -68,6 +68,7 @@ module Ronin
           base.instance_eval do
             leverage :shell
             leverage :fs
+            leverage :process
 
             # The host the bind-shell is running on
             parameter :host, :type => String,
