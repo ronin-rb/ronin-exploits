@@ -270,7 +270,6 @@ function rpc_error_handler($errno,$errstr)
   {
   case E_WARNING:
   case E_USER_WARNING:
-  case E_ERROR:
   case E_USER_ERROR:
     $rpc_exception = $errstr;
   }
