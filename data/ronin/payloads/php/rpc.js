@@ -61,28 +61,58 @@ var PHP_RPC = {
 
     open: function(path,mode) {
       // TODO: parse mode
-      files.push({path: path, pos: 0, buffer: ''});
+      files.push({path: path, pos: 0, buffer: '', eof: false});
       return files.length - 1;
     },
 
-    read: function(fd,length) {
+    each_block: function(fd,callback) {
       var file = PHP_RPC.FS.files[fd];
 
       if (file == null) { throw "Invalid file-descriptor"; }
 
-      while (file.buffer.length < length) {
-        var chunk = PHP_RPC.call('fs_read',file.path,file.pos);
-
-        if (chunk.length == 0) { break; }
-
-        file.pos    += chunk.length;
-        file.buffer += chunk;
+      if (file.buffer.length > 0) {
+        callback(file.buffer);
+        file.buffer = '';
       }
 
-      var data = file.buffer.slice(0,length);
+      while (true) {
+        var block = PHP_RPC.call('fs_read',file.path,file.pos);
 
-      file.buffer = file.buffer.slice(length,file.buffer.length);
-      return data;
+        if (!block) {
+          file.eof = true;
+          break;
+        }
+
+        file.eof = false;
+        file.pos += block.length;
+
+        if (!callback(block)) { break; }
+      }
+    },
+
+    read: function(fd,length) {
+      var file      = PHP_RPC.FS.files[fd],
+          remaining = (length || (0.0 / 0)),
+          result    = '';
+
+      if (file == null) { throw "Invalid file-descriptor"; }
+
+      PHP_RPC.FS.each_block(fd, function(block) {
+        if (reamining < block.length) {
+          result      += block.slice(0,reamining);
+          file.buffer += block.slice(reamining,block.length);
+          return false;
+        }
+        else {
+          result    += block;
+          remaining -= block.length;
+        }
+
+        if (reamining <= 0) { return false; }
+      });
+
+      if (result) { return result; }
+      else        { return null;   }
     }
 
     write: function(fd,data) {
