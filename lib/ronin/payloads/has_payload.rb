@@ -118,9 +118,9 @@ module Ronin
       # @api public
       #
       def respond_to?(name,include_private=false)
-        super(name,include_private=false) || (
+        super(name,include_private) || (
           @payload.kind_of?(Payload) &&
-          @payload.respond_to?(name,include_private=false)
+          @payload.respond_to?(name,include_private)
         )
       end
 
