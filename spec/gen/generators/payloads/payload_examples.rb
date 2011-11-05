@@ -13,8 +13,4 @@ shared_examples_for "a generated Payload" do
   it "should not define any authors by default" do
     subject.authors.should be_empty
   end
-
-  it "should define leveraged resources" do
-    subject.should be_leverages(:shell)
-  end
 end
