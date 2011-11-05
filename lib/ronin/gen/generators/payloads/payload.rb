@@ -43,7 +43,6 @@ module Ronin
           DEFAULT_DESCRIPTION = %{This is a payload.}
 
           class_option :helpers, :type => :array, :default => []
-          class_option :leverages, :type => :array, :default => []
           class_option :name, :type => :string, :default => DEFAULT_NAME
           class_option :version, :type => :string, :default => DEFAULT_VERSION
           class_option :description, :type => :string, :default => DEFAULT_DESCRIPTION

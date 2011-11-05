@@ -66,10 +66,6 @@ module Ronin
 
         def self.extended(base)
           base.instance_eval do
-            leverage :shell
-            leverage :fs
-            leverage :process
-
             # The host the bind-shell is running on
             parameter :host, :type => String,
                              :description => 'Host to connect to'
