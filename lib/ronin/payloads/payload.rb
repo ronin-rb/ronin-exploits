@@ -140,7 +140,7 @@ module Ronin
       include Script::Deployable
       include Model::TargetsArch
       include Model::TargetsOS
-      include PostExploitation
+      include PostExploitation::Mixin
 
       # Primary key of the payload
       property :id, Serial
