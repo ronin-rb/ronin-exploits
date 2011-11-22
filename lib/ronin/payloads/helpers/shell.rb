@@ -84,7 +84,7 @@ module Ronin
         end
 
         def fs_chmod(mode,path)
-          shell.chmod(mode,path).empty?
+          shell.chmod("%.4o" % mode,path).empty?
         end
 
         def fs_stat(path)
