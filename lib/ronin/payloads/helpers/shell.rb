@@ -83,7 +83,7 @@ module Ronin
           shell.chgrp(group,path).empty?
         end
 
-        def fs_chmod(path,mode)
+        def fs_chmod(mode,path)
           shell.chmod(mode,path).empty?
         end
 
