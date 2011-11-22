@@ -75,11 +75,11 @@ module Ronin
           shell.mv(path,new_path).empty?
         end
 
-        def fs_chown(path,owner)
-          shell.chown(owner,path).empty?
+        def fs_chown(user,path)
+          shell.chown(user,path).empty?
         end
 
-        def fs_chgrp(path,group)
+        def fs_chgrp(group,path)
           shell.chgrp(group,path).empty?
         end
 
