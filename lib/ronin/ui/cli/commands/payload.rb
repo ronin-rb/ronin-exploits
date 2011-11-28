@@ -106,7 +106,7 @@ module Ronin
             begin
               @payload.deploy!
             rescue Script::TestFailed, Payloads::Exception => e
-              print_error(e.message)
+              print_exception(e)
               exit -1
             end
 
