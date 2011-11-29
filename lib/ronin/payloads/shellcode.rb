@@ -30,6 +30,26 @@ module Ronin
     #
     class Shellcode < ASMPayload
 
+      protected
+
+      #
+      # Assembles Shellcode.
+      #
+      # @param [Hash{Symbol => Object}] variables
+      #   Variables for the shellcode.
+      #
+      # @yield []
+      #   The given block represents the instructions of the shellcode.
+      #
+      # @return [String]
+      #   The assembled shellcode.
+      #
+      # @see #assemble
+      #
+      def shellcode(variables={})
+        assemble(:format => :bin, :variables => variables)
+      end
+
     end
   end
 end

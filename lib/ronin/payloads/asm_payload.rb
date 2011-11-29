@@ -21,6 +21,7 @@
 #
 
 require 'ronin/payloads/binary_payload'
+require 'ronin/code/asm/program'
 
 module Ronin
   module Payloads
@@ -28,6 +29,39 @@ module Ronin
     # A {Payload} class that represents payloads written in Assembly (ASM).
     #
     class ASMPayload < BinaryPayload
+
+      protected
+
+      #
+      # Creates an ASM Program.
+      #
+      # @yield []
+      #   The given block represents the instructions of the ASM Program.
+      #
+      # @param [Hash] options
+      #   Options for {Code::ASM::Program#initialize} and
+      #   {Code::ASM::Program#assemble}.
+      #
+      # @option options [Symbol, String] :arch (self.arch.name)
+      #   The architecture for the ASM Program.
+      #
+      # @option options [Symbol, String] :os (self.os.name)
+      #   The Operating System for the ASM Program.
+      #
+      # @return [String]
+      #   The assembled program.
+      #
+      # @see Code::ASM::Program#initialize
+      # @see Code::ASM::Program#assemble
+      #
+      def assemble(options={},&block)
+        program_options = {
+          :arch => self.arch.name,
+          :os   => self.os.name
+        }.merge(options)
+
+        return Code::ASM::Program.new(program_options,&block).assemble(options)
+      end
 
     end
   end
