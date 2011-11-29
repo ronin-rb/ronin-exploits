@@ -33,7 +33,7 @@ module Ronin
       protected
 
       #
-      # Assembles Shellcode.
+      # Assembles Shellcode and sets the `@payload` instance variable.
       #
       # @param [Hash{Symbol => Object}] variables
       #   Variables for the shellcode.
@@ -46,8 +46,8 @@ module Ronin
       #
       # @see #assemble
       #
-      def shellcode(variables={})
-        assemble(:format => :bin, :variables => variables)
+      def shellcode(variables={},&block)
+        @payload = assemble(:format => :bin, :variables => variables,&block)
       end
 
     end
