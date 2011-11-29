@@ -145,9 +145,6 @@ module Ronin
       # Primary key of the payload
       property :id, Serial
 
-      # Validations
-      validates_uniqueness_of :version, :scope => [:name]
-
       # The helpers used by the payload
       attr_reader :helpers
 
@@ -167,6 +164,29 @@ module Ronin
         super(attributes)
 
         @helpers = Set[]
+      end
+
+      #
+      # Builds the payload.
+      #
+      # @param [Hash] options
+      #   Additional options to build the payload with and use as
+      #   parameters.
+      #
+      # @yield [payload]
+      #   If a block is given, it will be yielded the result of the
+      #
+      # @yieldparam [Payload] payload
+      #   The built payload.
+      #
+      # @note
+      #   Sets the `@raw_payload` instance variable to an empty String,
+      #   before building the payload.
+      #
+      def build!(options={},&block)
+        @raw_payload = ''
+
+        super(options,&block)
       end
 
       #

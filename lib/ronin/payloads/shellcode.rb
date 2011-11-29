@@ -47,7 +47,9 @@ module Ronin
       # @see #assemble
       #
       def shellcode(variables={},&block)
-        @payload = assemble(:format => :bin, :variables => variables,&block)
+        options = {:format => :bin, :variables => variables}
+
+        @raw_payload = assemble(options,&block)
       end
 
     end
