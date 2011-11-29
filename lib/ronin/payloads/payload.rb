@@ -22,6 +22,7 @@
 
 require 'ronin/payloads/exceptions/unknown_helper'
 require 'ronin/payloads/helpers'
+require 'ronin/payloads/has_payload'
 require 'ronin/post_exploitation'
 require 'ronin/script'
 require 'ronin/script/testable'
@@ -140,6 +141,7 @@ module Ronin
       include Script::Deployable
       include Model::TargetsArch
       include Model::TargetsOS
+      include HasPayload
       include PostExploitation::Mixin
 
       # Primary key of the payload
@@ -185,6 +187,10 @@ module Ronin
       #
       def build!(options={},&block)
         @raw_payload = ''
+
+        if @payload.respond_to?(:build!)
+          @payload.build!(options)
+        end
 
         super(options,&block)
       end
