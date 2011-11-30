@@ -50,8 +50,10 @@ module Ronin
                              :aliases => '-r',
                              :desc    => 'Write the raw payload'
 
-          class_option :deploy, :type => :boolean,
-                                :default => false
+          class_option :deploy, :type    => :boolean,
+                                :default => false,
+                                :desc    => 'Deploys the Payload'
+
           class_option :shell_console, :type => :boolean, :default => false
           class_option :fs_console, :type => :boolean, :default => false
 
