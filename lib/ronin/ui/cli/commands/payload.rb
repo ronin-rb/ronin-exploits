@@ -88,7 +88,7 @@ module Ronin
             unless options.console?
               if options.raw?
                 # Write the raw payload
-                STDOUT.write(raw_payload)
+                write(raw_payload)
               else
                 # Dump the built payload
                 puts raw_payload.dump
