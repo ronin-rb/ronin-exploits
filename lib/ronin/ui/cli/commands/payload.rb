@@ -42,11 +42,16 @@ module Ronin
           class_option :local_host, :type => :string
           class_option :local_port, :type => :numeric
 
-          class_option :dump, :type => :boolean, :default => true
-          class_option :raw, :type => :boolean, :aliases => '-r'
+          class_option :dump, :type    => :boolean,
+                              :default => true,
+                              :aliases => '-d',
+                              :desc    => 'Dump the raw payload as a String'
+          class_option :raw, :type    => :boolean,
+                             :aliases => '-r',
+                             :desc    => 'Write the raw payload'
+
           class_option :deploy, :type => :boolean,
-                                :default => false,
-                                :aliases => '-D'
+                                :default => false
           class_option :shell_console, :type => :boolean, :default => false
           class_option :fs_console, :type => :boolean, :default => false
 
