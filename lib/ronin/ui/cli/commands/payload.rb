@@ -86,10 +86,10 @@ module Ronin
               exit -1
             end
 
-            if options.print?
-              print_payload!
-            elsif options.deploy?
+            if options.deploy?
               deploy_payload!
+            elsif options.print?
+              print_payload!
             end
           end
 
@@ -98,23 +98,15 @@ module Ronin
           def print_payload!
             raw_payload = @payload.raw_payload
 
-            unless options.console?
-              if options.raw?
-                # Write the raw payload
-                write raw_payload
-              elsif options.hex?
-                # Prints the raw payload as a hex String
-                puts raw_payload.hex_escape
-              else
-                # Prints the raw payload as a String
-                puts raw_payload.dump
-              end
+            if options.raw?
+              # Write the raw payload
+              write raw_payload
+            elsif options.hex?
+              # Prints the raw payload as a hex String
+              puts raw_payload.hex_escape
             else
-              print_info 'Starting the console with @payload set ...'
-              print_info '  @payload.raw_payload  # for the raw payload.'
-              print_info '  @payload.build!       # rebuilds the payload.'
-
-              UI::Console.start(:payload => payload)
+              # Prints the raw payload as a String
+              puts raw_payload.dump
             end
           end
 
