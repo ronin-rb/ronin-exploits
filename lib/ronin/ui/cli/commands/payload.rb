@@ -22,6 +22,7 @@
 
 require 'ronin/ui/cli/script_command'
 require 'ronin/payloads/payload'
+require 'ronin/formatting/binary'
 require 'ronin/ui/console'
 
 module Ronin
@@ -48,7 +49,10 @@ module Ronin
                               :desc    => 'Dump the raw payload as a String'
           class_option :raw, :type    => :boolean,
                              :aliases => '-r',
-                             :desc    => 'Write the raw payload'
+                             :desc    => 'Prints the raw payload'
+          class_option :hex, :type    => :boolean,
+                             :aliases => '-x',
+                             :desc    => 'Prints the raw payload in hex'
 
           class_option :deploy, :type    => :boolean,
                                 :default => false,
@@ -96,6 +100,9 @@ module Ronin
               if options.raw?
                 # Write the raw payload
                 write(raw_payload)
+              elsif options.hex?
+                # Prints the raw payload as a hex String
+                puts raw_payload.hex_escape
               else
                 # Dump the built payload
                 puts raw_payload.dump
