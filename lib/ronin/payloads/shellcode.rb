@@ -37,7 +37,8 @@ module Ronin
     #     Ronin::Payloads::Shellcode.object do
     #     
     #       cache do
-    #         self.name = 'local_shell'
+    #         self.name        = 'local_shell'
+    #         self.version     = '0.5'
     #         self.description = %{
     #           Shellcode that spawns a local /bin/sh shell
     #         }
