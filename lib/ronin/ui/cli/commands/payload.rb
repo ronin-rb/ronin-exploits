@@ -23,7 +23,6 @@
 require 'ronin/ui/cli/script_command'
 require 'ronin/payloads/payload'
 require 'ronin/formatting/binary'
-require 'ronin/ui/console'
 
 module Ronin
   module UI
