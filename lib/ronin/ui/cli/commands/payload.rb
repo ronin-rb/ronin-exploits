@@ -99,7 +99,7 @@ module Ronin
             unless options.console?
               if options.raw?
                 # Write the raw payload
-                write(raw_payload)
+                write raw_payload
               elsif options.hex?
                 # Prints the raw payload as a hex String
                 puts raw_payload.hex_escape
