@@ -71,8 +71,8 @@ module Ronin
       #
       # Assembles Shellcode and sets the `@payload` instance variable.
       #
-      # @param [Hash{Symbol => Object}] variables
-      #   Variables for the shellcode.
+      # @param [Hash{Symbol => Object}] define
+      #   Constants to define in the shellcode.
       #
       # @yield []
       #   The given block represents the instructions of the shellcode.
@@ -82,8 +82,8 @@ module Ronin
       #
       # @see #assemble
       #
-      def shellcode(variables={},&block)
-        options = {:format => :bin, :variables => variables}
+      def shellcode(define={},&block)
+        options = {:format => :bin, :define => define}
 
         @raw_payload = assemble(options,&block)
       end
