@@ -42,10 +42,13 @@ module Ronin
           class_option :local_host, :type => :string
           class_option :local_port, :type => :numeric
 
-          class_option :dump, :type    => :boolean,
-                              :default => true,
-                              :aliases => '-d',
-                              :desc    => 'Dump the raw payload as a String'
+          class_option :print, :type    => :boolean,
+                               :default => true,
+                               :desc    => 'Prints the raw payload'
+          class_option :string, :type    => :boolean,
+                                :default => true,
+                                :aliases => '-s',
+                                :desc    => 'Prints the raw payload as a String'
           class_option :raw, :type    => :boolean,
                              :aliases => '-r',
                              :desc    => 'Prints the raw payload'
@@ -83,8 +86,8 @@ module Ronin
               exit -1
             end
 
-            if options.dump?
-              dump_payload!
+            if options.print?
+              print_payload!
             elsif options.deploy?
               deploy_payload!
             end
@@ -92,7 +95,7 @@ module Ronin
 
           protected
 
-          def dump_payload!
+          def print_payload!
             raw_payload = @payload.raw_payload
 
             unless options.console?
@@ -103,7 +106,7 @@ module Ronin
                 # Prints the raw payload as a hex String
                 puts raw_payload.hex_escape
               else
-                # Dump the built payload
+                # Prints the raw payload as a String
                 puts raw_payload.dump
               end
             else
