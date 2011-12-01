@@ -62,10 +62,10 @@ module Ronin
           build_failed! "Must target an Arch for Assembly payload"
         end
 
-        program_options = {:arch => self.arch.name}
+        program_options = {:arch => self.arch.name.to_sym}
 
         if self.os
-          program_options[:os] = self.os.name
+          program_options[:os] = self.os.name.to_sym
         end
 
         return Code::ASM::Program.new(program_options,&block).assemble(options)
