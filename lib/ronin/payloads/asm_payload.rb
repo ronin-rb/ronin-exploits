@@ -51,14 +51,22 @@ module Ronin
       # @return [String]
       #   The assembled program.
       #
+      # @raise [Script::BuildFailed]
+      #   An Arch must be targeted for the Assembly payload.
+      #
       # @see Code::ASM::Program#initialize
       # @see Code::ASM::Program#assemble
       #
       def assemble(options={},&block)
-        program_options = {
-          :arch => self.arch.name,
-          :os   => self.os.name
-        }.merge(options)
+        unless self.arch
+          build_failed! "Must target an Arch for Assembly payload"
+        end
+
+        program_options = {:arch => self.arch.name}
+
+        if self.os
+          program_options[:os] = self.os.name
+        end
 
         return Code::ASM::Program.new(program_options,&block).assemble(options)
       end
