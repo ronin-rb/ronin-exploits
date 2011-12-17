@@ -29,36 +29,37 @@ module Ronin
       module Commands
         class Exploits < ResourcesCommand
 
-          desc 'Lists available encoders'
+          summary 'Lists available encoders'
 
           model Ronin::Encoders::Encoder
 
-          query_option :named, :type => :string,
-                               :aliases => '-n',
-                               :banner => 'NAME'
+          query_option :named, :type  => String,
+                               :flag  => '-n',
+                               :usage => 'NAME'
 
-          query_option :revision, :type => :string,
-                                  :aliases => '-V',
-                                  :banner => 'VERSION'
+          query_option :revision, :type  => String,
+                                  :flag  => '-V',
+                                  :usage => 'VERSION'
 
-          query_option :describing, :stype => :string,
-                                    :aliases => '-d',
-                                    :banner => 'TEXT'
+          query_option :describing, :type  => String,
+                                    :flag  => '-d',
+                                    :usage => 'TEXT'
 
-          query_option :status, :type => :string,
-                                :aliases => '-s',
-                                :banner => 'potential|proven|weaponized'
+          query_option :status, :type  => String,
+                                :flag  => '-s',
+                                :usage => 'potential|proven|weaponized'
 
-          query_option :licensed_under, :type => :string,
-                                        :aliases => '-l',
-                                        :banner => 'LICENSE'
+          query_option :licensed_under, :type  => String,
+                                        :flag  => '-l',
+                                        :usage => 'LICENSE'
 
-          class_option :verbose, :type => :boolean, :aliases => '-v'
+          option :verbose, :type => true,
+                           :flag => '-v'
 
           protected
 
           def print_resource(encoder)
-            unless options.verbose?
+            unless verbose?
               puts "  #{encoder}"
               return
             end

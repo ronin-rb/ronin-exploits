@@ -31,15 +31,7 @@ module Ronin
         #
         class Shellcode < BinaryPayload
 
-          #
-          # Generate a Shellcode payload.
-          #
-          # @since 0.3.0
-          #
-          def generate
-            erb File.join('ronin','gen','payloads','shellcode.erb'),
-                self.path
-          end
+          template 'shellcode.erb'
 
         end
       end

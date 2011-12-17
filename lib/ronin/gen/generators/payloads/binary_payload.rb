@@ -31,15 +31,7 @@ module Ronin
         #
         class BinaryPayload < Payload
 
-          #
-          # Generate a binary payload.
-          #
-          # @since 0.3.0
-          #
-          def generate
-            erb File.join('ronin','gen','payloads','binary_payload.erb'),
-                self.path
-          end
+          template 'binary_payload.erb'
 
         end
       end

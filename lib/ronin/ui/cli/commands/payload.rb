@@ -30,78 +30,83 @@ module Ronin
       module Commands
         class Payload < ScriptCommand
 
-          desc 'Builds the specified Payload'
+          summary 'Builds the specified Payload'
 
           script_class Ronin::Payloads::Payload
 
-          query_option :targeting_arch, :type => :string, :aliases => '-a'
-          query_option :targeting_os, :type => :string, :aliases => '-o'
+          query_option :targeting_arch, :type  => String,
+                                        :flag  => '-a',
+                                        :usage => 'ARCH'
 
-          class_option :host, :type => :string
-          class_option :port, :type => :numeric
-          class_option :local_host, :type => :string
-          class_option :local_port, :type => :numeric
+          query_option :targeting_os, :type  => String,
+                                      :flag  => '-o',
+                                      :usage => 'OS'
 
-          class_option :print, :type    => :boolean,
-                               :default => true,
-                               :desc    => 'Prints the raw payload'
-          class_option :string, :type    => :boolean,
-                                :default => true,
-                                :aliases => '-s',
-                                :desc    => 'Prints the raw payload as a String'
-          class_option :raw, :type    => :boolean,
-                             :aliases => '-r',
-                             :desc    => 'Prints the raw payload'
-          class_option :hex, :type    => :boolean,
-                             :aliases => '-x',
-                             :desc    => 'Prints the raw payload in hex'
+          option :print, :type        => true,
+                         :default     => true,
+                         :description => 'Prints the raw payload'
 
-          class_option :deploy, :type    => :boolean,
-                                :default => false,
-                                :desc    => 'Deploys the Payload'
+          option :string, :type        => true,
+                          :default     => true,
+                          :flag        => '-s',
+                          :description => 'Prints the raw payload as a String'
 
-          class_option :shell_console, :type => :boolean, :default => false
-          class_option :fs_console, :type => :boolean, :default => false
+          option :raw, :type        => true,
+                       :flag        => '-r',
+                       :description => 'Prints the raw payload'
 
-          argument :name, :type => :string, :required => false
+          option :hex, :type        => true,
+                       :flag        => '-x',
+                       :description => 'Prints the raw payload in hex'
 
-          def execute
+          option :deploy, :type        => true,
+                          :description => 'Deploys the Payload'
+
+          option :shell_console, :type => true
+          option :fs_console,    :type => true
+
+          #
+          # Sets up the Payload command.
+          #
+          def setup
+            super
+
             # silence all output, if we are to print the built payload
-            UI::Output.silent! if options.raw?
+            UI::Output.silent! if raw?
+          end
 
-            @payload = load_script
-
-            params = options[:params]
-            params[:host] = options[:host] if options[:host]
-            params[:port] = options[:port] if options[:port]
-            params[:local_host] = options[:local_host] if options[:local_host]
-            params[:local_port] = options[:local_port] if options[:local_port]
-
+          #
+          # Builds and optionally deploys the loaded payload.
+          #
+          def execute
             begin
               # Build the payload
-              @payload.build!(params)
+              @payload.build!
             rescue Script::Exception,
                    Payloads::Exception => error
               print_error error.message
               exit -1
             end
 
-            if options.deploy?
+            if deploy?
               deploy_payload!
-            elsif options.print?
+            elsif print?
               print_payload!
             end
           end
 
           protected
 
-          def print_payload!
+          #
+          # Prints the built payload.
+          #
+          def print_payload
             raw_payload = @payload.raw_payload
 
-            if options.raw?
+            if raw?
               # Write the raw payload
               write raw_payload
-            elsif options.hex?
+            elsif hex?
               # Prints the raw payload as a hex String
               puts raw_payload.hex_escape
             else
@@ -110,7 +115,10 @@ module Ronin
             end
           end
 
-          def deploy_payload!
+          #
+          # Deploys the built payload.
+          #
+          def deploy_payload
             begin
               @payload.deploy!
             rescue Script::TestFailed, Payloads::Exception => e
@@ -118,11 +126,11 @@ module Ronin
               exit -1
             end
 
-            if options.shell_console?
+            if shell_console?
               @payload.shell.console
-            elsif options.fs_console?
+            elsif fs_console?
               @payload.fs.console
-            elsif options.console?
+            elsif console?
               print_info 'Starting the console with @payload set ...'
 
               UI::Console.start(:payload => @payload)

@@ -27,44 +27,49 @@ module Ronin
   module UI
     module CLI
       module Commands
+        #
+        # @since 1.0.0
+        #
         class Encoder < ScriptCommand
 
-          desc 'Encodes data uses an Encoder'
+          summary 'Encodes data uses an Encoder'
 
           script_class Ronin::Encoders::Encoder
 
           # encoder options
-          class_option :input, :type => :string,
-                               :aliases => '-I',
-                               :banner => 'DATA'
+          option :input, :type  => String,
+                         :flag  => '-I',
+                         :usage => 'DATA'
 
-          class_option :input_file, :type => :string,
-                                    :aliases => '-i',
-                                    :banner => 'FILE'
+          option :input_file, :type  => String,
+                              :flag  => '-i',
+                              :usage => 'FILE'
 
-          class_option :output, :type => :string,
-                                :aliases => '-o',
-                                :banner => 'FILE'
+          option :output, :type  => String,
+                          :flag  => '-o',
+                          :usage => 'FILE'
 
-          class_option :raw, :type => :boolean,
-                             :default => false,
-                             :aliases => '-r'
+          option :raw, :type => true,
+                       :flag => '-r'
+
+          #
+          # Sets up the Encoder command.
+          #
+          def setup
+            super
+
+            # silence all output, if we are to print the raw data
+            UI::Output.silent! if raw?
+          end
 
           #
           # Runs the input data through the encoder.
           #
-          # @since 1.0.0
-          #
           def execute
-            # silence all output, if we are to print the raw data
-            UI::Output.silent! if options.raw?
-
             unless (@encoder = load_script)
               print_error "Could not find the specified encoder"
               exit -1
             end
-
-            @encoder.params = options[:params]
 
             open_input do |input|
               encoded = begin
@@ -95,13 +100,11 @@ module Ronin
           # @yield [String] data
           #   The data read from the input stream.
           #
-          # @since 1.0.0
-          #
           def open_input
-            if options[:input]
-              yield options[:input]
-            elsif options[:input_file]
-              File.open(options[:input_file],'rb') do |file|
+            if @input
+              yield @input
+            elsif @input_file
+              File.open(@input_file,'rb') do |file|
                 yield file.read
               end
             else
@@ -118,11 +121,9 @@ module Ronin
           # @yield [IO] output
           #   The output stream.
           #
-          # @since 1.0.0
-          #
           def open_output(&block)
-            if options[:output]
-              File.open(options[:output],'wb',&block)
+            if @output
+              File.open(@output,'wb',&block)
             else
               yield STDOUT
             end

@@ -33,32 +33,30 @@ module Ronin
         #
         class Payload < RubyGenerator
 
-          # Default name to give the payload
-          DEFAULT_NAME = 'Payload'
+          data_dir File.join('ronin','gen','payloads')
 
-          # Default version to give the payload
-          DEFAULT_VERSION = '0.1'
+          template 'payload.erb'
 
-          # Default description to give the payload
-          DEFAULT_DESCRIPTION = %{This is a payload.}
+          parameter :helpers, :type => Array,
+                              :default => []
 
-          class_option :helpers, :type => :array, :default => []
-          class_option :name, :type => :string, :default => DEFAULT_NAME
-          class_option :version, :type => :string, :default => DEFAULT_VERSION
-          class_option :description, :type => :string, :default => DEFAULT_DESCRIPTION
-          class_option :authors, :type => :array, :default => []
-          class_option :arch, :type => :string
-          class_option :os, :type => :string
-          class_option :os_version, :type => :string
+          parameter :name, :type => String,
+                           :default => 'Payload'
 
-          #
-          # Generate a basic payload.
-          #
-          # @since 0.3.0
-          #
-          def generate
-            erb File.join('ronin','gen','payloads','payload.erb'), self.path
-          end
+          parameter :version, :type => String,
+                              :default => '0.1'
+
+          parameter :description, :type => String,
+                                  :default => 'This is a payload.'
+
+          parameter :authors, :type => Array,
+                              :default => []
+
+          parameter :arch, :type => String
+
+          parameter :os, :type => String
+
+          parameter :os_version, :type => String
 
         end
       end

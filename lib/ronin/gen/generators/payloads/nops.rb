@@ -31,15 +31,7 @@ module Ronin
         #
         class Nops < BinaryPayload
 
-          #
-          # Generate a Nops payload.
-          #
-          # @since 0.3.0
-          #
-          def generate
-            erb File.join('ronin','gen','payloads','nops.erb'),
-                self.path
-          end
+          template 'nops.erb'
 
         end
       end

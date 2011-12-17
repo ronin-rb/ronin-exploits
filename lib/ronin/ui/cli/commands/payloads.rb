@@ -25,44 +25,42 @@ require 'ronin/payloads/payload'
 
 module Ronin
   module UI
-    module CommandLine
+    module CLI
       module Commands
         class Payloads < ResourcesCommand
 
-          desc 'Lists the available Payloads'
+          summary 'Lists the available Payloads'
 
           model Ronin::Payloads::Payload
 
-          query_option :named, :type => :string,
-                               :aliases => '-n',
-                               :banner => 'NAME'
+          query_option :named, :type  => String,
+                               :flag  => '-n',
+                               :usage => 'NAME'
 
-          query_option :revision, :type => :string,
-                                  :aliases => '-v',
-                                  :banner => 'VERSION'
+          query_option :revision, :type  => String,
+                                  :flag  => '-v',
+                                  :usage => 'VERSION'
 
-          query_option :describing, :stype => :string,
-                                    :aliases => '-d',
-                                    :banner => 'TEXT'
+          query_option :describing, :type  => String,
+                                    :flag  => '-d',
+                                    :usage => 'TEXT'
 
-          query_option :licensed_under, :type => :string,
-                                        :aliases => '-l',
-                                        :banner => 'LICENSE'
+          query_option :licensed_under, :type  => String,
+                                        :flag  => '-l',
+                                        :usage => 'LICENSE'
 
-          query_option :targeting_arch, :type => :string,
-                                        :aliases => '-a',
-                                        :banner => 'x86|x86_64|ia64|ppc|ppc64|sparc|sparc64|mips|mips_le|arm|arm_le'
+          query_option :targeting_arch, :type  => String,
+                                        :flag  => '-a',
+                                        :usage => 'x86|x86_64|ia64|ppc|ppc64|sparc|sparc64|mips|mips_le|arm|arm_le'
 
-          query_option :targeting_os, :type => :string,
-                                      :aliases => '-o',
-                                      :banner => 'Linux|FreeBSD|OpenBSD|NetBSD|OSX|Solaris|Windows|UNIX'
-
-          class_option :verbose, :type => :boolean, :aliases => '-v'
+          query_option :targeting_os, :type  => String,
+                                      :flag  => '-o',
+                                      :usage => 'Linux|FreeBSD|OpenBSD|NetBSD|OSX|Solaris|Windows|UNIX'
 
           protected
 
           def print_resource(payload)
-            unless options.verbose?
+            unless verbose?
               puts "  #{payload}"
               return
             end

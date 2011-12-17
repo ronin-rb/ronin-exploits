@@ -31,15 +31,7 @@ module Ronin
         #
         class Web < Payload
 
-          #
-          # Generate a Web payload.
-          #
-          # @since 1.0.0
-          #
-          def generate
-            erb File.join('ronin','gen','payloads','web.erb'),
-                self.path
-          end
+          template 'web.erb'
 
         end
       end
