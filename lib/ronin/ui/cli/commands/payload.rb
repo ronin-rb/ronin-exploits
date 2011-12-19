@@ -62,8 +62,8 @@ module Ronin
           option :deploy, :type        => true,
                           :description => 'Deploys the Payload'
 
-          option :shell_console, :type => true
-          option :fs_console,    :type => true
+          option :shell, :type => true
+          option :fs,    :type => true
 
           #
           # Sets up the Payload command.
@@ -126,9 +126,9 @@ module Ronin
               exit -1
             end
 
-            if shell_console?
+            if shell?
               @payload.shell.console
-            elsif fs_console?
+            elsif fs?
               @payload.fs.console
             elsif console?
               print_info 'Starting the console with @payload set ...'
