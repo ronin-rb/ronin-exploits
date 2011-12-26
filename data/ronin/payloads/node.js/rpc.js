@@ -200,9 +200,9 @@ RPC.prototype.stop = function() {
 var HTTP = require('http');
 var URL  = require('url');
 
-Transports.HTTP = function(port,hostname) {
-  this.port     = port;
-  this.hostname = hostname;
+Transports.HTTP = function(port,host) {
+  this.port = port;
+  this.host = (host ? host : '0.0.0.0');
 }
 
 Transports.HTTP.prototype = new Transport();
@@ -220,7 +220,9 @@ Transports.HTTP.prototype.start = function(callback) {
     response.end();
   });
 
-  this.server.listen(this.port,this.hostname);
+  this.server.listen(this.port,this.host,function() {
+    console.log("Listening on " + self.host + ":" + self.port);
+  });
 }
 
 Transports.HTTP.prototype.stop = function() {
