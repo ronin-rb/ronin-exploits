@@ -227,7 +227,7 @@ Transports.HTTP.prototype.stop = function() {
   this.server.close();
 }
 
-var transport = new Transports.HTTP(process.argv[1],process.argv[2]);
+var transport = new Transports.HTTP(process.argv[2],process.argv[3]);
 var rpc = new RPC(transport);
 
 rpc.start();
