@@ -99,7 +99,7 @@ RPC = function(transport) {
  * Wraps a function for RPC.functions.
  */
 RPC.wrap = function(func) {
-  return function() { return func.apply(this,arguments); }
+  return function() { return func.apply(this,arguments); };
 }
 
 /*
@@ -167,7 +167,7 @@ RPC.functions = {
  */
 RPC.prototype.registerFunction = function(name,func) {
   RPC.functions[name] = func;
-};
+}
 
 /*
  * Starts the Transport and begins processing requests.
@@ -183,7 +183,7 @@ RPC.prototype.start = function() {
     }
 
     try {
-      request.return(func(request.args,request.callback));
+      request.return(func(request.args,request.callback()));
     } catch(error) {
       request.error(error);
     }
