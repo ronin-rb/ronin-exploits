@@ -97,9 +97,7 @@ RPC = function(transport) {
 
 RPC.functions = {
   /* fs functions */
-  fs_open: function(args) {
-    return FS.openSync(args[0],args[1]);
-  },
+  fs_open: function(args) { return FS.openSync(args[0],args[1]); },
   fs_read: function(args) {
     var buffer = new Buffer();
 
@@ -111,49 +109,25 @@ RPC.functions = {
 
     return FS.writeSync(args[0],buffer,0,buffer.length,args[1]);
   },
-  fs_close: function(args) {
-    return FS.closeSync(args[0]);
-  },
-  fs_move: function(args) {
-    return FS.renameSync(args[0],args[1]);
-  },
-  fs_unlink: function(args) {
-    return FS.unlinkSync(args[0]);
-  },
-  fs_rmdir: function(args) {
-    return FS.rmdirSync(args[0]);
-  },
-  fs_mkdir: function(args) {
-    return FS.mkdirSync(args[0]);
-  },
-  fs_chmodSync: function(args) {
-    return FS.chmodSync(args[0],args[1]);
-  },
+  fs_close: function(args) { return FS.closeSync(args[0]); },
+  fs_move: function(args) { return FS.renameSync(args[0],args[1]); },
+  fs_unlink: function(args) { return FS.unlinkSync(args[0]); },
+  fs_rmdir: function(args) { return FS.rmdirSync(args[0]); },
+  fs_mkdir: function(args) { return FS.mkdirSync(args[0]); },
+  fs_chmodSync: function(args) { return FS.chmodSync(args[0],args[1]); },
   fs_stat: function(args) { return FS.statSync(args[0]); },
-  fs_link: function(args) {
-    return FS.symlinkSync(args[0],args[1]);
-  }
+  fs_link: function(args) { return FS.symlinkSync(args[0],args[1]); }
 
   /* process functions */
   process_pid: function(args) { return process.pid; },
-  process_getenv: function(args) {
-    return process.env[args[0]];
-  },
-  process_setenv: function(args) {
-    return process.env[args[0]] = args[0];
-  },
+  process_getenv: function(args) { return process.env[args[0]]; },
+  process_setenv: function(args) { return process.env[args[0]] = args[0]; },
   process_getcwd: function(args) { return process.cwd(); },
-  process_chdir:  function(args) {
-    return process.chdir(args[0]);
-  },
+  process_chdir:  function(args) { return process.chdir(args[0]); },
   process_getuid: function(args) { return process.getuid(); },
-  process_setuid: function(args) {
-    return process.setuid(args[0]);
-  },
+  process_setuid: function(args) { return process.setuid(args[0]); },
   process_getgid: function(args) { return process.getgid(); },
-  process_setgid: function(args) {
-    return process.setgid(args[0]);
-  },
+  process_setgid: function(args) { return process.setgid(args[0]); },
   process_time: function(args) { return new Date().getTime(); },
   process_kill: function(args) { return process.kill(args[0]); },
   process_exit: function(args) { process.exit(); },
