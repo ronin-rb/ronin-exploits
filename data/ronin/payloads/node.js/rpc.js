@@ -89,47 +89,48 @@ var Process = require('child_process');
  */
 RPC = function(transport) {
   this.transport = transport;
-  this.functions = {
-    /* process functions */
-    process_pid: function(request) { return process.pid; },
-    process_getenv: function(request) {
-      return process.env[request.args[0]];
-    },
-    process_setenv: function(request) {
-      return process.env[request.args[0]] = request.args[0];
-    },
-    process_getcwd: function(request) { return process.cwd(); },
-    process_chdir:  function(request) {
-      return process.chdir(request.args[0]);
-    },
-    process_getuid: function(request) { return process.getuid(); },
-    process_setuid: function(request) {
-      return process.setuid(request.args[0]);
-    },
-    process_getgid: function(request) { return process.getgid(); },
-    process_setgid: function(request) {
-      return process.setgid(request.args[0]);
-    },
-    process_time: function(request) { return new Date().getTime(); },
-    process_kill: function(request) { return process.kill(request.args[0]); }
-    process_exit: function(request) { process.exit(); }
+}
 
-    shell_exec: function(request) {
-      Process.spawn.call(request.args,function(command) {
-        command.stdout.on('data', function(data) {
-          request.yield({stdout: data});
-        });
+RPC.functions = {
+  /* process functions */
+  process_pid: function(request) { return process.pid; },
+  process_getenv: function(request) {
+    return process.env[request.args[0]];
+  },
+  process_setenv: function(request) {
+    return process.env[request.args[0]] = request.args[0];
+  },
+  process_getcwd: function(request) { return process.cwd(); },
+  process_chdir:  function(request) {
+    return process.chdir(request.args[0]);
+  },
+  process_getuid: function(request) { return process.getuid(); },
+  process_setuid: function(request) {
+    return process.setuid(request.args[0]);
+  },
+  process_getgid: function(request) { return process.getgid(); },
+  process_setgid: function(request) {
+    return process.setgid(request.args[0]);
+  },
+  process_time: function(request) { return new Date().getTime(); },
+  process_kill: function(request) { return process.kill(request.args[0]); }
+  process_exit: function(request) { process.exit(); }
 
-        command.stderr.on('data', function(data) {
-          request.yield({stderr: data});
-        });
+                shell_exec: function(request) {
+                  Process.spawn.call(request.args,function(command) {
+                    command.stdout.on('data', function(data) {
+                      request.yield({stdout: data});
+                    });
 
-        command.on('exit', function(data) {
-          request.return(code);
-        });
-      });
-    }
-  };
+                    command.stderr.on('data', function(data) {
+                      request.yield({stderr: data});
+                    });
+
+                    command.on('exit', function(data) {
+                      request.return(code);
+                    });
+                  });
+                }
 }
 
 /*
@@ -139,7 +140,7 @@ RPC = function(transport) {
  * func - The function that will receive the Requests.
  */
 RPC.prototype.registerFunction = function(name,func) {
-  this.functions[name] = func;
+  RPC.functions[name] = func;
 };
 
 /*
@@ -149,7 +150,7 @@ RPC.prototype.start = function() {
   var self = this;
 
   this.transport.start(function(request) {
-    var func = self.functions[request.name];
+    var func = RPC.functions[request.name];
 
     if (func == undefined) {
       request.error("Unknown function: " + request.name);
