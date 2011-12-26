@@ -130,14 +130,21 @@ RPC.functions = {
 
   /* process functions */
   process_pid:    function(args) { return process.pid; },
-  process_getenv: function(args) { return process.env[args[0]]; },
-  process_setenv: function(args) { return process.env[args[0]] = args[0]; },
   process_getcwd: RPC.wrap(process.cwd),
   process_chdir:  RPC.wrap(process.chdir),
   process_getuid: RPC.wrap(process.getuid),
   process_setuid: RPC.wrap(process.setuid),
   process_getgid: RPC.wrap(process.getgid),
   process_setgid: RPC.wrap(process.setgid),
+  process_getenv: function(args) { return process.env[args[0]]; },
+  process_setenv: function(args) { return process.env[args[0]] = args[0]; },
+  process_unsetenv: function(args) {
+    var name  = args[0];
+    var value = process.env[name];
+
+    delete process.env[name];
+    return value
+  },
   process_time:   function(args) { return new Date().getTime(); },
   process_kill:   RPC.wrap(process.kill),
   process_exit:   RPC.wrap(process.exit),
