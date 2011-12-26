@@ -244,7 +244,7 @@ module RPC
   def self.ruby_platform; RUBY_PLATFORM; end
   def self.ruby_engine
     if Object.const_defined?('RUBY_ENGINE')
-      Object.const_get(RUBY_ENGINE)
+      Object.const_get('RUBY_ENGINE')
     end
   end
 
