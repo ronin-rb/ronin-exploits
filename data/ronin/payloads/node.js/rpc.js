@@ -220,7 +220,7 @@ Transports.HTTP.prototype.start = function(callback) {
     response.end();
   });
 
-  this.server.listen(this.port,this.host,function() {
+  this.server.listen(this.port,this.host, function() {
     console.log("Listening on " + self.host + ":" + self.port);
   });
 }
