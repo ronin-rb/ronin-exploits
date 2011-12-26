@@ -28,28 +28,14 @@ Transport.prototype.serialize = JSON.stringify;
 Transport.prototype.deserialize = JSON.parse;
 
 /*
- * Sends a yield message to the session.
+ * Sends data to the session.
  *
  * session - Abstract session belonging to the Transport.
- * arguments - The arguments to encode and send.
+ * data - The data to send.
  */
-Transport.prototype.sendYield = function(session,arguments) {}
-
-/*
- * Sends a return message to the session.
- *
- * session - Abstract session belonging to the Transport.
- * value - The return value to encode and send.
- */
-Transport.prototype.sendReturn = function(session,value) {}
-
-/*
- * Sends an error message to the session.
- *
- * session - Abstract session belonging to the Transport.
- * message - The error message to send.
- */
-Transport.prototype.sendError = function(session,message) {}
+Transport.prototype.send = function(session,data) {
+  session.write(this.serialize(data));
+}
 
 /*
  * transport - The transport that received the request.
@@ -68,15 +54,15 @@ Request = function(transport,session,name,args) {
 /*
 * Yields the arguments for the request.
 */
-Request.prototype.yield = function() {
-  this.transport.sendYield(this.session,arguments);
+Request.prototype.yield = function(arguments) {
+  this.transport.send(this.session, {'yield': arguments});
 }
 
 /*
 * Returns data for the request.
 */
 Request.prototype.return = function(value) {
-  this.transport.sendReturn(this.session,value);
+  this.transport.send(this.session, {'return': value});
 }
 
 /*
@@ -85,7 +71,7 @@ Request.prototype.return = function(value) {
  * message - The error message to send.
  */
 Request.prototype.error = function(message) {
-  this.transport.sendError(this.session,message);
+  this.transport.send(this.session, {'error': message});
 }
 
 var SYS  = require('sys');
@@ -211,24 +197,6 @@ Transports.HTTP.prototype.start = function(callback) {
   });
 
   this.server.listen(this.port,this.hostname);
-}
-
-Transports.HTTP.prototype.sendYield = function(session,args) {
-  var mesg = {yield: args};
-
-  session.write(this.serialize(mesg));
-}
-
-Transports.HTTP.prototype.sendReturn = function(session,value) {
-  var mesg = {return_value: value};
-
-  session.write(this.serialize(mesg));
-}
-
-Transports.HTTP.prototype.sendError = function(session,message) {
-  var mesg = {error: message};
-
-  session.write(this.serialize(mesg));
 }
 
 Transports.HTTP.prototype.stop = function() {
