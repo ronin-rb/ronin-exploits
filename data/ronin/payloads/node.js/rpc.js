@@ -99,7 +99,7 @@ RPC = function(transport) {
  * Wraps a function for RPC.functions.
  */
 RPC.wrap = function(func) {
-  return function() { return func.apply(this,arguments); };
+  return function(args,callback) { return func.apply(this,args); };
 }
 
 /*
