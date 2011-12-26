@@ -1,4 +1,5 @@
 require 'time'
+require 'resolv'
 require 'socket'
 require 'base64'
 require 'json'
@@ -103,6 +104,14 @@ module RPC
   end
 
   @@sockets = {}
+
+  def self.net_dns_lookup(host)
+    Resolv.getaddresses(host)
+  end
+
+  def self.net_dns_reverse_lookup(ip)
+    Resolv.getnames(host)
+  end
 
   def self.net_tcp_connect(host,port,local_host=nil,local_port=nil)
     socket = TCPSocket.new(host,port,local_host,local_port)
