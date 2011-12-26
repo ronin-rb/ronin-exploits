@@ -116,7 +116,7 @@ RPC.functions = {
   fs_mkdir: function(args) { return FS.mkdirSync(args[0]); },
   fs_chmodSync: function(args) { return FS.chmodSync(args[0],args[1]); },
   fs_stat: function(args) { return FS.statSync(args[0]); },
-  fs_link: function(args) { return FS.symlinkSync(args[0],args[1]); }
+  fs_link: function(args) { return FS.symlinkSync(args[0],args[1]); },
 
   /* process functions */
   process_pid: function(args) { return process.pid; },
