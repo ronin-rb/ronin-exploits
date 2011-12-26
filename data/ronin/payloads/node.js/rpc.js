@@ -113,24 +113,24 @@ RPC.functions = {
     return process.setgid(request.args[0]);
   },
   process_time: function(request) { return new Date().getTime(); },
-  process_kill: function(request) { return process.kill(request.args[0]); }
-  process_exit: function(request) { process.exit(); }
+  process_kill: function(request) { return process.kill(request.args[0]); },
+  process_exit: function(request) { process.exit(); },
 
-                shell_exec: function(request) {
-                  Process.spawn.call(request.args,function(command) {
-                    command.stdout.on('data', function(data) {
-                      request.yield({stdout: data});
-                    });
+  shell_exec: function(request) {
+    Process.spawn.call(request.args,function(command) {
+      command.stdout.on('data', function(data) {
+        request.yield({stdout: data});
+      });
 
-                    command.stderr.on('data', function(data) {
-                      request.yield({stderr: data});
-                    });
+      command.stderr.on('data', function(data) {
+        request.yield({stderr: data});
+      });
 
-                    command.on('exit', function(data) {
-                      request.return(code);
-                    });
-                  });
-                }
+      command.on('exit', function(data) {
+        request.return(code);
+      });
+    });
+  }
 }
 
 /*
@@ -170,6 +170,7 @@ RPC.prototype.start = function() {
 RPC.prototype.stop = function() {
   this.transport.stop();
 }
+
 var HTTP = require('http');
 var URL  = require('url');
 
