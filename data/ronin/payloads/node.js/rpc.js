@@ -82,7 +82,7 @@ Request.prototype.error = function(message) {
   this.transport.send(this.session, {'exception': message});
 }
 
-var SYS  = require('sys');
+var Util = require('util');
 var FS   = require('fs');
 var Process = require('child_process');
 
