@@ -24,8 +24,8 @@ var PHP_RPC = {
       throw "Invalid PHP-RPC Response";
     }
 
-    if (response.exception) { throw response.exception; }
-    else                    { return response.value;    }
+    if (response['exception']) { throw response['exception']; }
+    else                       { return response['return'];   }
   },
 
   call: function(method,args,callback) {

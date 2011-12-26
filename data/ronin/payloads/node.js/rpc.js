@@ -79,7 +79,7 @@ Request.prototype.return = function(value) {
  * message - The error message to send.
  */
 Request.prototype.error = function(message) {
-  this.transport.send(this.session, {'error': message});
+  this.transport.send(this.session, {'exception': message});
 }
 
 var SYS  = require('sys');
@@ -95,10 +95,16 @@ RPC = function(transport) {
   this.transport = transport;
 }
 
+/*
+ * Wraps a function for RPC.functions.
+ */
 RPC.wrap = function(func) {
   return function() { return func.apply(this,arguments); }
 }
 
+/*
+ * The RPC functions table.
+ */
 RPC.functions = {
   /* fs functions */
   fs_open: RPC.wrap(FS.openSync),
