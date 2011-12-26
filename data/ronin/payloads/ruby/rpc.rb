@@ -201,6 +201,26 @@ module RPC
     end
   end
 
+  def self.net_remote_address(fd)
+    unless (socket = @@sockets[fd])
+      raise(RuntimeError,"unknown socket file-descriptor")
+    end
+
+    addrinfo = socket.remote_address
+
+    return [addrinfo.ip_address, addrinfo.ip_port]
+  end
+
+  def self.net_local_address(fd)
+    unless (socket = @@sockets[fd])
+      raise(RuntimeError,"unknown socket file-descriptor")
+    end
+
+    addrinfo = socket.local_address
+
+    return [addrinfo.ip_address, addrinfo.ip_port]
+  end
+
   def self.net_close(fd)
     unless (socket = @@sockets[fd])
       raise(RuntimeError,"unknown socket file-descriptor")
