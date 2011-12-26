@@ -20,12 +20,16 @@ Transport.prototype.stop = function() {}
 /*
  * The default data serialization function.
  */
-Transport.prototype.serialize = JSON.stringify;
+Transport.prototype.serialize = function(data) {
+  return new Buffer(JSON.stringify(data)).toString('base64');
+}
 
 /*
  * The default data deserialization function.
  */
-Transport.prototype.deserialize = JSON.parse;
+Transport.prototype.deserialize = function(data) {
+  return JSON.parse(new Buffer(data,'base64'));
+}
 
 /*
  * Sends data to the session.
@@ -174,14 +178,6 @@ Transports.HTTP = function(port,hostname) {
 }
 
 Transports.HTTP.prototype = new Transport();
-
-Transports.HTTP.prototype.serialize = function(data) {
-  return new Buffer(JSON.stringify(data)).toString('base64');
-}
-
-Transports.HTTP.prototype.deserialize = function(data) {
-  return JSON.parse(new Buffer(data,'base64'));
-}
 
 Transports.HTTP.prototype.start = function(callback) {
   var self = this;
