@@ -129,7 +129,7 @@ RPC.functions = {
   fs_link:   RPC.wrap(FS.symlinkSync),
 
   /* process functions */
-  process_pid: function(args) { return process.pid; },
+  process_pid:    function(args) { return process.pid; },
   process_getenv: function(args) { return process.env[args[0]]; },
   process_setenv: function(args) { return process.env[args[0]] = args[0]; },
   process_getcwd: RPC.wrap(process.cwd),
@@ -138,9 +138,9 @@ RPC.functions = {
   process_setuid: RPC.wrap(process.setuid),
   process_getgid: RPC.wrap(process.getgid),
   process_setgid: RPC.wrap(process.setgid),
-  process_time: function(args) { return new Date().getTime(); },
-  process_kill: RPC.wrap(process.kill),
-  process_exit: RPC.wrap(process.exit),
+  process_time:   function(args) { return new Date().getTime(); },
+  process_kill:   RPC.wrap(process.kill),
+  process_exit:   RPC.wrap(process.exit),
 
   shell_exec: function(args,callback) {
     Process.spawn.call(args,function(command) {
