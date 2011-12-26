@@ -92,6 +92,41 @@ RPC = function(transport) {
 }
 
 RPC.functions = {
+  /* fs functions */
+  fs_open: function(request) {
+    return FS.openSync(request.args[0],request.args[1]);
+  },
+  fs_read: function(request) {
+    var buffer = new Buffer();
+
+    FS.readSync(request.args[0],buffer,request.args[1]);
+    return buffer;
+  },
+  fs_write: function(request) {
+    var buffer = new Buffer(request.args[2]);
+
+    return FS.writeSync(request.args[0],buffer,0,buffer.length,request.args[1]);
+  },
+  fs_move: function(request) {
+    return FS.renameSync(request.args[0],request.args[1]);
+  },
+  fs_unlink: function(request) {
+    return FS.unlinkSync(request.args[0]);
+  },
+  fs_rmdir: function(request) {
+    return FS.rmdirSync(request.args[0]);
+  },
+  fs_mkdir: function(request) {
+    return FS.mkdirSync(request.args[0]);
+  },
+  fs_chmodSync: function(request) {
+    return FS.chmodSync(request.args[0],request.args[1]);
+  },
+  fs_stat: function(request) { return FS.statSync(request.args[0]); },
+  fs_link: function(request) {
+    return FS.symlinkSync(request.args[0],request.args[1]);
+  }
+
   /* process functions */
   process_pid: function(request) { return process.pid; },
   process_getenv: function(request) {
