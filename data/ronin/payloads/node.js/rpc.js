@@ -185,7 +185,7 @@ RPC.prototype.start = function() {
     try {
       request.return(func(request.args,request.callback()));
     } catch(error) {
-      request.error(error);
+      request.error(error.toString());
     }
   });
 }
