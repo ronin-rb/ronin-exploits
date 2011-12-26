@@ -95,9 +95,13 @@ RPC = function(transport) {
   this.transport = transport;
 }
 
+RPC.wrap = function(func) {
+  return function() { return func.apply(this,arguments); }
+}
+
 RPC.functions = {
   /* fs functions */
-  fs_open: function(args) { return FS.openSync(args[0],args[1]); },
+  fs_open: RPC.wrap(FS.openSync),
   fs_read: function(args) {
     var buffer = new Buffer();
 
@@ -109,28 +113,28 @@ RPC.functions = {
 
     return FS.writeSync(args[0],buffer,0,buffer.length,args[1]);
   },
-  fs_close: function(args) { return FS.closeSync(args[0]); },
-  fs_move: function(args) { return FS.renameSync(args[0],args[1]); },
-  fs_unlink: function(args) { return FS.unlinkSync(args[0]); },
-  fs_rmdir: function(args) { return FS.rmdirSync(args[0]); },
-  fs_mkdir: function(args) { return FS.mkdirSync(args[0]); },
-  fs_chmodSync: function(args) { return FS.chmodSync(args[0],args[1]); },
-  fs_stat: function(args) { return FS.statSync(args[0]); },
-  fs_link: function(args) { return FS.symlinkSync(args[0],args[1]); },
+  fs_close:  RPC.wrap(FS.closeSync),
+  fs_move:   RPC.wrap(FS.renameSync),
+  fs_unlink: RPC.wrap(FS.unlinkSync),
+  fs_rmdir:  RPC.wrap(FS.rmdirSync),
+  fs_mkdir:  RPC.wrap(FS.mkdirSync),
+  fs_chmod:  RPC.wrap(FS.chmodSync),
+  fs_stat:   RPC.wrap(FS.statSync),
+  fs_link:   RPC.wrap(FS.symlinkSync),
 
   /* process functions */
   process_pid: function(args) { return process.pid; },
   process_getenv: function(args) { return process.env[args[0]]; },
   process_setenv: function(args) { return process.env[args[0]] = args[0]; },
-  process_getcwd: function(args) { return process.cwd(); },
-  process_chdir:  function(args) { return process.chdir(args[0]); },
-  process_getuid: function(args) { return process.getuid(); },
-  process_setuid: function(args) { return process.setuid(args[0]); },
-  process_getgid: function(args) { return process.getgid(); },
-  process_setgid: function(args) { return process.setgid(args[0]); },
+  process_getcwd: RPC.wrap(process.cwd),
+  process_chdir:  RPC.wrap(process.chdir),
+  process_getuid: RPC.wrap(process.getuid),
+  process_setuid: RPC.wrap(process.setuid),
+  process_getgid: RPC.wrap(process.getgid),
+  process_setgid: RPC.wrap(process.setgid),
   process_time: function(args) { return new Date().getTime(); },
-  process_kill: function(args) { return process.kill(args[0]); },
-  process_exit: function(args) { process.exit(); },
+  process_kill: RPC.wrap(process.kill),
+  process_exit: RPC.wrap(process.exit),
 
   shell_exec: function(args,callback) {
     Process.spawn.call(args,function(command) {
