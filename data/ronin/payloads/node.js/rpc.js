@@ -132,14 +132,14 @@ RPC.functions = {
   process_kill: function(args) { return process.kill(args[0]); },
   process_exit: function(args) { process.exit(); },
 
-  shell_exec: function(args) {
+  shell_exec: function(args,callback) {
     Process.spawn.call(args,function(command) {
       command.stdout.on('data', function(data) {
-        yield({stdout: data});
+        callback({stdout: data});
       });
 
       command.stderr.on('data', function(data) {
-        yield({stderr: data});
+        callback({stderr: data});
       });
 
       command.on('exit', function(data) {
