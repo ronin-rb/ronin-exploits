@@ -102,6 +102,20 @@ RPC.wrap = function(func) {
   return function(args,callback) { return func.apply(this,args); };
 }
 
+RPC.Shell = {
+  commands: {},
+
+  command: function(pid) {
+    var process = RPC.Shell.commands[pid];
+
+    if (process == undefined) {
+      throw("unknown command PID: " + pid);
+    }
+
+    return process;
+  }
+};
+
 /*
  * The RPC functions table.
  */
@@ -150,19 +164,28 @@ RPC.functions = {
   process_exit:   RPC.wrap(process.exit),
 
   shell_exec: function(args,callback) {
-    Process.spawn.call(args,function(command) {
-      command.stdout.on('data', function(data) {
-        callback({stdout: data});
-      });
+    process = Process.exec(args.join(' '));
 
-      command.stderr.on('data', function(data) {
-        callback({stderr: data});
-      });
+    RPC.Shell.commands[process.pid] = process;
+    return process.pid;
+  },
+  shell_read: function(args) {
+    var process = RPC.Shell.command(args[0]);
 
-      command.on('exit', function(data) {
-        return code;
-      });
-    });
+    process.stdin.resume();
+  },
+  shell_write: function(args) {
+    var process = RPC.Shell.command(args[0]);
+
+    process.stdout.write(args[1]);
+    return args[1].length;
+  },
+  shell_close: function(args) {
+    var process = RPC.Shell.command(args[0]);
+
+    process.destroy();
+    delete RPC.Shell.commands[pid];
+    return true;
   }
 }
 
