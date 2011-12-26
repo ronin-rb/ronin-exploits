@@ -56,10 +56,14 @@ Request = function(transport,session,name,args) {
 }
 
 /*
-* Yields the arguments for the request.
-*/
-Request.prototype.yield = function(arguments) {
-  this.transport.send(this.session, {'yield': arguments});
+ * Returns a callback used to yield data to the caller.
+ */
+Request.prototype.callback = function() {
+  var self = this;
+
+  return function() {
+    self.transport.send(self.session, {'yield': arguments});
+  }
 }
 
 /*
@@ -93,76 +97,79 @@ RPC = function(transport) {
 
 RPC.functions = {
   /* fs functions */
-  fs_open: function(request) {
-    return FS.openSync(request.args[0],request.args[1]);
+  fs_open: function(args) {
+    return FS.openSync(args[0],args[1]);
   },
-  fs_read: function(request) {
+  fs_read: function(args) {
     var buffer = new Buffer();
 
-    FS.readSync(request.args[0],buffer,request.args[1]);
+    FS.readSync(args[0],buffer,args[1]);
     return buffer;
   },
-  fs_write: function(request) {
-    var buffer = new Buffer(request.args[2]);
+  fs_write: function(args) {
+    var buffer = new Buffer(args[2]);
 
-    return FS.writeSync(request.args[0],buffer,0,buffer.length,request.args[1]);
+    return FS.writeSync(args[0],buffer,0,buffer.length,args[1]);
   },
-  fs_move: function(request) {
-    return FS.renameSync(request.args[0],request.args[1]);
+  fs_close: function(args) {
+    return FS.closeSync(args[0]);
   },
-  fs_unlink: function(request) {
-    return FS.unlinkSync(request.args[0]);
+  fs_move: function(args) {
+    return FS.renameSync(args[0],args[1]);
   },
-  fs_rmdir: function(request) {
-    return FS.rmdirSync(request.args[0]);
+  fs_unlink: function(args) {
+    return FS.unlinkSync(args[0]);
   },
-  fs_mkdir: function(request) {
-    return FS.mkdirSync(request.args[0]);
+  fs_rmdir: function(args) {
+    return FS.rmdirSync(args[0]);
   },
-  fs_chmodSync: function(request) {
-    return FS.chmodSync(request.args[0],request.args[1]);
+  fs_mkdir: function(args) {
+    return FS.mkdirSync(args[0]);
   },
-  fs_stat: function(request) { return FS.statSync(request.args[0]); },
-  fs_link: function(request) {
-    return FS.symlinkSync(request.args[0],request.args[1]);
+  fs_chmodSync: function(args) {
+    return FS.chmodSync(args[0],args[1]);
+  },
+  fs_stat: function(args) { return FS.statSync(args[0]); },
+  fs_link: function(args) {
+    return FS.symlinkSync(args[0],args[1]);
   }
 
   /* process functions */
-  process_pid: function(request) { return process.pid; },
-  process_getenv: function(request) {
-    return process.env[request.args[0]];
+  process_pid: function(args) { return process.pid; },
+  process_getenv: function(args) {
+    return process.env[args[0]];
   },
-  process_setenv: function(request) {
-    return process.env[request.args[0]] = request.args[0];
+  process_setenv: function(args) {
+    return process.env[args[0]] = args[0];
   },
-  process_getcwd: function(request) { return process.cwd(); },
-  process_chdir:  function(request) {
-    return process.chdir(request.args[0]);
+  process_getcwd: function(args) { return process.cwd(); },
+  process_chdir:  function(args) {
+    return process.chdir(args[0]);
   },
-  process_getuid: function(request) { return process.getuid(); },
-  process_setuid: function(request) {
-    return process.setuid(request.args[0]);
+  process_getuid: function(args) { return process.getuid(); },
+  process_setuid: function(args) {
+    return process.setuid(args[0]);
   },
-  process_getgid: function(request) { return process.getgid(); },
-  process_setgid: function(request) {
-    return process.setgid(request.args[0]);
+  process_getgid: function(args) { return process.getgid(); },
+  process_setgid: function(args) {
+    return process.setgid(args[0]);
   },
-  process_time: function(request) { return new Date().getTime(); },
-  process_kill: function(request) { return process.kill(request.args[0]); },
-  process_exit: function(request) { process.exit(); },
+  process_time: function(args) { return new Date().getTime(); },
+  process_kill: function(args) { return process.kill(args[0]); },
+  process_exit: function(args) { process.exit(); },
 
-  shell_exec: function(request) {
-    Process.spawn.call(request.args,function(command) {
+  shell_exec: function(args) {
+    Process.spawn.call(args,function(command) {
       command.stdout.on('data', function(data) {
-        request.yield({stdout: data});
+        yield({stdout: data});
       });
 
       command.stderr.on('data', function(data) {
-        request.yield({stderr: data});
+        yield({stderr: data});
       });
 
       command.on('exit', function(data) {
-        request.return(code);
+        return code;
       });
     });
   }
@@ -192,7 +199,7 @@ RPC.prototype.start = function() {
     }
 
     try {
-      request.return(func(request));
+      request.return(func(request.args,request.callback));
     } catch(error) {
       request.error(error);
     }
