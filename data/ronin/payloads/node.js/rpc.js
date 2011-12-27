@@ -90,11 +90,7 @@ var RPC = {
   }
 };
 
-RPC.Transport = function() {}
-RPC.Transport.prototype.start = function() {}
-RPC.Transport.prototype.stop = function() {}
-
-RPC.Transport.lookup = function(names) {
+RPC.lookup = function(names) {
   var scope = RPC;
   var index;
 
@@ -109,8 +105,12 @@ RPC.Transport.lookup = function(names) {
   return scope;
 }
 
+RPC.Transport = function() {}
+RPC.Transport.prototype.start = function() {}
+RPC.Transport.prototype.stop = function() {}
+
 RPC.Transport.prototype.lookup = function(name) {
-  return RPC.Transport.lookup([name]);
+  return RPC.lookup([name]);
 }
 
 RPC.Transport.prototype.dispatch = function(name,args) {
