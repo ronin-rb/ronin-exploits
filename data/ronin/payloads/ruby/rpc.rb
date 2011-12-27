@@ -289,9 +289,18 @@ module RPC
     end
   end
 
-  class Server < WEBrick::HTTPServlet::AbstractServlet
+  class HTTP < WEBrick::HTTPServlet::AbstractServlet
     
     include Transport
+
+    def self.start(port,host=nil)
+      server = WEBrick::HTTPServer.new(:Host => host, :Port => port)
+      server.mount '/', self
+
+      trap('INT') { server.shutdown }
+
+      server.start
+    end
 
     def do_GET(request,response)
       name = request.path[1..-1].gsub('/','_')
@@ -319,9 +328,4 @@ unless ARGV.length >= 1
   exit -1
 end
 
-server = WEBrick::HTTPServer.new(:Host => ARGV[1], :Port => ARGV[0])
-server.mount '/', RPC::Server
-
-trap('INT') { server.shutdown }
-
-server.start
+RPC::HTTP.start(ARGV[0],ARGV[1])
