@@ -90,9 +90,9 @@ var RPC = {
   },
 
   js: {
-    eval: function(code) { return Main.eval(code); },
+    eval: function(code) { return eval(code); },
     define: function(name,args,code) {
-      RPC.js[name] = eval("function(" + args.join(',') + ") { " + code + "};");
+      RPC.js[name] = eval("(function(" + args.join(',') + ") { " + code + "})");
       return true;
     }
   }
