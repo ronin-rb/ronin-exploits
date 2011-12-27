@@ -135,16 +135,10 @@ RPC.Transport.prototype.error_message = function(message) {
   return {'exception': message};
 }
 
-/*
- * The default data serialization function.
- */
 RPC.Transport.prototype.serialize = function(data) {
   return new Buffer(JSON.stringify(data)).toString('base64');
 }
 
-/*
- * The default data deserialization function.
- */
 RPC.Transport.prototype.deserialize = function(data) {
   return JSON.parse(new Buffer(data,'base64'));
 }
