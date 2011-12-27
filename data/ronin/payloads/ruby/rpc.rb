@@ -260,26 +260,28 @@ module RPC
     end
   end
 
+  def self.lookup(names)
+    method_name = names.pop
+    scope       = RPC
+
+    names.each do |name|
+      scope = begin
+                scope.const_get(name.capitalize)
+              rescue NameError
+                return nil
+              end
+    end
+
+    begin
+      scope.method(method_name)
+    rescue NameError
+    end
+  end
+
   module Transport
     protected
 
-    def lookup(names)
-      method_name = names.pop
-      scope       = RPC
-
-      names.each do |name|
-        scope = begin
-                  scope.const_get(name.capitalize)
-                rescue NameError
-                  return nil
-                end
-      end
-
-      begin
-        scope.method(method_name)
-      rescue NameError
-      end
-    end
+    def lookup(name); RPC.lookup [name]; end
 
     def dispatch(name,arguments)
       unless (method = lookup(name))
@@ -335,9 +337,7 @@ module RPC
 
     protected
 
-    def lookup(path)
-      super(path[1..-1].split('/'))
-    end
+    def lookup(path); RPC.lookup(path[1..-1].split('/')); end
 
   end
 end
