@@ -10,7 +10,7 @@ var RPC = {
     read: function(fd,position,length) {
       var buffer = new Buffer();
 
-      FS.readSync(fd,buffer,length);
+      FS.readSync(fd,buffer,0,length,position);
       return buffer;
     },
     write: function(fd,position,data) {
