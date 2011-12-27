@@ -94,8 +94,23 @@ RPC.Transport = function() {}
 RPC.Transport.prototype.start = function() {}
 RPC.Transport.prototype.stop = function() {}
 
+RPC.Transport.lookup = function(names) {
+  var scope = RPC;
+  var index;
+
+  for (index=0; index<names.length; index++) {
+    scope = scope[names[index]];
+
+    if (scope == undefined) {
+      return;
+    }
+  }
+
+  return scope;
+}
+
 RPC.Transport.prototype.lookup = function(name) {
-  return RPC[name];
+  return RPC.Transport.lookup([name]);
 }
 
 RPC.Transport.prototype.dispatch = function(name,args) {
@@ -145,20 +160,7 @@ RPC.HTTP = function(port,host) {
 RPC.HTTP.prototype = new RPC.Transport();
 
 RPC.HTTP.prototype.lookup = function(path) {
-  var names = path.split('/');
-  var scope = RPC;
-
-  while (names.length > 0) {
-    var scope = scope[names[0]];
-
-    if (scope == undefined) {
-      return;
-    }
-
-    names.shift();
-  }
-
-  return scope;
+  return RPC.Transport.lookup(path.slice(1,path.length).split('/'));
 }
 
 RPC.HTTP.prototype.start = function(callback) {
@@ -166,7 +168,7 @@ RPC.HTTP.prototype.start = function(callback) {
 
   this.server = HTTP.createServer(function(request,response) {
     var url  = URL.parse(request.url);
-    var name = url.pathname.slice(1,request.url.length);
+    var name = url.pathname;
     var args = (url.query ? self.deserialize(url.query) : []);
 
     response.write(self.serialize(self.dispatch(name,args)));
