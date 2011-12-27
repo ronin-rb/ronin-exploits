@@ -327,12 +327,8 @@ module RPC
 
       message = call(name,args)
 
-      response.status = if message['exception']
-                          404
-                        else
-                          200
-                        end
-      response.body = serialize(message)
+      response.status = (message['exception'] ? 404 : 200)
+      response.body   = serialize(message)
     end
 
     protected
