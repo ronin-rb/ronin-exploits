@@ -283,7 +283,7 @@ module RPC
 
     def lookup(name); RPC.lookup [name]; end
 
-    def dispatch(name,arguments)
+    def call(name,arguments)
       unless (method = lookup(name))
         return error_message("Unknown method: #{name}")
       end
@@ -325,7 +325,7 @@ module RPC
                []
              end
 
-      message = dispatch(name,args)
+      message = call(name,args)
 
       response.status = if message['exception']
                           404

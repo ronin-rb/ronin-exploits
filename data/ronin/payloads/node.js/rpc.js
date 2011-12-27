@@ -106,7 +106,7 @@ RPC.Transport = function() {}
 RPC.Transport.prototype.start    = function() {}
 RPC.Transport.prototype.stop     = function() {}
 RPC.Transport.prototype.lookup   = function(name) { return RPC.lookup([name]); }
-RPC.Transport.prototype.dispatch = function(name,args) {
+RPC.Transport.prototype.call     = function(name,args) {
   var func = this.lookup(name);
 
   if (func == undefined) {
@@ -153,7 +153,7 @@ RPC.HTTP.start = function(port,host) {
 RPC.HTTP.prototype = new RPC.Transport();
 
 RPC.HTTP.prototype.lookup = function(path) {
-  return RPC.Transport.lookup(path.slice(1,path.length).split('/'));
+  return RPC.lookup(path.slice(1,path.length).split('/'));
 }
 
 RPC.HTTP.prototype.start = function() {
@@ -164,7 +164,7 @@ RPC.HTTP.prototype.start = function() {
     var name = url.pathname;
     var args = (url.query ? self.deserialize(url.query) : []);
 
-    response.write(self.serialize(self.dispatch(name,args)));
+    response.write(self.serialize(self.call(name,args)));
     response.end();
   });
 
