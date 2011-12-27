@@ -184,6 +184,11 @@ RPC.HTTP.prototype.stop = function() {
   this.server.close();
 }
 
+if (process.argv.length < 3) {
+  console.log("usage: PORT [HOST]");
+  process.exit(-1);
+}
+
 var rpc = new RPC.HTTP(process.argv[2],process.argv[3]);
 
 rpc.start();
