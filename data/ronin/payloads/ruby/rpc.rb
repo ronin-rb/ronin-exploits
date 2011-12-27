@@ -267,9 +267,20 @@ module RPC
   module Transport
     protected
 
-    def lookup(name)
+    def lookup(names)
+      method_name = names.pop
+      scope       = RPC
+
+      names.each do |name|
+        scope = begin
+                  scope.const_get(name.capitalize)
+                rescue NameError
+                  return nil
+                end
+      end
+
       begin
-        RPC.method(name)
+        scope.method(method_name)
       rescue NameError
       end
     end
@@ -319,7 +330,7 @@ module RPC
     end
 
     def do_GET(request,response)
-      name = request.path[1..-1]
+      name = request.path
       args = if request.query_string
                deserialize(request.query_string)
              else
@@ -339,22 +350,7 @@ module RPC
     protected
 
     def lookup(path)
-      names       = path.split('/')
-      method_name = names.pop
-      scope       = RPC
-
-      names.each do |name|
-        scope = begin
-                  scope.const_get(name.capitalize)
-                rescue NameError
-                  return nil
-                end
-      end
-
-      begin
-        scope.method(method_name)
-      rescue NameError
-      end
+      super(path[1..-1].split('/'))
     end
 
   end
