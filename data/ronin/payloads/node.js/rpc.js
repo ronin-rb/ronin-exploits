@@ -1,5 +1,5 @@
-var Util = require('util');
-var FS   = require('fs');
+var Util    = require('util');
+var FS      = require('fs');
 var Process = require('child_process');
 
 var RPC = {
@@ -49,6 +49,7 @@ var RPC = {
     exit: process.exit
   },
 
+  /* shell functions */
   shell: {
     _commands: {},
     _command: function(pid) {
