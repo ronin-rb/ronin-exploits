@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'time'
 require 'resolv'
 require 'socket'
@@ -8,6 +9,8 @@ Main = self
 
 module RPC
   module Fs
+    extend FileUtils
+
     def self.open(path,mode); File.new(path,mode).fileno; end
 
     def self.read(fd,position,length)
@@ -32,6 +35,15 @@ module RPC
     end
 
     def self.close(fd); file = File.for_fd(fd).close; end
+
+    def self.getcwd;                   Dir.pwd;                            end
+    def self.glob(pattern);            Dir.glob(pattern);                  end
+    def self.mktemp(basename);         Tempfile.new(basename).path;        end
+    def self.unlink(path);             File.unlink(path);                  end
+    def self.chown(user,path);         FileUtils.chown(user,nil,path);     end
+    def self.chgrp(group,path);        FileUtils.chown(nil,group,path);    end
+    def self.stat(path);               File.stat(path);                    end
+    def self.compare(path,other_path); File.compare_file(path,other_path); end
   end
 
   module Process
