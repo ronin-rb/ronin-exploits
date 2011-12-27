@@ -37,6 +37,10 @@ module Ronin
           return shell.pwd
         end
 
+        def fs_readdir(path)
+          shell.ls(path)
+        end
+
         def fs_glob(pattern,&block)
           shell.find(pattern,&block)
         end
