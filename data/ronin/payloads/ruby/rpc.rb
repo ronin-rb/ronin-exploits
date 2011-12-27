@@ -248,39 +248,36 @@ module RPC
     end
   end
 
-  class Server < WEBrick::HTTPServlet::AbstractServlet
-
-    def do_GET(request,response)
-      name = request.path[1..-1].gsub('/','_')
-      args = if request.query_string
-               deserialize(request.query_string)
-             else
-               []
-             end
-
-      status, content_type, body = dispatch(name,args)
-
-      response.status          = status
-      response['Content-Type'] = content_type
-      response.body            = body
-    end
-
+  module Transport
     protected
 
-    def dispatch(name,args)
-      method = begin
-                 RPC.method(name)
-               rescue NameError
-                 return error_response("Unknown method: #{name}")
-               end
+    def lookup(name)
+      begin
+        RPC.method(name)
+      rescue NameError
+      end
+    end
 
-      return_value = begin
-                       method.call(*args)
-                     rescue => exception
-                       return error_response("#{exception.class}: #{exception}")
-                     end
+    def dispatch(name,arguments)
+      unless (method = lookup(name))
+        return error_message("Unknown method: #{name}")
+      end
 
-      response(200, {'return' => return_value})
+      value = begin
+                method.call(*arguments)
+              rescue => exception
+                return error_message("#{exception.class}: #{exception}")
+              end
+
+      return_message(value)
+    end
+
+    def error_message(message)
+      {'exception' => message}
+    end
+
+    def return_message(value)
+      {'return' => value}
     end
 
     def serialize(data)
@@ -290,17 +287,28 @@ module RPC
     def deserialize(data)
       JSON.parse(Base64.decode64(data))
     end
+  end
 
-    def response(code,data)
-      [code, 'text/plain', serialize(data)]
-    end
+  class Server < WEBrick::HTTPServlet::AbstractServlet
+    
+    include Transport
 
-    def error_response(message)
-      response(404, {'exception' => message})
-    end
+    def do_GET(request,response)
+      name = request.path[1..-1].gsub('/','_')
+      args = if request.query_string
+               deserialize(request.query_string)
+             else
+               []
+             end
 
-    def return_response(value)
-      response(200, {'return' => value})
+      message = dispatch(name,args)
+
+      response.status = if message['exception']
+                          404
+                        else
+                          200
+                        end
+      response.body = serialize(message)
     end
 
   end
