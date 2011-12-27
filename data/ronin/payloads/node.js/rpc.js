@@ -1,6 +1,7 @@
 var Util    = require('util');
 var FS      = require('fs');
 var Process = require('child_process');
+var Main    = this;
 
 var RPC = {
   /* fs functions */
@@ -84,6 +85,14 @@ var RPC = {
 
       process.destroy();
       delete RPC.shell._commands[pid];
+      return true;
+    }
+  },
+
+  js: {
+    eval: function(code) { return Main.eval(code); },
+    define: function(name,args,code) {
+      RPC.js[name] = eval("function(" + args.join(',') + ") { " + code + "};");
       return true;
     }
   }
