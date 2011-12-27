@@ -244,10 +244,11 @@ module RPC
     def self.eval(code); Main.eval(code); end
     def self.define(name,args,code)
       module_eval %{
-      def #{name}(#{args.join(',')})
-        #{code}
-      end
+        def self.#{name}(#{args.join(',')})
+          #{code}
+        end
       }
+      return true
     end
 
     def self.version;  RUBY_VERSION;  end
@@ -259,7 +260,7 @@ module RPC
     end
   end
 
-  def self.lookup(names)
+  def self.[](names)
     method_name = names.pop
     scope       = RPC
 
@@ -279,8 +280,6 @@ module RPC
 
   module Transport
     protected
-
-    def lookup(name); RPC.lookup [name]; end
 
     def call(name,arguments)
       unless (method = lookup(name))
@@ -334,14 +333,16 @@ module RPC
 
     protected
 
-    def lookup(path); RPC.lookup(path[1..-1].split('/')); end
+    def lookup(path); RPC[path[1..-1].split('/')]; end
 
   end
 end
 
-unless ARGV.length >= 1
-  $stderr.puts "usage: #{$0} PORT [HOST]"
-  exit -1
-end
+if $0 == __FILE__
+  unless ARGV.length >= 1
+    $stderr.puts "usage: #{$0} PORT [HOST]"
+    exit -1
+  end
 
-RPC::HTTP.start(ARGV[0],ARGV[1])
+  RPC::HTTP.start(ARGV[0],ARGV[1])
+end
