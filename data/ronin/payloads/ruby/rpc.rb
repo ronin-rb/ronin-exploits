@@ -9,9 +9,7 @@ Main = self
 
 module RPC
   module Fs
-    def self.open(path,mode)
-      File.new(path,mode).fileno
-    end
+    def self.open(path,mode); File.new(path,mode).fileno; end
 
     def self.read(fd,position,length)
       file = File.for_fd(fd)
@@ -34,9 +32,7 @@ module RPC
       return file.pos
     end
 
-    def self.close(fd)
-      file = File.for_fd(fd).close
-    end
+    def self.close(fd); file = File.for_fd(fd).close; end
   end
 
   module Process
@@ -299,21 +295,11 @@ module RPC
       return_message(value)
     end
 
-    def error_message(message)
-      {'exception' => message}
-    end
+    def error_message(message); {'exception' => message}; end
+    def return_message(value);  {'return' => value};      end
 
-    def return_message(value)
-      {'return' => value}
-    end
-
-    def serialize(data)
-      Base64.encode64(data.to_json)
-    end
-
-    def deserialize(data)
-      JSON.parse(Base64.decode64(data))
-    end
+    def serialize(data);   Base64.encode64(data.to_json);     end
+    def deserialize(data); JSON.parse(Base64.decode64(data)); end
   end
 
   class HTTP < WEBrick::HTTPServlet::AbstractServlet
