@@ -4,86 +4,89 @@ var Process = require('child_process');
 
 var RPC = {
   /* fs functions */
-  fs_open: FS.openSync,
-  fs_read: function(fd,position,length) {
-    var buffer = new Buffer();
+  fs: {
+    open: FS.openSync,
+    read: function(fd,position,length) {
+      var buffer = new Buffer();
 
-    FS.readSync(fd,buffer,length);
-    return buffer;
-  },
-  fs_write: function(fd,position,data) {
-    var buffer = new Buffer(data);
+      FS.readSync(fd,buffer,length);
+      return buffer;
+    },
+    write: function(fd,position,data) {
+      var buffer = new Buffer(data);
 
-    return FS.writeSync(fd,buffer,0,buffer.length,position);
+      return FS.writeSync(fd,buffer,0,buffer.length,position);
+    },
+    close:  FS.closeSync,
+    move:   FS.renameSync,
+    unlink: FS.unlinkSync,
+    rmdir:  FS.rmdirSync,
+    mkdir:  FS.mkdirSync,
+    chmod:  FS.chmodSync,
+    stat:   FS.statSync,
+    link:   FS.symlinkSync
   },
-  fs_close:  FS.closeSync,
-  fs_move:   FS.renameSync,
-  fs_unlink: FS.unlinkSync,
-  fs_rmdir:  FS.rmdirSync,
-  fs_mkdir:  FS.mkdirSync,
-  fs_chmod:  FS.chmodSync,
-  fs_stat:   FS.statSync,
-  fs_link:   FS.symlinkSync,
 
   /* process functions */
-  process_getpid:    function() { return process.pid; },
-  process_getcwd: process.cwd,
-  process_chdir:  process.chdir,
-  process_getuid: process.getuid,
-  process_setuid: process.setuid,
-  process_getgid: process.getgid,
-  process_setgid: process.setgid,
-  process_getenv: function(name) { return process.env[name]; },
-  process_setenv: function(name,value) {
-    return process.env[name] = value;
+  process: {
+    getpid:    function() { return process.pid; },
+    getcwd: process.cwd,
+    chdir:  process.chdir,
+    getuid: process.getuid,
+    setuid: process.setuid,
+    getgid: process.getgid,
+    setgid: process.setgid,
+    getenv: function(name) { return process.env[name]; },
+    setenv: function(name,value) {
+      return process.env[name] = value;
+    },
+    unsetenv: function(name) {
+      var value = process.env[name];
+
+      delete process.env[name];
+      return value
+    },
+    time: function() { return new Date().getTime(); },
+    kill: process.kill,
+    exit: process.exit
   },
-  process_unsetenv: function(name) {
-    var value = process.env[name];
 
-    delete process.env[name];
-    return value
-  },
-  process_time: function() { return new Date().getTime(); },
-  process_kill: process.kill,
-  process_exit: process.exit,
-
-  Shell: {
-    commands: {},
-
-    command: function(pid) {
-      var process = RPC.Shell.commands[pid];
+  shell: {
+    _commands: {},
+    _command: function(pid) {
+      var process = RPC.shell._commands[pid];
 
       if (process == undefined) {
         throw("unknown command PID: " + pid);
       }
 
       return process;
+    },
+
+    exec: function() {
+      process = Process.exec(arguments.join(' '));
+
+      RPC.shell._commands[process.pid] = process;
+      return process.pid;
+    },
+    read: function(pid,length) {
+      var process = RPC.shell._command(pid);
+
+      process.stdin.resume();
+    },
+    write: function(pid,data) {
+      var process = RPC.shell._command(pid);
+
+      process.stdout.write(data);
+      return data.length;
+    },
+    close: function(pid) {
+      var process = RPC.shell._command(pid);
+
+      process.destroy();
+      delete RPC.shell._commands[pid];
+      return true;
     }
-  },
-
-  shell_exec: function() {
-    process = Process.exec(arguments.join(' '));
-
-    RPC.Shell.commands[process.pid] = process;
-    return process.pid;
-  },
-  shell_read: function(pid,length) {
-    var process = RPC.Shell.command(pid);
-
-    process.stdin.resume();
-  },
-  shell_write: function(pid,data) {
-    var process = RPC.Shell.command(pid);
-
-    process.stdout.write(data);
-    return data.length;
-  },
-  shell_close: function(pid) {
-    var process = RPC.Shell.command(pid);
-
-    process.destroy();
-    delete RPC.Shell.commands[pid];
-    return true;
   }
 };
 
@@ -141,12 +144,29 @@ RPC.HTTP = function(port,host) {
 
 RPC.HTTP.prototype = new RPC.Transport();
 
+RPC.HTTP.prototype.lookup = function(path) {
+  var names = path.split('/');
+  var scope = RPC;
+
+  while (names.length > 0) {
+    var scope = scope[names[0]];
+
+    if (scope == undefined) {
+      return;
+    }
+
+    names.shift();
+  }
+
+  return scope;
+}
+
 RPC.HTTP.prototype.start = function(callback) {
   var self = this;
 
   this.server = HTTP.createServer(function(request,response) {
     var url  = URL.parse(request.url);
-    var name = url.pathname.slice(1,request.url.length).replace('/','_');
+    var name = url.pathname.slice(1,request.url.length);
     var args = (url.query ? self.deserialize(url.query) : []);
 
     response.write(self.serialize(self.dispatch(name,args)));
