@@ -157,13 +157,19 @@ RPC.HTTP = function(port,host) {
   this.host = (host ? host : '0.0.0.0');
 }
 
+RPC.HTTP.start = function(port,host) {
+  var server = new RPC.HTTP(port,host);
+
+  server.start();
+}
+
 RPC.HTTP.prototype = new RPC.Transport();
 
 RPC.HTTP.prototype.lookup = function(path) {
   return RPC.Transport.lookup(path.slice(1,path.length).split('/'));
 }
 
-RPC.HTTP.prototype.start = function(callback) {
+RPC.HTTP.prototype.start = function() {
   var self = this;
 
   this.server = HTTP.createServer(function(request,response) {
@@ -189,6 +195,4 @@ if (process.argv.length < 3) {
   process.exit(-1);
 }
 
-var rpc = new RPC.HTTP(process.argv[2],process.argv[3]);
-
-rpc.start();
+RPC.HTTP.start(process.argv[2],process.argv[3]);
