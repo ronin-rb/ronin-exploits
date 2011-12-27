@@ -20,6 +20,7 @@ var RPC = {
     },
     close:  FS.closeSync,
 
+    readlink: FS.readlinkSync,
     readdir: function(path) {
       var entries = FS.readdirSync();
 

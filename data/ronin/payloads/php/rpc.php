@@ -64,6 +64,7 @@ function rpc_fs_stat($args)
     'blocks'    => $data[12]
   );
 }
+function rpc_fs_readlink($args) { return readlink($args[0]); }
 
 function rpc_fs_getcwd($args)  { return getcwd(); }
 function rpc_fs_chdir($args)   { chdir($args[0]); return getcwd(); }

@@ -37,6 +37,7 @@ module RPC
     def self.close(fd); file = File.for_fd(fd).close; end
 
     def self.getcwd;                   Dir.pwd;                            end
+    def self.readlink(path);           File.readlink(path);                end
     def self.readdir(path);            Dir.entries(path);                  end
     def self.glob(pattern);            Dir.glob(pattern);                  end
     def self.mktemp(basename);         Tempfile.new(basename).path;        end
