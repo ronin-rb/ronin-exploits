@@ -3,7 +3,6 @@ require 'resolv'
 require 'socket'
 require 'base64'
 require 'json'
-require 'webrick'
 
 Main = self
 
@@ -303,6 +302,8 @@ module RPC
     def serialize(data);   Base64.encode64(data.to_json);     end
     def deserialize(data); JSON.parse(Base64.decode64(data)); end
   end
+
+  require 'webrick'
 
   class HTTP < WEBrick::HTTPServlet::AbstractServlet
     
