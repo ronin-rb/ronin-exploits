@@ -19,13 +19,21 @@ var RPC = {
       return FS.writeSync(fd,buffer,0,buffer.length,position);
     },
     close:  FS.closeSync,
-    move:   FS.renameSync,
-    unlink: FS.unlinkSync,
-    rmdir:  FS.rmdirSync,
-    mkdir:  FS.mkdirSync,
-    chmod:  FS.chmodSync,
-    stat:   FS.statSync,
-    link:   FS.symlinkSync
+
+    readdir: function(path) {
+      var entries = FS.readdirSync();
+
+      entries.unshift('.','..');
+      return entries;
+    },
+
+    move:    FS.renameSync,
+    unlink:  FS.unlinkSync,
+    rmdir:   FS.rmdirSync,
+    mkdir:   FS.mkdirSync,
+    chmod:   FS.chmodSync,
+    stat:    FS.statSync,
+    link:    FS.symlinkSync
   },
 
   /* process functions */
@@ -90,7 +98,7 @@ var RPC = {
   },
 
   js: {
-    eval: function(code) { return eval(code); },
+    eval:   function(code) { return eval(code); },
     define: function(name,args,code) {
       RPC.js[name] = eval("(function(" + args.join(',') + ") { " + code + "})");
       return true;

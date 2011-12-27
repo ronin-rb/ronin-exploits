@@ -65,19 +65,29 @@ function rpc_fs_stat($args)
   );
 }
 
-function rpc_fs_getcwd($args) { return getcwd(); }
-function rpc_fs_chdir($args)  { chdir($args[0]); return getcwd(); }
-function rpc_fs_glob($args)   { return glob($args[0]); }
-function rpc_fs_mktemp($args) { return tempnam(sys_get_temp_dir(),$args[0]); }
-function rpc_fs_mkdir($args)  { return mkdir($args[0]); }
-function rpc_fs_copy($args)   { return copy($args[0],$args[1]); }
-function rpc_fs_unlink($args) { return unlink($args[0]); }
-function rpc_fs_rmdir($args)  { return rmdir($args[0]); }
-function rpc_fs_move($args)   { return rename($args[0],$args[1]); }
-function rpc_fs_link($args)   { return link($args[0],$args[1]); }
-function rpc_fs_chown($args)  { return chown($args[0],$args[1]); }
-function rpc_fs_chgrp($args)  { return chgrp($args[0],$args[1]); }
-function rpc_fs_chmod($args)  { return chmod($args[0],$args[1]); }
+function rpc_fs_getcwd($args)  { return getcwd(); }
+function rpc_fs_chdir($args)   { chdir($args[0]); return getcwd(); }
+function rpc_fs_readdir($args) {
+  $dir = opendir($args[0]);
+  $entires = Array();
+
+  while (($entry = readdir($dir)) != false) {
+    array_push($entries,$entry);
+  }
+
+  return $entries;
+}
+function rpc_fs_glob($args)    { return glob($args[0]); }
+function rpc_fs_mktemp($args)  { return tempnam(sys_get_temp_dir(),$args[0]); }
+function rpc_fs_mkdir($args)   { return mkdir($args[0]); }
+function rpc_fs_copy($args)    { return copy($args[0],$args[1]); }
+function rpc_fs_unlink($args)  { return unlink($args[0]); }
+function rpc_fs_rmdir($args)   { return rmdir($args[0]); }
+function rpc_fs_move($args)    { return rename($args[0],$args[1]); }
+function rpc_fs_link($args)    { return link($args[0],$args[1]); }
+function rpc_fs_chown($args)   { return chown($args[0],$args[1]); }
+function rpc_fs_chgrp($args)   { return chgrp($args[0],$args[1]); }
+function rpc_fs_chmod($args)   { return chmod($args[0],$args[1]); }
 
 function rpc_process_getpid($args)  { return @posix_getpid(); }
 function rpc_process_getppid($args) { return @posix_getppid(); }
