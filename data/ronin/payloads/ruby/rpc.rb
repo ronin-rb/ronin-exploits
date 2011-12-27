@@ -8,243 +8,259 @@ require 'webrick'
 Main = self
 
 module RPC
-  def self.fs_open(path,mode)
-    File.new(path,mode).fileno
-  end
-
-  def self.fs_read(fd,position,length)
-    file = File.for_fd(fd)
-    file.seek(position)
-
-    return file.read(length)
-  end
-
-  def self.fs_write(fd,position,data)
-    file = File.for_fd(fd)
-    file.seek(position)
-
-    return file.write(data)
-  end
-
-  def self.fs_seek(fd,position)
-    file = File.for_fd(fd)
-    file.seek(position)
-
-    return file.pos
-  end
-
-  def self.fs_close(fd)
-    file = File.for_fd(fd).close
-  end
-
-  def self.process_getpid;             Process.pid;         end
-  def self.process_getppid;            Process.ppid;        end
-  def self.process_getuid;             Process.uid;         end
-  def self.process_setuid(uid);        Process.uid = uid;   end
-  def self.process_geteuid;            Process.euid;        end
-  def self.process_seteuid(euid);      Process.euid = euid; end
-  def self.process_getgid;             Process.gid;         end
-  def self.process_setgid(gid);        Process.gid = gid;   end
-  def self.process_getegid;            Process.egid;        end
-  def self.process_setegid(gid);       Process.egid = egid; end
-  def self.process_getsid;             Process.sid;         end
-  def self.process_setsid(sid);        Process.sid = sid;   end
-  def self.process_getenv(name);       ENV[name];           end
-  def self.process_setenv(name,value); ENV[name] = value;   end
-  def self.process_unsetenv(name);     ENV.delete(name);    end
-
-  def self.process_kill(pid,signal='KILL'); Process.kill(pid,signal); end
-  def self.process_getcwd;                  Dir.pwd;                  end
-  def self.process_chdir(path);             Dir.chdir(path);          end
-  def self.process_time;                    Time.now.to_i;            end
-  def self.process_spawn(program,*arguments)
-    fork { exec(program,*arguments) }
-  end
-  def self.process_exit; exit; end
-
-  @@commands = {}
-
-  def self.shell_exec(program,*arguments)
-    io = IO.popen("#{program} #{arguments.join(' ')}")
-
-    @@commands[io.pid] = io
-    return io.pid
-  end
-
-  def self.shell_read(pid,length)
-    unless (command = @@commands[pid])
-      raise(RuntimeError,"unknown command pid",caller)
+  module Fs
+    def self.open(path,mode)
+      File.new(path,mode).fileno
     end
 
-    begin
-      return command.read_nonblock(length)
-    rescue IO::WaitReadable
-      return nil # no data currently available
+    def self.read(fd,position,length)
+      file = File.for_fd(fd)
+      file.seek(position)
+
+      return file.read(length)
+    end
+
+    def self.write(fd,position,data)
+      file = File.for_fd(fd)
+      file.seek(position)
+
+      return file.write(data)
+    end
+
+    def self.seek(fd,position)
+      file = File.for_fd(fd)
+      file.seek(position)
+
+      return file.pos
+    end
+
+    def self.close(fd)
+      file = File.for_fd(fd).close
     end
   end
 
-  def self.shell_write(pid,data)
-    unless (command = @@commands[pid])
-      raise(RuntimeError,"unknown command pid",caller)
+  module Process
+    def self.getpid;             ::Process.pid;         end
+    def self.getppid;            ::Process.ppid;        end
+    def self.getuid;             ::Process.uid;         end
+    def self.setuid(uid);        ::Process.uid = uid;   end
+    def self.geteuid;            ::Process.euid;        end
+    def self.seteuid(euid);      ::Process.euid = euid; end
+    def self.getgid;             ::Process.gid;         end
+    def self.setgid(gid);        ::Process.gid = gid;   end
+    def self.getegid;            ::Process.egid;        end
+    def self.setegid(gid);       ::Process.egid = egid; end
+    def self.getsid;             ::Process.sid;         end
+    def self.setsid(sid);        ::Process.sid = sid;   end
+    def self.getenv(name);       ENV[name];             end
+    def self.setenv(name,value); ENV[name] = value;     end
+    def self.unsetenv(name);     ENV.delete(name);      end
+
+    def self.kill(pid,signal='KILL'); ::Process.kill(pid,signal); end
+    def self.getcwd;                  Dir.pwd;                    end
+    def self.chdir(path);             Dir.chdir(path);            end
+    def self.time;                    Time.now.to_i;              end
+    def self.spawn(program,*arguments)
+      fork { exec(program,*arguments) }
+    end
+    def self.exit; exit; end
+  end
+
+  module Shell
+    COMMANDS = {}
+
+    def self.exec(program,*arguments)
+      io = IO.popen("#{program} #{arguments.join(' ')}")
+
+      COMMANDS[io.pid] = io
+      return io.pid
     end
 
-    command.write(data)
+    def self.read(pid,length)
+      unless (command = COMMANDS[pid])
+        raise(RuntimeError,"unknown command pid",caller)
+      end
 
-    return command.write(length)
-  end
-
-  def self.shell_close(pid)
-    unless (command = @@commands[pid])
-      raise(RuntimeError,"unknown command pid",caller)
+      begin
+        return command.read_nonblock(length)
+      rescue IO::WaitReadable
+        return nil # no data currently available
+      end
     end
 
-    command.close
-    @@commands.delete(pid)
-    return true
-  end
+    def self.write(pid,data)
+      unless (command = COMMANDS[pid])
+        raise(RuntimeError,"unknown command pid",caller)
+      end
 
-  @@sockets = {}
+      command.write(data)
 
-  def self.net_dns_lookup(host)
-    Resolv.getaddresses(host)
-  end
-
-  def self.net_dns_reverse_lookup(ip)
-    Resolv.getnames(host)
-  end
-
-  def self.net_tcp_connect(host,port,local_host=nil,local_port=nil)
-    socket = TCPSocket.new(host,port,local_host,local_port)
-
-    @@sockets[socket.fileno] = socket
-    return socket.fileno
-  end
-
-  def self.net_tcp_listen(port,host=nil)
-    socket = TCPServer.new(port,host)
-    socket.listen(256)
-
-    @@sockets[socket.fileno] = socket
-    return socket.fileno
-  end
-
-  def self.net_tcp_accept(fd)
-    unless (socket = @@sockets[fd])
-      raise(RuntimeError,"unknown socket file-descriptor")
+      return command.write(length)
     end
 
-    begin
-      client = socket.accept_nonblock
-    rescue IO::WaitReadable, Errno::EINTR
-      return nil
-    end
+    def self.close(pid)
+      unless (command = COMMANDS[pid])
+        raise(RuntimeError,"unknown command pid",caller)
+      end
 
-    @@sockets[client.fileno] = client
-    return client.fileno
-  end
-
-  def self.net_tcp_recv(fd,length)
-    unless (socket = @@sockets[fd])
-      raise(RuntimeError,"unknown socket file-descriptor")
-    end
-
-    begin
-      return socket.recv_nonblock(length)
-    rescue IO::WaitReadable
-      return nil
+      command.close
+      COMMANDS.delete(pid)
+      return true
     end
   end
 
-  def self.net_tcp_send(fd,data)
-    unless (socket = @@sockets[fd])
-      raise(RuntimeError,"unknown socket file-descriptor")
+  module Net
+    SOCKETS = {}
+
+    module Dns
+      def self.lookup(host)
+        Resolv.getaddresses(host)
+      end
+
+      def self.reverse_lookup(ip)
+        Resolv.getnames(host)
+      end
     end
 
-    return socket.send(data)
-  end
+    module Tcp
+      def self.connect(host,port,local_host=nil,local_port=nil)
+        socket = TCPSocket.new(host,port,local_host,local_port)
 
-  def self.net_udp_connect(host,port,local_host=nil,local_port=nil)
-    socket = UDPSocket.new(host,port,local_host,local_port)
+        SOCKETS[socket.fileno] = socket
+        return socket.fileno
+      end
 
-    @@sockets[socket.fileno] = socket
-    return socket.fileno
-  end
+      def self.listen(port,host=nil)
+        socket = TCPServer.new(port,host)
+        socket.listen(256)
 
-  def self.net_udp_listen(port,host=nil)
-    socket = UDPServer.new(port,host)
+        SOCKETS[socket.fileno] = socket
+        return socket.fileno
+      end
 
-    @@sockets[socket.fileno] = socket
-    return socket.fileno
-  end
+      def self.accept(fd)
+        unless (socket = SOCKETS[fd])
+          raise(RuntimeError,"unknown socket file-descriptor")
+        end
 
-  def self.net_udp_recv(fd,length)
-    unless (socket = @@sockets[fd])
-      raise(RuntimeError,"unknown socket file-descriptor")
+        begin
+          client = socket.accept_nonblock
+        rescue IO::WaitReadable, Errno::EINTR
+          return nil
+        end
+
+        SOCKETS[client.fileno] = client
+        return client.fileno
+      end
+
+      def self.recv(fd,length)
+        unless (socket = SOCKETS[fd])
+          raise(RuntimeError,"unknown socket file-descriptor")
+        end
+
+        begin
+          return socket.recv_nonblock(length)
+        rescue IO::WaitReadable
+          return nil
+        end
+      end
+
+      def self.send(fd,data)
+        unless (socket = SOCKETS[fd])
+          raise(RuntimeError,"unknown socket file-descriptor")
+        end
+
+        return socket.send(data)
+      end
     end
 
-    begin
-      return socket.recvfrom_nonblock(length)
-    rescue IO::WaitReadable
-      return nil
+    module Udp
+      def self.connect(host,port,local_host=nil,local_port=nil)
+        socket = UDPSocket.new(host,port,local_host,local_port)
+
+        SOCKETS[socket.fileno] = socket
+        return socket.fileno
+      end
+
+      def self.listen(port,host=nil)
+        socket = UDPServer.new(port,host)
+
+        SOCKETS[socket.fileno] = socket
+        return socket.fileno
+      end
+
+      def self.recv(fd,length)
+        unless (socket = SOCKETS[fd])
+          raise(RuntimeError,"unknown socket file-descriptor")
+        end
+
+        begin
+          return socket.recvfrom_nonblock(length)
+        rescue IO::WaitReadable
+          return nil
+        end
+      end
+
+      def self.send(fd,data,host=nil,port=nil)
+        unless (socket = SOCKETS[fd])
+          raise(RuntimeError,"unknown socket file-descriptor")
+        end
+
+        if (host && port)
+          return socket.send(data,0,host,port)
+        else
+          return socket.send(data)
+        end
+      end
+    end
+
+    def self.remote_address(fd)
+      unless (socket = SOCKETS[fd])
+        raise(RuntimeError,"unknown socket file-descriptor")
+      end
+
+      addrinfo = socket.remote_address
+
+      return [addrinfo.ip_address, addrinfo.ip_port]
+    end
+
+    def self.local_address(fd)
+      unless (socket = SOCKETS[fd])
+        raise(RuntimeError,"unknown socket file-descriptor")
+      end
+
+      addrinfo = socket.local_address
+
+      return [addrinfo.ip_address, addrinfo.ip_port]
+    end
+
+    def self.close(fd)
+      unless (socket = SOCKETS[fd])
+        raise(RuntimeError,"unknown socket file-descriptor")
+      end
+
+      socket.close
+      SOCKETS.delete(fd)
+      return true
     end
   end
 
-  def self.net_udp_send(fd,data,host=nil,port=nil)
-    unless (socket = @@sockets[fd])
-      raise(RuntimeError,"unknown socket file-descriptor")
-    end
-
-    if (host && port)
-      return socket.send(data,0,host,port)
-    else
-      return socket.send(data)
-    end
-  end
-
-  def self.net_remote_address(fd)
-    unless (socket = @@sockets[fd])
-      raise(RuntimeError,"unknown socket file-descriptor")
-    end
-
-    addrinfo = socket.remote_address
-
-    return [addrinfo.ip_address, addrinfo.ip_port]
-  end
-
-  def self.net_local_address(fd)
-    unless (socket = @@sockets[fd])
-      raise(RuntimeError,"unknown socket file-descriptor")
-    end
-
-    addrinfo = socket.local_address
-
-    return [addrinfo.ip_address, addrinfo.ip_port]
-  end
-
-  def self.net_close(fd)
-    unless (socket = @@sockets[fd])
-      raise(RuntimeError,"unknown socket file-descriptor")
-    end
-
-    socket.close
-    @@sockets.delete(fd)
-    return true
-  end
-
-  def self.ruby_eval(code); Main.eval(code); end
-  def self.ruby_define(name,args,code)
-    module_eval %{
+  module Ruby
+    def self.eval(code); Main.eval(code); end
+    def self.define(name,args,code)
+      module_eval %{
       def #{name}(#{args.join(',')})
         #{code}
       end
-    }
-  end
+      }
+    end
 
-  def self.ruby_version;  RUBY_VERSION;  end
-  def self.ruby_platform; RUBY_PLATFORM; end
-  def self.ruby_engine
-    if Object.const_defined?('RUBY_ENGINE')
-      Object.const_get('RUBY_ENGINE')
+    def self.version;  RUBY_VERSION;  end
+    def self.platform; RUBY_PLATFORM; end
+    def self.engine
+      if Object.const_defined?('RUBY_ENGINE')
+        Object.const_get('RUBY_ENGINE')
+      end
     end
   end
 
@@ -303,7 +319,7 @@ module RPC
     end
 
     def do_GET(request,response)
-      name = request.path[1..-1].gsub('/','_')
+      name = request.path[1..-1]
       args = if request.query_string
                deserialize(request.query_string)
              else
@@ -318,6 +334,27 @@ module RPC
                           200
                         end
       response.body = serialize(message)
+    end
+
+    protected
+
+    def lookup(path)
+      names       = path.split('/')
+      method_name = names.pop
+      scope       = RPC
+
+      names.each do |name|
+        scope = begin
+                  scope.const_get(name.capitalize)
+                rescue NameError
+                  return nil
+                end
+      end
+
+      begin
+        scope.method(method_name)
+      rescue NameError
+      end
     end
 
   end
