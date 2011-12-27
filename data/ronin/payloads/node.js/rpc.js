@@ -29,17 +29,15 @@ var RPC = {
 
   /* process functions */
   process: {
-    getpid:    function() { return process.pid; },
+    getpid: function() { return process.pid; },
     getcwd: process.cwd,
     chdir:  process.chdir,
     getuid: process.getuid,
     setuid: process.setuid,
     getgid: process.getgid,
     setgid: process.setgid,
-    getenv: function(name) { return process.env[name]; },
-    setenv: function(name,value) {
-      return process.env[name] = value;
-    },
+    getenv: function(name)       { return process.env[name];         },
+    setenv: function(name,value) { return process.env[name] = value; },
     unsetenv: function(name) {
       var value = process.env[name];
 
@@ -97,22 +95,16 @@ RPC.lookup = function(names) {
   for (index=0; index<names.length; index++) {
     scope = scope[names[index]];
 
-    if (scope == undefined) {
-      return;
-    }
+    if (scope == undefined) { return; }
   }
 
   return scope;
 }
 
 RPC.Transport = function() {}
-RPC.Transport.prototype.start = function() {}
-RPC.Transport.prototype.stop = function() {}
-
-RPC.Transport.prototype.lookup = function(name) {
-  return RPC.lookup([name]);
-}
-
+RPC.Transport.prototype.start    = function() {}
+RPC.Transport.prototype.stop     = function() {}
+RPC.Transport.prototype.lookup   = function(name) { return RPC.lookup([name]); }
 RPC.Transport.prototype.dispatch = function(name,args) {
   var func = this.lookup(name);
 
@@ -180,9 +172,7 @@ RPC.HTTP.prototype.start = function() {
   });
 }
 
-RPC.HTTP.prototype.stop = function() {
-  this.server.close();
-}
+RPC.HTTP.prototype.stop = function() { this.server.close(); }
 
 if (process.argv.length < 3) {
   console.log("usage: PORT [HOST]");
