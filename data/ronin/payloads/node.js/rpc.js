@@ -123,7 +123,9 @@ RPC.lookup = function(names) {
 RPC.Transport = function() {}
 RPC.Transport.prototype.start    = function() {}
 RPC.Transport.prototype.stop     = function() {}
-RPC.Transport.prototype.lookup   = function(name) { return RPC.lookup([name]); }
+RPC.Transport.prototype.lookup   = function(name) {
+  return RPC.lookup(name.split('.'));
+}
 RPC.Transport.prototype.call     = function(name,args) {
   var func = this.lookup(name);
 
@@ -158,7 +160,7 @@ var HTTP = require('http');
 var URL  = require('url');
 
 RPC.Server = function(port,host) {
-  this.port = port;
+  this.port = parseInt(port);
   this.host = (host ? host : '0.0.0.0');
 }
 
@@ -210,9 +212,101 @@ RPC.HTTP.prototype.serve = function(request,response) {
 
 RPC.HTTP.prototype.stop = function() { this.server.close(); }
 
-if (process.argv.length < 3) {
-  console.log("usage: PORT [HOST]");
+var Net = require('net');
+
+RPC.TCP = {
+  decode_request: function(request,callback) {
+    var message = this.deserialize(request);
+
+    callback(message['name'],message['arguments']);
+  },
+
+  encode_response: function(socket,message) {
+    socket.write(this.serialize(message));
+  },
+
+  serve: function(socket) {
+    var self = this;
+    var buffer = '';
+
+    socket.on('data',function(stream) {
+      var data        = stream.toString();
+      var deliminator = data.lastIndexOf('=');
+
+      if (deliminator) {
+        buffer += data.substr(0,deliminator);
+
+        self.decode_request(buffer,function(name,args) {
+          self.encode_response(socket,self.call(name,args));
+        });
+
+        buffer = data.substr(deliminator,data.length);
+      }
+      else { buffer.write(data); }
+    });
+  }
+};
+
+RPC.TCP.Server = RPC.Server;
+RPC.TCP.Server.prototype = new RPC.Transport();
+
+RPC.TCP.Server.prototype.decode_request  = RPC.TCP.decode_request;
+RPC.TCP.Server.prototype.encode_response = RPC.TCP.encode_response;
+RPC.TCP.Server.prototype.serve           = RPC.TCP.serve;
+
+RPC.TCP.Server.prototype.start = function(callback) {
+  var self = this;
+
+  this.server = Net.createServer(function(client) {
+    self.serve(client);
+  });
+
+  this.server.listen(this.port,this.host,callback);
+}
+
+RPC.TCP.Server.prototype.stop = function() { this.server.stop(); }
+
+RPC.TCP.ConnectBack = function(host,port) {
+  this.host = host;
+  this.port = port;
+}
+
+RPC.TCP.ConnectBack.prototype = new RPC.Transport();
+RPC.TCP.ConnectBack.prototype.decode_request  = RPC.TCP.decode_request;
+RPC.TCP.ConnectBack.prototype.encode_response = RPC.TCP.encode_response;
+RPC.TCP.ConnectBack.prototype.serve           = RPC.TCP.serve;
+
+RPC.TCP.ConnectBack.start = function(host,port) {
+  var client = new this(host,port);
+
+  client.start(function() {
+    console.log("Connected to " + client.host + ":" + client.port);
+  });
+}
+
+RPC.TCP.ConnectBack.prototype.start = function(callback) {
+  this.connection = Net.createConnection(this.port,this.host,callback);
+
+  this.serve(this.connection);
+}
+
+RPC.TCP.ConnectBack.prototype.stop = function() {
+  this.connection.end();
+}
+
+RPC.TCP.Server.prototype.stop = function() { this.server.stop(); }
+
+function usage() {
+  console.log("usage: [--http PORT [HOST]] [--listen PORT [HOST]] [--connect HOST PORT]");
   process.exit(-1);
 }
 
-RPC.HTTP.start(process.argv[2],process.argv[3]);
+if (process.argv.length < 4) { usage(); }
+
+var option = process.argv[2];
+var args   = process.argv.slice(3,process.argv.length);
+
+if      (option == '--http')    { RPC.HTTP.start(args[0],args[1]); }
+else if (option == '--listen')  { RPC.TCP.Server.start(args[0],args[1]); }
+else if (option == '--connect') { RPC.TCP.ConnectBack.start(args[0],args[1]); }
+else { usage(); }
