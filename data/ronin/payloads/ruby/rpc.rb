@@ -284,6 +284,8 @@ module RPC
               rescue NameError
                 return nil
               end
+
+      return if scope.nil?
     end
 
     begin
@@ -335,24 +337,25 @@ module RPC
       end
 
       def do_GET(request,response)
-        name = request.path
-        args = if request.query_string
-                 deserialize(request.query_string)
-               else
-                 []
-               end
-
-        send_response(response,call(name,args))
+        decode_request(request) do |name,args|
+          encode_response(response,call(name,args))
+        end
       end
 
       protected
 
       def lookup(path); RPC[path[1..-1].split('/')]; end
 
-      def send_response(response,message)
+      def decode_request(request)
+        name = request.path
+        args = (request.query_string ? deserialize(request.query_string) : [])
+
+        yield name, args
+      end
+
+      def encode_response(response,message)
         response.status = (message['exception'] ? 404 : 200)
         response.body   = serialize(message)
-        return response
       end
 
     end
@@ -362,30 +365,30 @@ module RPC
     module Protocol
       protected
 
-      def each_request(socket)
+      def decode_request(request)
+        name = request['name']
+        args = (request['arguments'] || [])
+
+        yield name, args
+      end
+
+      def encode_response(socket,message)
+        socket.write(serialize(message))
+      end
+
+      def serve(socket)
         buffer = ''
 
         socket.each_line do |line|
           buffer << line
 
           if line.chomp.end_with?('=')
-            yield deserialize(buffer)
+            decode_request(buffer) do |name,args|
+              encode_response(socket,call(name,args))
+            end
 
             buffer = ''
           end
-        end
-      end
-
-      def send_response(socket,message)
-        socket.write(serialize(message))
-      end
-
-      def serve(socket)
-        each_request(socket) do |request|
-          name = request['name']
-          args = (request['arguments'] || [])
-
-          send_response(socket,call(name,args))
         end
       end
     end
