@@ -157,33 +157,34 @@ RPC.Transport.prototype.deserialize = function(data) {
 var HTTP = require('http');
 var URL  = require('url');
 
-RPC.HTTP = function(port,host) {
+RPC.Server = function(port,host) {
   this.port = port;
   this.host = (host ? host : '0.0.0.0');
 }
 
-RPC.HTTP.start = function(port,host) {
-  var server = new RPC.HTTP(port,host);
+RPC.Server.start = function(port,host) {
+  var server = new this(port,host);
 
-  server.start();
+  server.start(function() {
+    console.log("Listening on " + server.host + ":" + server.port);
+  });
 }
 
+RPC.HTTP = RPC.Server;
 RPC.HTTP.prototype = new RPC.Transport();
 
 RPC.HTTP.prototype.lookup = function(path) {
   return RPC.lookup(path.slice(1,path.length).split('/'));
 }
 
-RPC.HTTP.prototype.start = function() {
+RPC.HTTP.prototype.start = function(callback) {
   var self = this;
 
   this.server = HTTP.createServer(function(request,response) {
     self.serve(request,response);
   });
 
-  this.server.listen(this.port,this.host, function() {
-    console.log("Listening on " + self.host + ":" + self.port);
-  });
+  this.server.listen(this.port,this.host,callback);
 }
 
 RPC.HTTP.prototype.decode_request = function(request,callback) {
