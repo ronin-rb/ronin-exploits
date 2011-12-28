@@ -305,7 +305,7 @@ function rpc_call($request)
   $value = call_user_func($method,$arguments);
 
   if (isset($rpc_exception)) { return Array('exception' => $rpc_exception); }
-  else                       { return Array('return' => $value); }
+  else                       { return Array('return'    => $value);         }
 }
 
 define('RPC_BASE_URL', 'http://ronin-ruby.github.com/data/ronin-exploits/payloads/php/rpc');
