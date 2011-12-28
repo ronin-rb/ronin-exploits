@@ -342,15 +342,18 @@ module RPC
                  []
                end
 
-        message = call(name,args)
-
-        response.status = (message['exception'] ? 404 : 200)
-        response.body   = serialize(message)
+        send_response(response,call(name,args))
       end
 
       protected
 
       def lookup(path); RPC[path[1..-1].split('/')]; end
+
+      def send_response(response,message)
+        response.status = (message['exception'] ? 404 : 200)
+        response.body   = serialize(message)
+        return response
+      end
 
     end
   end
@@ -359,22 +362,30 @@ module RPC
     module Protocol
       protected
 
-      def process(socket)
+      def each_request(socket)
         buffer = ''
 
         socket.each_line do |line|
           buffer << line
 
           if line.chomp.end_with?('=')
-            request = deserialize(buffer)
-            name = request['name']
-            args = (request['arguments'] || [])
+            yield deserialize(buffer)
 
-            message = call(name,args)
-
-            socket.write(serialize(message))
             buffer = ''
           end
+        end
+      end
+
+      def send_response(socket,message)
+        socket.write(serialize(message))
+      end
+
+      def serve(socket)
+        each_request(socket) do |request|
+          name = request['name']
+          args = (request['arguments'] || [])
+
+          send_response(socket,call(name,args))
         end
       end
     end
@@ -405,7 +416,7 @@ module RPC
       def start
         @connection = TCPSocket.new(@host,@port,@local_host,@local_port)
 
-        process(@connection)
+        serve(@connection)
       end
 
       def stop; @connection.close; end
@@ -426,8 +437,6 @@ module RPC
         server.start
         server.join
       end
-
-      def serve(client); process(client); end
 
     end
   end
