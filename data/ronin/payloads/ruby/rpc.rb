@@ -294,27 +294,25 @@ module RPC
     end
   end
 
+  def self.call(names,arguments)
+    unless (method = self[names])
+      return {'exception' => "Unknown method: #{names.join('.')}"}
+    end
+
+    value = begin
+              method.call(*arguments)
+            rescue => exception
+              return {'exception' => exception.message}
+            end
+
+    return {'return' => value}
+  end
+
   module Transport
     protected
 
-    def lookup(name); RPC[name.split('.')]; end
-
-    def call(name,arguments)
-      unless (method = lookup(name))
-        return error_message("Unknown method: #{name}")
-      end
-
-      value = begin
-                method.call(*arguments)
-              rescue => exception
-                return error_message("#{exception.class}: #{exception}")
-              end
-
-      return_message(value)
-    end
-
-    def error_message(message); {'exception' => message}; end
-    def return_message(value);  {'return' => value};      end
+    def lookup(name); RPC[name.split('.')];   end
+    def call(name);   RPC.call(lookup(name)); end
 
     def serialize(data);   Base64.encode64(data.to_json);     end
     def deserialize(data); JSON.parse(Base64.decode64(data)); end
