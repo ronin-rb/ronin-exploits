@@ -286,6 +286,13 @@ function rpc_error_handler($errno,$errstr)
   }
 }
 
+function rpc_serialize($message) {
+  return base64_encode(json_encode($message));
+}
+function rpc_deserialize($data) {
+  return json_decode(base64_decode($data));
+}
+
 function rpc_lookup($names) { return "rpc_" . join($names,'_'); }
 function rpc_call($request)
 {
@@ -313,10 +320,8 @@ define('RPC_BASE_URL', 'http://ronin-ruby.github.com/data/ronin-exploits/payload
 
 if (isset($_REQUEST['rpc_request']))
 {
-  $request  = rawurldecode($_REQUEST['rpc_request']);
-  $request  = json_decode(base64_decode($request));
-
-  $response = base64_encode(json_encode(rpc_call($request)));
+  $request  = rpc_deserialize(rawurldecode($_REQUEST['rpc_request']));
+  $response = rpc_serialize(rpc_call($request));
 
   echo "<!-- <rpc-response>{$response}</rpc-response> -->";
 }
