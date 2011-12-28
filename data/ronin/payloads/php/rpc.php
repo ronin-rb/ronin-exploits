@@ -70,7 +70,7 @@ function rpc_fs_getcwd($args)  { return getcwd(); }
 function rpc_fs_chdir($args)   { chdir($args[0]); return getcwd(); }
 function rpc_fs_readdir($args) {
   $dir = opendir($args[0]);
-  $entires = Array();
+  $entries = Array();
 
   while (($entry = readdir($dir)) != false) {
     array_push($entries,$entry);
