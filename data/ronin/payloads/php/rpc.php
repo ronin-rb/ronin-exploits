@@ -298,7 +298,7 @@ function rpc_call($request)
     }
   }
 
-  $method    = "rpc_{$request->method}";
+  $method    = "rpc_{$request->name}";
   $arguments = $request->arguments;
 
   set_error_handler('rpc_error_handler');
