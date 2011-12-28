@@ -286,6 +286,7 @@ function rpc_error_handler($errno,$errstr)
   }
 }
 
+function rpc_lookup($names) { return "rpc_" . join($names,'_'); }
 function rpc_call($request)
 {
   if (isset($request->cwd)) { chdir($request->cwd); }
@@ -298,7 +299,7 @@ function rpc_call($request)
     }
   }
 
-  $method    = "rpc_{$request->name}";
+  $method    = rpc_lookup(split($request->name,'.'));
   $arguments = $request->arguments;
 
   set_error_handler('rpc_error_handler');
