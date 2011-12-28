@@ -178,16 +178,32 @@ RPC.HTTP.prototype.start = function() {
   var self = this;
 
   this.server = HTTP.createServer(function(request,response) {
-    var url  = URL.parse(request.url);
-    var name = url.pathname;
-    var args = (url.query ? self.deserialize(url.query) : []);
-
-    response.write(self.serialize(self.call(name,args)));
-    response.end();
+    self.serve(request,response);
   });
 
   this.server.listen(this.port,this.host, function() {
     console.log("Listening on " + self.host + ":" + self.port);
+  });
+}
+
+RPC.HTTP.prototype.decode_request = function(request,callback) {
+  var url  = URL.parse(request.url);
+  var name = url.pathname;
+  var args = (url.query ? this.deserialize(url.query) : []);
+
+  callback(name,args);
+}
+
+RPC.HTTP.prototype.encode_response = function(response,message) {
+  response.write(this.serialize(message));
+  response.end();
+}
+
+RPC.HTTP.prototype.serve = function(request,response) {
+  var self = this;
+
+  self.decode_request(request,function(name,args) {
+    self.encode_response(response,self.call(name,args));
   });
 }
 
