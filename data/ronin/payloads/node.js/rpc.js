@@ -120,24 +120,29 @@ RPC.lookup = function(names) {
   return scope;
 }
 
-RPC.Transport = function() {}
-RPC.Transport.prototype.start    = function() {}
-RPC.Transport.prototype.stop     = function() {}
-RPC.Transport.prototype.lookup   = function(name) {
-  return RPC.lookup(name.split('.'));
-}
-RPC.Transport.prototype.call     = function(name,args) {
-  var func = this.lookup(name);
+RPC.call = function(names,args) {
+  var func = RPC.lookup(names);
 
   if (func == undefined) {
-    return this.error_message("unknown function: " + name);
+    return {'exception': "unknown function: " + name};
   }
 
   try {
-    return this.return_message(func.apply(this,args));
+    return {'return': func.apply(this,args)};
   } catch(error) {
-    return this.error_message(error.toString());
+    return {'exception': error.toString()};
   }
+}
+
+RPC.Transport = function() {}
+RPC.Transport.prototype.start    = function() {}
+RPC.Transport.prototype.stop     = function() {}
+
+RPC.Transport.prototype.lookup = function(name) {
+  return RPC.lookup(name.split('.'));
+}
+RPC.Transport.prototype.call = function(name,args) {
+  return RPC.call(this.lookup(name));
 }
 
 RPC.Transport.prototype.return_message = function(data) {
