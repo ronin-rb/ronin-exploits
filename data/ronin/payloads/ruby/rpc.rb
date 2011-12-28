@@ -295,6 +295,8 @@ module RPC
   module Transport
     protected
 
+    def lookup(name); RPC[name.split('.')]; end
+
     def call(name,arguments)
       unless (method = lookup(name))
         return error_message("Unknown method: #{name}")
@@ -316,47 +318,135 @@ module RPC
     def deserialize(data); JSON.parse(Base64.decode64(data)); end
   end
 
-  require 'webrick'
+  module HTTP
+    require 'webrick'
 
-  class HTTP < WEBrick::HTTPServlet::AbstractServlet
-    
-    include Transport
+    class Server < WEBrick::HTTPServlet::AbstractServlet
 
-    def self.start(port,host=nil)
-      server = WEBrick::HTTPServer.new(:Host => host, :Port => port)
-      server.mount '/', self
+      include Transport
 
-      trap('INT') { server.shutdown }
+      def self.start(port,host=nil)
+        server = WEBrick::HTTPServer.new(:Host => host, :Port => port)
+        server.mount '/', self
 
-      server.start
+        trap('INT') { server.shutdown }
+
+        server.start
+      end
+
+      def do_GET(request,response)
+        name = request.path
+        args = if request.query_string
+                 deserialize(request.query_string)
+               else
+                 []
+               end
+
+        message = call(name,args)
+
+        response.status = (message['exception'] ? 404 : 200)
+        response.body   = serialize(message)
+      end
+
+      protected
+
+      def lookup(path); RPC[path[1..-1].split('/')]; end
+
+    end
+  end
+
+  module TCP
+    module Protocol
+      protected
+
+      def process(socket)
+        buffer = ''
+
+        socket.each_line do |line|
+          buffer << line
+
+          if line.chomp.end_with?('=')
+            request = deserialize(buffer)
+            name = request['name']
+            args = (request['arguments'] || [])
+
+            message = call(name,args)
+
+            socket.write(serialize(message))
+            buffer = ''
+          end
+        end
+      end
     end
 
-    def do_GET(request,response)
-      name = request.path
-      args = if request.query_string
-               deserialize(request.query_string)
-             else
-               []
-             end
+    require 'socket'
 
-      message = call(name,args)
+    class ConnectBack
 
-      response.status = (message['exception'] ? 404 : 200)
-      response.body   = serialize(message)
+      include Transport, Protocol
+
+      attr_reader :host, :port, :local_host, :local_port
+
+      def initialize(host,port,local_host=nil,local_port=nil)
+        @host       = host
+        @port       = port
+        @local_host = local_host
+        @local_port = local_port
+      end
+
+      def self.start(host,port,local_host=nil,local_port=nil)
+        client = new(host,port,local_host,local_port)
+
+        trap('INT') { client.stop }
+
+        client.start
+      end
+
+      def start
+        @connection = TCPSocket.new(@host,@port,@local_host,@local_port)
+
+        process(@connection)
+      end
+
+      def stop; @connection.close; end
+
     end
 
-    protected
+    require 'gserver'
 
-    def lookup(path); RPC[path[1..-1].split('/')]; end
+    class Server < GServer
 
+      include Transport, Protocol
+
+      def self.start(port,host=nil)
+        server = new(port,host)
+
+        trap('INT') { server.stop }
+        
+        server.start
+        server.join
+      end
+
+      def serve(client); process(client); end
+
+    end
   end
 end
 
 if $0 == __FILE__
-  unless ARGV.length >= 1
-    $stderr.puts "usage: #{$0} PORT [HOST]"
+  def usage
+    puts "usage: #{$0} [--http PORT [HOST]] [--listen PORT [HOST]] [--connect HOST PORT]"
     exit -1
   end
 
-  RPC::HTTP.start(ARGV[0],ARGV[1])
+  case ARGV[0]
+  when '--http'
+    RPC::HTTP::Server.start ARGV[1], ARGV[2]
+  when '--listen'
+    RPC::TCP::Server.start ARGV[1], ARGV[2]
+  when '--connect'
+    RPC::TCP::ConnectBack.start ARGV[1], ARGV[2]
+  else
+    usage
+  end
 end
