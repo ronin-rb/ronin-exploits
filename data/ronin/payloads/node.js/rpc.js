@@ -158,22 +158,20 @@ RPC.Transport.prototype.deserialize = function(data) {
 var HTTP = require('http');
 var URL  = require('url');
 
-RPC.Server = function(port,host) {
+RPC.HTTP = function(port,host) {
   this.port = parseInt(port);
   this.host = (host ? host : '0.0.0.0');
 }
 
-RPC.Server.start = function(port,host) {
-  var server = new this(port,host);
+RPC.HTTP.start       = function(port,host) {
+  var server = new RPC.HTTP(port,host);
 
   server.start(function() {
-    console.log("Listening on " + server.host + ":" + server.port);
+    console.log("[HTTP] Listening on " + server.host + ":" + server.port);
   });
 }
 
-RPC.HTTP = RPC.Server;
-RPC.HTTP.start       = RPC.Server.start;
-RPC.HTTP.prototype   = new RPC.Transport();
+RPC.HTTP.prototype = new RPC.Transport();
 
 RPC.HTTP.prototype.start = function(callback) {
   var self = this;
@@ -243,8 +241,19 @@ RPC.TCP = {
   }
 };
 
-RPC.TCP.Server = RPC.Server;
-RPC.TCP.Server.start       = RPC.Server.start;
+RPC.TCP.Server = function(port,host) {
+  this.port = parseInt(port);
+  this.host = (host ? host : '0.0.0.0');
+}
+
+RPC.TCP.Server.start = function(port,host) {
+  var server = new RPC.TCP.Server(port,host);
+
+  server.start(function() {
+    console.log("[TCP] Listening on " + server.host + ":" + server.port);
+  });
+}
+
 RPC.TCP.Server.prototype   = new RPC.Transport();
 
 RPC.TCP.Server.prototype.decode_request  = RPC.TCP.decode_request;
@@ -265,21 +274,21 @@ RPC.TCP.Server.prototype.stop = function() { this.server.stop(); }
 
 RPC.TCP.ConnectBack = function(host,port) {
   this.host = host;
-  this.port = port;
+  this.port = parseInt(port);
+}
+
+RPC.TCP.ConnectBack.start = function(host,port) {
+  var client = new RPC.TCP.ConnectBack(host,port);
+
+  client.start(function() {
+    console.log("[TCP] Connected to " + client.host + ":" + client.port);
+  });
 }
 
 RPC.TCP.ConnectBack.prototype = new RPC.Transport();
 RPC.TCP.ConnectBack.prototype.decode_request  = RPC.TCP.decode_request;
 RPC.TCP.ConnectBack.prototype.encode_response = RPC.TCP.encode_response;
 RPC.TCP.ConnectBack.prototype.serve           = RPC.TCP.serve;
-
-RPC.TCP.ConnectBack.start = function(host,port) {
-  var client = new this(host,port);
-
-  client.start(function() {
-    console.log("Connected to " + client.host + ":" + client.port);
-  });
-}
 
 RPC.TCP.ConnectBack.prototype.start = function(callback) {
   this.connection = Net.createConnection(this.port,this.host,callback);
@@ -290,8 +299,6 @@ RPC.TCP.ConnectBack.prototype.start = function(callback) {
 RPC.TCP.ConnectBack.prototype.stop = function() {
   this.connection.end();
 }
-
-RPC.TCP.Server.prototype.stop = function() { this.server.stop(); }
 
 function usage() {
   console.log("usage: [--http PORT [HOST]] [--listen PORT [HOST]] [--connect HOST PORT]");
