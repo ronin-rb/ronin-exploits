@@ -121,6 +121,14 @@ module RPC
   module Net
     SOCKETS = {}
 
+    def self.socket(fd)
+      unless (socket = SOCKETS[fd])
+        raise(RuntimeError,"unknown socket file-descriptor",caller)
+      end
+
+      return socket
+    end
+
     module Dns
       def self.lookup(host)
         Resolv.getaddresses(host)
@@ -148,9 +156,7 @@ module RPC
       end
 
       def self.accept(fd)
-        unless (socket = SOCKETS[fd])
-          raise(RuntimeError,"unknown socket file-descriptor")
-        end
+        socket = Net.socket(fd)
 
         begin
           client = socket.accept_nonblock
@@ -163,9 +169,7 @@ module RPC
       end
 
       def self.recv(fd,length)
-        unless (socket = SOCKETS[fd])
-          raise(RuntimeError,"unknown socket file-descriptor")
-        end
+        socket = Net.socket(fd)
 
         begin
           return socket.recv_nonblock(length)
@@ -175,11 +179,7 @@ module RPC
       end
 
       def self.send(fd,data)
-        unless (socket = SOCKETS[fd])
-          raise(RuntimeError,"unknown socket file-descriptor")
-        end
-
-        return socket.send(data)
+        Net.socket(fd).send(data)
       end
     end
 
@@ -199,9 +199,7 @@ module RPC
       end
 
       def self.recv(fd,length)
-        unless (socket = SOCKETS[fd])
-          raise(RuntimeError,"unknown socket file-descriptor")
-        end
+        socket = Net.socket(fd)
 
         begin
           return socket.recvfrom_nonblock(length)
@@ -211,9 +209,7 @@ module RPC
       end
 
       def self.send(fd,data,host=nil,port=nil)
-        unless (socket = SOCKETS[fd])
-          raise(RuntimeError,"unknown socket file-descriptor")
-        end
+        socket = Net.socket(fd)
 
         if (host && port)
           return socket.send(data,0,host,port)
@@ -224,29 +220,21 @@ module RPC
     end
 
     def self.remote_address(fd)
-      unless (socket = SOCKETS[fd])
-        raise(RuntimeError,"unknown socket file-descriptor")
-      end
-
+      socket   = Net.socket(fd)
       addrinfo = socket.remote_address
 
       return [addrinfo.ip_address, addrinfo.ip_port]
     end
 
     def self.local_address(fd)
-      unless (socket = SOCKETS[fd])
-        raise(RuntimeError,"unknown socket file-descriptor")
-      end
-
+      socket   = Net.socket(fd)
       addrinfo = socket.local_address
 
       return [addrinfo.ip_address, addrinfo.ip_port]
     end
 
     def self.close(fd)
-      unless (socket = SOCKETS[fd])
-        raise(RuntimeError,"unknown socket file-descriptor")
-      end
+      socket = Net.socket(fd)
 
       socket.close
       SOCKETS.delete(fd)
