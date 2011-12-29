@@ -255,7 +255,6 @@ RPC.TCP.Server.start = function(port,host) {
 }
 
 RPC.TCP.Server.prototype   = new RPC.Transport();
-
 RPC.TCP.Server.prototype.decode_request  = RPC.TCP.decode_request;
 RPC.TCP.Server.prototype.encode_response = RPC.TCP.encode_response;
 RPC.TCP.Server.prototype.serve           = RPC.TCP.serve;
@@ -296,9 +295,7 @@ RPC.TCP.ConnectBack.prototype.start = function(callback) {
   this.serve(this.connection);
 }
 
-RPC.TCP.ConnectBack.prototype.stop = function() {
-  this.connection.end();
-}
+RPC.TCP.ConnectBack.prototype.stop = function() { this.connection.end(); }
 
 function usage() {
   console.log("usage: [--http PORT [HOST]] [--listen PORT [HOST]] [--connect HOST PORT]");
