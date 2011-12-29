@@ -119,7 +119,7 @@ module RPC
   end
 
   module Net
-    SOCKETS = {}
+    def self.sockets; @sockets ||= {}; end
 
     def self.socket(fd)
       unless (socket = SOCKETS[fd])
@@ -143,7 +143,7 @@ module RPC
       def self.connect(host,port,local_host=nil,local_port=nil)
         socket = TCPSocket.new(host,port,local_host,local_port)
 
-        SOCKETS[socket.fileno] = socket
+        Net.sockets[socket.fileno] = socket
         return socket.fileno
       end
 
@@ -151,7 +151,7 @@ module RPC
         socket = TCPServer.new(port,host)
         socket.listen(256)
 
-        SOCKETS[socket.fileno] = socket
+        Net.sockets[socket.fileno] = socket
         return socket.fileno
       end
 
@@ -187,14 +187,14 @@ module RPC
       def self.connect(host,port,local_host=nil,local_port=nil)
         socket = UDPSocket.new(host,port,local_host,local_port)
 
-        SOCKETS[socket.fileno] = socket
+        Net.sockets[socket.fileno] = socket
         return socket.fileno
       end
 
       def self.listen(port,host=nil)
         socket = UDPServer.new(port,host)
 
-        SOCKETS[socket.fileno] = socket
+        Net.sockets[socket.fileno] = socket
         return socket.fileno
       end
 
@@ -235,9 +235,9 @@ module RPC
 
     def self.close(fd)
       socket = Net.socket(fd)
-
       socket.close
-      SOCKETS.delete(fd)
+
+      Net.sockets.delete(fd)
       return true
     end
   end
