@@ -93,7 +93,7 @@ module RPC
     end
 
     def self.read(pid,length)
-      process = process(pid)
+      process = self.process(pid)
 
       begin
         return process.read_nonblock(length)
@@ -103,7 +103,7 @@ module RPC
     end
 
     def self.write(pid,data)
-      process(pid).write(data)
+      self.process(pid).write(data)
     end
 
     def self.close(pid)
@@ -117,7 +117,6 @@ module RPC
 
   module Net
     def self.sockets; @sockets ||= {}; end
-
     def self.socket(fd)
       unless (socket = SOCKETS[fd])
         raise(RuntimeError,"unknown socket file-descriptor",caller)
@@ -217,24 +216,24 @@ module RPC
     end
 
     def self.remote_address(fd)
-      socket   = Net.socket(fd)
+      socket   = self.socket(fd)
       addrinfo = socket.remote_address
 
       return [addrinfo.ip_address, addrinfo.ip_port]
     end
 
     def self.local_address(fd)
-      socket   = Net.socket(fd)
+      socket   = self.socket(fd)
       addrinfo = socket.local_address
 
       return [addrinfo.ip_address, addrinfo.ip_port]
     end
 
     def self.close(fd)
-      socket = Net.socket(fd)
+      socket = self.socket(fd)
       socket.close
 
-      Net.sockets.delete(fd)
+      self.sockets.delete(fd)
       return true
     end
   end
