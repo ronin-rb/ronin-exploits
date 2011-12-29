@@ -118,7 +118,7 @@ module RPC
   module Net
     def self.sockets; @sockets ||= {}; end
     def self.socket(fd)
-      unless (socket = SOCKETS[fd])
+      unless (socket = sockets[fd])
         raise(RuntimeError,"unknown socket file-descriptor",caller)
       end
 
@@ -160,7 +160,7 @@ module RPC
           return nil
         end
 
-        SOCKETS[client.fileno] = client
+        Net.sockets[client.fileno] = client
         return client.fileno
       end
 
