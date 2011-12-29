@@ -274,7 +274,8 @@ module RPC
     end
   end
 
-  def self.[](names)
+  def self.[](name)
+    names       = name.split('.')
     method_name = names.pop
     scope       = RPC
 
@@ -294,8 +295,8 @@ module RPC
     end
   end
 
-  def self.call(names,arguments)
-    unless (method = self[names])
+  def self.call(name,arguments)
+    unless (method = self[name])
       return {'exception' => "Unknown method: #{names.join('.')}"}
     end
 
@@ -310,9 +311,6 @@ module RPC
 
   module Transport
     protected
-
-    def lookup(name); RPC[name.split('.')];   end
-    def call(name);   RPC.call(lookup(name)); end
 
     def serialize(data);   Base64.encode64(data.to_json);     end
     def deserialize(data); JSON.parse(Base64.decode64(data)); end
@@ -336,16 +334,14 @@ module RPC
 
       def do_GET(request,response)
         decode_request(request) do |name,args|
-          encode_response(response,call(name,args))
+          encode_response(response,RPC.call(name,args))
         end
       end
 
       protected
 
-      def lookup(path); RPC[path[1..-1].split('/')]; end
-
       def decode_request(request)
-        name = request.path
+        name = request.path[1..-1].gsub('/','.')
         args = (request.query_string ? deserialize(request.query_string) : [])
 
         yield name, args
@@ -382,7 +378,7 @@ module RPC
 
           if line.chomp.end_with?('=')
             decode_request(buffer) do |name,args|
-              encode_response(socket,call(name,args))
+              encode_response(socket,RPC.call(name,args))
             end
 
             buffer = ''
