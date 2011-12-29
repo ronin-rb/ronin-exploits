@@ -107,7 +107,8 @@ var RPC = {
   }
 };
 
-RPC.lookup = function(names) {
+RPC.lookup = function(name) {
+  var names = name.split('.');
   var scope = RPC;
   var index;
 
@@ -120,8 +121,8 @@ RPC.lookup = function(names) {
   return scope;
 }
 
-RPC.call = function(names,args) {
-  var func = RPC.lookup(names);
+RPC.call = function(name,args) {
+  var func = RPC.lookup(name);
 
   if (func == undefined) {
     return {'exception': "unknown function: " + name};
@@ -137,13 +138,6 @@ RPC.call = function(names,args) {
 RPC.Transport = function() {}
 RPC.Transport.prototype.start    = function() {}
 RPC.Transport.prototype.stop     = function() {}
-
-RPC.Transport.prototype.lookup = function(name) {
-  return RPC.lookup(name.split('.'));
-}
-RPC.Transport.prototype.call = function(name,args) {
-  return RPC.call(this.lookup(name));
-}
 
 RPC.Transport.prototype.return_message = function(data) {
   return {'return': data};
@@ -178,11 +172,8 @@ RPC.Server.start = function(port,host) {
 }
 
 RPC.HTTP = RPC.Server;
-RPC.HTTP.prototype = new RPC.Transport();
-
-RPC.HTTP.prototype.lookup = function(path) {
-  return RPC.lookup(path.slice(1,path.length).split('/'));
-}
+RPC.HTTP.start       = RPC.Server.start;
+RPC.HTTP.prototype   = new RPC.Transport();
 
 RPC.HTTP.prototype.start = function(callback) {
   var self = this;
@@ -196,7 +187,7 @@ RPC.HTTP.prototype.start = function(callback) {
 
 RPC.HTTP.prototype.decode_request = function(request,callback) {
   var url  = URL.parse(request.url);
-  var name = url.pathname;
+  var name = url.pathname.slice(1,url.pathname.length).split('/').join('.');
   var args = (url.query ? this.deserialize(url.query) : []);
 
   callback(name,args);
@@ -211,7 +202,7 @@ RPC.HTTP.prototype.serve = function(request,response) {
   var self = this;
 
   self.decode_request(request,function(name,args) {
-    self.encode_response(response,self.call(name,args));
+    self.encode_response(response,RPC.call(name,args));
   });
 }
 
@@ -242,7 +233,7 @@ RPC.TCP = {
         buffer += data.substr(0,deliminator);
 
         self.decode_request(buffer,function(name,args) {
-          self.encode_response(socket,self.call(name,args));
+          self.encode_response(socket,RPC.call(name,args));
         });
 
         buffer = data.substr(deliminator,data.length);
@@ -253,7 +244,8 @@ RPC.TCP = {
 };
 
 RPC.TCP.Server = RPC.Server;
-RPC.TCP.Server.prototype = new RPC.Transport();
+RPC.TCP.Server.start       = RPC.Server.start;
+RPC.TCP.Server.prototype   = new RPC.Transport();
 
 RPC.TCP.Server.prototype.decode_request  = RPC.TCP.decode_request;
 RPC.TCP.Server.prototype.encode_response = RPC.TCP.encode_response;
