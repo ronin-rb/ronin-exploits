@@ -76,44 +76,41 @@ module RPC
   end
 
   module Shell
-    COMMANDS = {}
+    def self.processes; @processes ||= {}; end
+    def self.process(pid)
+      unless (process = processes[pid])
+        raise(RuntimeError,"unknown command pid",caller)
+      end
+
+      return process
+    end
 
     def self.exec(program,*arguments)
       io = IO.popen("#{program} #{arguments.join(' ')}")
 
-      COMMANDS[io.pid] = io
+      self.processes[io.pid] = io
       return io.pid
     end
 
     def self.read(pid,length)
-      unless (command = COMMANDS[pid])
-        raise(RuntimeError,"unknown command pid",caller)
-      end
+      process = process(pid)
 
       begin
-        return command.read_nonblock(length)
+        return process.read_nonblock(length)
       rescue IO::WaitReadable
         return nil # no data currently available
       end
     end
 
     def self.write(pid,data)
-      unless (command = COMMANDS[pid])
-        raise(RuntimeError,"unknown command pid",caller)
-      end
-
-      command.write(data)
-
-      return command.write(length)
+      process(pid).write(data)
     end
 
     def self.close(pid)
-      unless (command = COMMANDS[pid])
-        raise(RuntimeError,"unknown command pid",caller)
-      end
+      process = self.process(pid)
+      process.close
 
-      command.close
-      COMMANDS.delete(pid)
+      self.processes.delete(pid)
       return true
     end
   end
