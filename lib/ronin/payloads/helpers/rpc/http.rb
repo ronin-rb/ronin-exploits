@@ -54,8 +54,9 @@ module Ronin
           include Process
 
           def self.extended(object)
+            object.extend Network::Mixins::HTTP
+
             object.instance_eval do
-              extend Network::Mixins::HTTP
 
               # The host the HTTP Server is running on
               parameter :host, :type => String,
