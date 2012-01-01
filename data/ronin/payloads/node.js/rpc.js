@@ -210,13 +210,13 @@ var Net = require('net');
 
 RPC.TCP = {
   decode_request: function(request,callback) {
-    var message = this.deserialize(request);
+    var message = this.deserialize(request.replace(/\0$/,''));
 
     callback(message['name'],message['arguments']);
   },
 
   encode_response: function(socket,message) {
-    socket.write(this.serialize(message));
+    socket.write(this.serialize(message) + "\0");
   },
 
   serve: function(socket) {
@@ -225,7 +225,7 @@ RPC.TCP = {
 
     socket.on('data',function(stream) {
       var data        = stream.toString();
-      var deliminator = data.lastIndexOf('=');
+      var deliminator = data.lastIndexOf("\0");
 
       if (deliminator) {
         buffer += data.substr(0,deliminator);

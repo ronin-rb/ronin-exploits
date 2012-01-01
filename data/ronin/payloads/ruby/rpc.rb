@@ -344,28 +344,21 @@ module RPC
       protected
 
       def decode_request(request)
-        name = request['name']
-        args = (request['arguments'] || [])
+        request = deserialize(request.chomp("\0"))
 
-        yield name, args
+        yield request['name'], (request['arguments'] || [])
       end
 
       def encode_response(socket,message)
-        socket.write(serialize(message))
+        socket.write(serialize(message) + "\0")
       end
 
       def serve(socket)
-        buffer = ''
+        loop do
+          request = socket.readline("\0")
 
-        socket.each_line do |line|
-          buffer << line
-
-          if line.chomp.end_with?('=')
-            decode_request(buffer) do |name,args|
-              encode_response(socket,RPC.call(name,args))
-            end
-
-            buffer = ''
+          decode_request(request) do |name,args|
+            encode_response(socket,RPC.call(name,args))
           end
         end
       end
