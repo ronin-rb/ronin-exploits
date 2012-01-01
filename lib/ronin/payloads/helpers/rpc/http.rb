@@ -57,15 +57,6 @@ module Ronin
             object.extend Network::Mixins::HTTP
 
             object.instance_eval do
-
-              # The host the HTTP Server is running on
-              parameter :host, :type => String,
-                               :description => 'Host to connect to'
-
-              # The port the HTTP Server is listening on
-              parameter :port, :type => Integer,
-                               :description => 'Port to connect to'
-
               test_set :host
               test_set :port
             end
