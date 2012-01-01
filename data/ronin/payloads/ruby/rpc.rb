@@ -263,11 +263,12 @@ module RPC
     method_name = names.pop
     scope       = RPC
 
+    return if method_name.nil?
+
     names.each do |name|
       scope = begin
                 scope.const_get(name.capitalize)
               rescue NameError
-                return nil
               end
 
       return if scope.nil?
@@ -281,7 +282,7 @@ module RPC
 
   def self.call(name,arguments)
     unless (method = self[name])
-      return {'exception' => "Unknown method: #{names.join('.')}"}
+      return {'exception' => "Unknown method: #{name}"}
     end
 
     value = begin
@@ -332,7 +333,7 @@ module RPC
       end
 
       def encode_response(response,message)
-        response.status = (message['exception'] ? 404 : 200)
+        response.status = (message.has_key?('exception') ? 404 : 200)
         response.body   = serialize(message)
       end
 
