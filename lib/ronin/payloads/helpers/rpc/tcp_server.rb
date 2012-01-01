@@ -128,9 +128,9 @@ module Ronin
 
             if response['exception']
               raise(response['exception'])
-            else
-              return response['return']
             end
+
+            return response['return']
           end
 
         end
