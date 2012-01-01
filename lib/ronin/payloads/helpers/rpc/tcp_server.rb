@@ -20,7 +20,8 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'socket'
+require 'ronin/network/mixins/tcp'
+
 require 'base64'
 require 'json'
 
@@ -49,21 +50,15 @@ module Ronin
         #
         module TCPServer
 
+          include Network::Mixins::TCP
+
           def self.extended(object)
             object.instance_eval do
-              # The host the TCP Server is running on
-              parameter :host, :type => String,
-                               :description => 'Host to connect to'
-
-              # The port the TCP Server is listening on
-              parameter :port, :type => Integer,
-                               :description => 'Port to connect to'
-
               test_set :host
               test_set :port
 
               deploy do
-                @connection = TCPSocket.new(self.host,self.port)
+                @connection = tcp_connect
               end
 
               evacuate do
