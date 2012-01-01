@@ -20,6 +20,7 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
+require 'ronin/payloads/helpers/rpc/process'
 require 'ronin/network/mixins/http'
 
 require 'base64'
@@ -50,6 +51,7 @@ module Ronin
         #     end
         #
         module HTTP
+          include Process
 
           def self.extended(object)
             object.instance_eval do

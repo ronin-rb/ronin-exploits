@@ -20,6 +20,7 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
+require 'ronin/payloads/helpers/rpc/process'
 require 'ronin/network/mixins/tcp'
 
 require 'base64'
@@ -49,6 +50,7 @@ module Ronin
         #     end
         #
         module TCPServer
+          include Process
 
           def self.extended(object)
             object.extend Network::Mixins::TCP
