@@ -50,9 +50,9 @@ module Ronin
         #
         module TCPServer
 
-          include Network::Mixins::TCP
-
           def self.extended(object)
+            object.extend Network::Mixins::TCP
+
             object.instance_eval do
               test_set :host
               test_set :port
