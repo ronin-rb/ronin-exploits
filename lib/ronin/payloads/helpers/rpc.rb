@@ -20,38 +20,5 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/network/tcp'
-
-module Ronin
-  module Payloads
-    module Helpers
-      module RPC
-        #
-        # RPC Transport methods for interacting with a TCP Service.
-        #
-        module TCPServer
-          def self.extended(object)
-            object.extend Network::TCP
-          end
-
-          protected
-
-          def rpc_connect
-            @connection = tcp_connect(self.host,self.port)
-          end
-
-          def rpc_disconnect
-            @connection.close
-            @connection = nil
-          end
-
-          def rpc_send(message)
-            @connection.write(rpc_serialize(message) + "\0")
-
-            return rpc_deserialize(@connection.readline("\0").chomp("\0"))
-          end
-        end
-      end
-    end
-  end
-end
+require 'ronin/payloads/helpers/rpc/process'
+require 'ronin/payloads/helpers/rpc/rpc'

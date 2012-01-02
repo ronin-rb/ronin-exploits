@@ -20,119 +20,47 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/payloads/helpers/rpc/process'
-require 'ronin/network/mixins/http'
+require 'ronin/network/http'
 
-require 'base64'
-require 'json'
-require 'uri'
+require 'uri/http'
 
 module Ronin
   module Payloads
     module Helpers
       module RPC
         #
-        # Payload Helper for interacting with RPC HTTP Servers.
-        #
-        # ## Example
-        #
-        #     ronin_payload do
-        #
-        #       helper 'rpc/http'
-        #
-        #       def process_getuid
-        #         rpc_call('process.getuid')
-        #       end
-        #
-        #       def process_setuid(uid)
-        #         rpc_call('process.setuid', uid)
-        #       end
-        #
-        #     end
+        # RPC Transport methods for interacting with a HTTP Service.
         #
         module HTTP
-          include Process
-
           def self.extended(object)
-            object.extend Network::Mixins::HTTP
+            object.extend Network::HTTP
+          end
 
-            object.instance_eval do
-              test_set :host
-              test_set :port
-            end
+          def rpc_url
+            URI::HTTP.build(
+              :host => self.host,
+              :port => self.port
+            )
+          end
+
+          def rpc_url_for(message)
+            base_url  = rpc_url
+            name      = message[:name]
+            arguments = message[:arguments]
+
+            url.path  = '/' + name.gsub('.','/'),
+            url.query = unless (arguments.nil? || arguments.empty?)
+                          URI.escape(serialize(arguments))
+                        end
+
+            return url
           end
 
           protected
 
-          #
-          # Encodes an RPC Request.
-          #
-          # @param [Hash] message
-          #   The message to send to the HTTP Server.
-          #
-          # @return [URI::HTTP]
-          #   The encoded request.
-          #
-          # @api private
-          #
-          def rpc_encode_request(message)
-            name      = message[:name]
-            arguments = message[:arguments]
-
-            URI::HTTP.build(
-              :host  => self.host,
-              :port  => self.port,
-              :path  => '/' + name.gsub('.','/'),
-              :query => unless (arguments.nil? || arguments.empty?)
-                          URI.escape(Base64.encode64(arguments.to_json))
-                        end
-            )
+          def rpc_send(message)
+            deserialize(http_get_body(:url => rpc_url_for(message)))
           end
-
-          #
-          # Decodes a RPC Response.
-          #
-          # @param [String] data
-          #   A response from the HTTP Server.
-          #
-          # @return [Hash]
-          #   The decoded RPC response.
-          #
-          # @api private
-          #
-          def rpc_decode_response(data)
-            JSON.parse(Base64.decode64(data))
-          end
-
-          #
-          # Calls a function on the Server.
-          #
-          # @param [String, Symbol] name
-          #   The RPC function to call.
-          #
-          # @param [Array] arguments
-          #   Additional arguments to pass to the RPC function.
-          #
-          # @return [Object]
-          #   The return value from the RPC function.
-          #
-          # @raise [RuntimeError]
-          #   An exception raised by the RPC function.
-          #
-          # @api semipublic
-          #
-          def rpc_call(name,*arguments)
-            uri = rpc_encode_request(:name => name, :arguments => arguments)
-
-            response = rpc_decode_response(http_get(:url => uri).body)
-
-            if response['exception']
-              raise(response['exception'])
-            end
-
-            return response['return']
-          end
-
         end
       end
     end

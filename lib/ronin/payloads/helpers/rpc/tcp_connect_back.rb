@@ -20,59 +20,42 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/payloads/helpers/rpc/tcp'
-require 'ronin/payloads/helpers/rpc/process'
-require 'ronin/network/mixins/tcp'
+require 'ronin/network/tcp'
 
 module Ronin
   module Payloads
     module Helpers
       module RPC
         #
-        # Payload Helper for accepting connections from TCP RPC Servers.
-        #
-        # ## Example
-        #
-        #     ronin_payload do
-        #
-        #       helper 'rpc/tcp_connect_back'
-        #
-        #       def process_getuid
-        #         rpc_call('process.getuid')
-        #       end
-        #
-        #       def process_setuid(uid)
-        #         rpc_call('process.setuid', uid)
-        #       end
-        #
-        #     end
+        # RPC Transport methods for interacting with a TCP Service that
+        # connects back.
         #
         module TCPConnectBack
-          include TCP
-          include Process
-
           def self.extended(object)
-            object.extend Network::Mixins::TCP
+            object.extend Network::TCP
+          end
 
-            object.instance_eval do
-              test_set :host
-              test_set :port
+          protected
 
-              deploy do
-                @server     = tcp_server
-                @connection = @server.accept
-              end
+          def rpc_connect
+            @server     = tcp_server(self.local_port,self.local_host)
+            @connection = @server.accept
+          end
 
-              evacuate do
-                if @connection
-                  @connection.close
-                  @connection = nil
-                end
-
-                @server.close
-                @server = nil
-              end
+          def rpc_disconnect
+            if @connection
+              @connection.close
+              @connection = nil
             end
+
+            @server.close
+            @server = nil
+          end
+
+          def rpc_send(message)
+            @connection.write(rpc_serialize(message) + "\0")
+
+            return rpc_deserialize(@connection.readline("\0").chomp("\0"))
           end
         end
       end
