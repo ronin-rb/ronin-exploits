@@ -48,12 +48,12 @@ module Ronin
             name      = message[:name]
             arguments = message[:arguments]
 
-            url.path  = '/' + name.gsub('.','/'),
-            url.query = unless (arguments.nil? || arguments.empty?)
+            base_url.path  = '/' + name.gsub('.','/'),
+            base_url.query = unless (arguments.nil? || arguments.empty?)
                           URI.escape(serialize(arguments))
                         end
 
-            return url
+            return base_url
           end
 
           protected
