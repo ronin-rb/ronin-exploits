@@ -48,9 +48,9 @@ module Ronin
             name      = message[:name]
             arguments = message[:arguments]
 
-            base_url.path  = '/' + name.gsub('.','/'),
+            base_url.path  = '/' + name.gsub('.','/')
             base_url.query = unless (arguments.nil? || arguments.empty?)
-                          URI.escape(serialize(arguments))
+                          URI.escape(rpc_serialize(arguments))
                         end
 
             return base_url
@@ -59,7 +59,7 @@ module Ronin
           protected
 
           def rpc_send(message)
-            deserialize(http_get_body(:url => rpc_url_for(message)))
+            rpc_deserialize(http_get_body(:url => rpc_url_for(message)))
           end
         end
       end
