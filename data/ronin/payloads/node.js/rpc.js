@@ -80,7 +80,7 @@ var RPC = {
       RPC.shell._commands[process.pid] = process;
       return process.pid;
     },
-    read: function(pid,length) {
+    read: function(pid) {
       var process = RPC.shell._command(pid);
 
       process.stdin.resume();

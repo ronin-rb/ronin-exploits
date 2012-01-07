@@ -8,10 +8,10 @@ require 'json'
 Main = self
 
 module RPC
+  BLOCK_SIZE = (1024 * 512)
+
   module Fs
     extend FileUtils
-
-    BLOCK_SIZE = (1024 * 512)
 
     def self.open(path,mode); File.new(path,mode).fileno; end
 
@@ -94,11 +94,11 @@ module RPC
       return io.pid
     end
 
-    def self.read(pid,length)
+    def self.read(pid)
       process = self.process(pid)
 
       begin
-        return process.read_nonblock(length)
+        return process.read_nonblock(BLOCK_SIZE)
       rescue IO::WaitReadable
         return nil # no data currently available
       end
@@ -166,11 +166,11 @@ module RPC
         return client.fileno
       end
 
-      def self.recv(fd,length)
+      def self.recv(fd)
         socket = Net.socket(fd)
 
         begin
-          return socket.recv_nonblock(length)
+          return socket.recv_nonblock(BLOCK_SIZE)
         rescue IO::WaitReadable
           return nil
         end
@@ -196,11 +196,11 @@ module RPC
         return socket.fileno
       end
 
-      def self.recv(fd,length)
+      def self.recv(fd)
         socket = Net.socket(fd)
 
         begin
-          return socket.recvfrom_nonblock(length)
+          return socket.recvfrom_nonblock(BLOCK_SIZE)
         rescue IO::WaitReadable
           return nil
         end
