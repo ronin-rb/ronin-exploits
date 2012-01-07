@@ -20,5 +20,4 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/payloads/helpers/rpc/process'
 require 'ronin/payloads/helpers/rpc/rpc'

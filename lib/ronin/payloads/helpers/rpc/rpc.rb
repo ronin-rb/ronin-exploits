@@ -75,6 +75,68 @@ module Ronin
           return response['return']
         end
 
+        def process_getpid;        rpc_call('process.getpid'); end
+        def process_getppid;       rpc_call('process.getppid'); end
+        def process_getuid;        rpc_call('process.getuid'); end
+        def process_setuid(uid);   rpc_call('process.setuid',uid); end
+        def process_geteuid;       rpc_call('process.geteuid'); end
+        def process_seteuid(euid); rpc_call('process.geteuid',euid); end
+        def process_getgid;        rpc_call('process.getgid'); end
+        def process_setgid(gid);   rpc_call('process.setgid',gid); end
+        def process_getegid;       rpc_call('process.getegid'); end
+        def process_setegid(egid); rpc_call('process.getegid',egid); end
+        def process_getsid;        rpc_call('process.getsid'); end
+        def process_setsid(sid);   rpc_call('process.setsid',sid); end
+        def process_getenv(name);  rpc_call('process.getenv',name); end
+        def process_setenv(name,value)
+          rpc_call('process.setenv',name,value)
+        end
+        def process_unsetenv(name); rpc_call('process.unsetenv',name); end
+
+        def process_kill(pid,signal='KILL')
+          rpc_call('process.kill',pid,signal)
+        end
+        def process_getcwd;     rpc_call('process.getcwd'); end
+        def process_chdir(dir); rpc_call('process.chdir',dir); end
+        def process_time;       rpc_call('process.time'); end
+        def process_spawn(program,*arguments)
+          rpc_call('process.spawn',program,*arguments)
+        end
+        def process_exit; rpc_call('process.exit'); end
+
+        def fs_open(path,mode);     rpc_call('fs.open',path,mode);    end
+        def fs_read(fd,pos);        rpc_call('fs.read',fd,pos);       end
+        def fs_write(fd,pos,data);  rpc_call('fs.write',fd,pos,data); end
+        def fs_close(fd);           rpc_call('fs.close',fd);          end
+        def fs_seek(fd,pos,whence); rpc_call('fs.seek',pos,whence);   end
+        def fs_tell(fd);            rpc_call('fs.tell',fd);           end
+
+        def fs_getcwd;         rpc_call('fs.getcwd');        end
+        def fs_chdir(path);    rpc_call('fs.chdir',path);    end
+        def fs_readlink(path); rpc_call('fs.readlink',path); end
+        def fs_readdir(path);  rpc_call('fs.readdir',path);  end
+        def fs_stat(path);     rpc_call('fs.stat',path);     end
+        def fs_glob(pattern);  rpc_call('fs.glob',pattern);  end
+
+        def fs_mktemp(basename);     rpc_call('fs.mktemp',basename);     end
+        def fs_mkdir(path);          rpc_call('fs.mkdir',path);          end
+        def fs_copy(src,dest);       rpc_call('fs.copy',src,dest);       end
+        def fs_unlink(path);         rpc_call('fs.unlink',path);         end
+        def fs_rmdir(path);          rpc_call('fs.rmdir',path);          end
+        def fs_move(src,dest);       rpc_call('fs.move',src,dest);       end
+        def fs_link(src,dest);       rpc_call('fs.link',src,dest);       end
+        def fs_chown(user,path);     rpc_call('fs.chown',user,path);     end
+        def fs_chgrp(group,path);    rpc_call('fs.chgrp',group,path);    end
+        def fs_chmod(mode,path);     rpc_call('fs.chmod',mode,path);     end
+        def fs_compare(path1,path2); rpc_call('fs.compare',path1,path2); end
+
+        def shell_exec(program,*arguments)
+          rpc_call('shell.exec',program,*arguments)
+        end
+        def shell_write(data)
+          rpc_call('shell.write',data)
+        end
+
         protected
 
         def rpc_serialize(message)
