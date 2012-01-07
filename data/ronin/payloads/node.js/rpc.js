@@ -6,11 +6,13 @@ var Main    = this;
 var RPC = {
   /* fs functions */
   fs: {
+    _block_size: (1024 * 512),
+
     open: FS.openSync,
-    read: function(fd,position,length) {
+    read: function(fd,position) {
       var buffer = new Buffer();
 
-      FS.readSync(fd,buffer,0,length,position);
+      FS.readSync(fd,buffer,0,RPC.fs._block_size,position);
       return buffer;
     },
     write: function(fd,position,data) {

@@ -11,13 +11,15 @@ module RPC
   module Fs
     extend FileUtils
 
+    BLOCK_SIZE = (1024 * 512)
+
     def self.open(path,mode); File.new(path,mode).fileno; end
 
-    def self.read(fd,position,length)
+    def self.read(fd,position)
       file = File.for_fd(fd)
       file.seek(position)
 
-      return file.read(length)
+      return file.read(BLOCK_SIZE)
     end
 
     def self.write(fd,position,data)
