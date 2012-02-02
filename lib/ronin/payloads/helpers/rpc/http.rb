@@ -34,6 +34,12 @@ module Ronin
         module HTTP
           def self.extended(object)
             object.extend Network::HTTP
+
+            object.instance_eval do
+              parameter :base_url, :type        => String,
+                                   :default     => '/',
+                                   :description => 'Base URL of the RPC Server'
+            end
           end
 
           def rpc_url
@@ -48,7 +54,7 @@ module Ronin
             name      = message[:name]
             arguments = message[:arguments]
 
-            base_url.path  = '/' + name.gsub('.','/')
+            base_url.path  = self.base_url + name.gsub('.','/')
             base_url.query = unless (arguments.nil? || arguments.empty?)
                           URI.escape(rpc_serialize(arguments))
                         end
