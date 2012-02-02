@@ -25,6 +25,23 @@ require 'ronin/payloads/helpers/rpc'
 
 module Ronin
   module Payloads
+    #
+    # A generic payload for interacting with deployed Ronin RPC payloads.
+    #
+    #     require 'ronin/payloads/rpc'
+    #     
+    #     rpc = Ronin::Payloads::RPC.new
+    #     rpc.transport = :http
+    #     rpc.host = 'victim.com'
+    #     rpc.port = 1337
+    #     
+    #     rpc.build!
+    #     rpc.deploy!
+    #     
+    #     rpc.process.getuid
+    #     # => 1000
+    #
+    # 
     class RPC < Payload
 
       #
