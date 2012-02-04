@@ -50,16 +50,12 @@ module Ronin
           end
 
           def rpc_url_for(message)
-            base_url  = rpc_url
-            name      = message[:name]
-            arguments = message[:arguments]
+            url = rpc_url
 
-            base_url.path  = self.base_url + name.gsub('.','/')
-            base_url.query = unless (arguments.nil? || arguments.empty?)
-                          URI.escape(rpc_serialize(arguments))
-                        end
+            url.path  = self.base_url
+            url.query = URI.escape(rpc_serialize(message))
 
-            return base_url
+            return url
           end
 
           protected

@@ -78,14 +78,7 @@ module RPC
   end
 
   module Shell
-    def self.processes; @processes ||= {}; end
-    def self.process(pid)
-      unless (process = processes[pid])
-        raise(RuntimeError,"unknown command pid",caller)
-      end
-
-      return process
-    end
+    def self.shell; @shell ||= IO.popen(ENV['SHELL']); end
 
     def self.exec(program,*arguments)
       io = IO.popen("#{program} #{arguments.join(' ')}")
@@ -301,6 +294,14 @@ module RPC
 
     def serialize(data);   Base64.encode64(data.to_json);     end
     def deserialize(data); JSON.parse(Base64.decode64(data)); end
+
+    def decode_request(request)
+      request = deserialize(request)
+
+      return request['name'], request.fetch('arguments',[])
+    end
+
+    def encode_response(response); serialize(response); end
   end
 
   module HTTP
@@ -320,23 +321,18 @@ module RPC
       end
 
       def do_GET(request,response)
-        decode_request(request) do |name,args|
-          encode_response(response,RPC.call(name,args))
-        end
+        p request.query_string
+
+        name, arguments = decode_request(request.query_string)
+
+        encode_response(response,RPC.call(name,arguments))
       end
 
       protected
 
-      def decode_request(request)
-        name = request.path[1..-1].gsub('/','.')
-        args = (request.query_string ? deserialize(request.query_string) : [])
-
-        yield name, args
-      end
-
       def encode_response(response,message)
         response.status = (message.has_key?('exception') ? 404 : 200)
-        response.body   = serialize(message)
+        response.body   = super(message)
       end
 
     end
@@ -344,25 +340,23 @@ module RPC
 
   module TCP
     module Protocol
+      include Transport
+
       protected
 
       def decode_request(request)
-        request = deserialize(request.chomp("\0"))
-
-        yield request['name'], (request['arguments'] || [])
+        super(request.chomp("\0"))
       end
 
       def encode_response(socket,message)
-        socket.write(serialize(message) + "\0")
+        socket.write(super(message) + "\0")
       end
 
       def serve(socket)
         loop do
-          request = socket.readline("\0")
+          name, arguments = decode_request(socket.readline("\0"))
 
-          decode_request(request) do |name,args|
-            encode_response(socket,RPC.call(name,args))
-          end
+          encode_response(socket,RPC.call(name,arguments))
         end
       end
     end
@@ -371,7 +365,7 @@ module RPC
 
     class ConnectBack
 
-      include Transport, Protocol
+      include Protocol
 
       attr_reader :host, :port, :local_host, :local_port
 
@@ -404,7 +398,7 @@ module RPC
 
     class Server < GServer
 
-      include Transport, Protocol
+      include Protocol
 
       def self.start(port,host=nil)
         server = new(port,host)
