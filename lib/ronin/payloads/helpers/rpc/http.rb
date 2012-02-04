@@ -23,6 +23,7 @@
 require 'ronin/network/http'
 
 require 'uri/http'
+require 'uri/query_params'
 
 module Ronin
   module Payloads
@@ -53,7 +54,7 @@ module Ronin
             url = rpc_url
 
             url.path  = self.base_url
-            url.query = URI.escape(rpc_serialize(message))
+            url.query_params['_request'] = rpc_serialize(message)
 
             return url
           end

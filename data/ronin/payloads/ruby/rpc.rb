@@ -323,7 +323,7 @@ module RPC
       def do_GET(request,response)
         p request.query_string
 
-        name, arguments = decode_request(request.query_string)
+        name, arguments = decode_request(request.query['_request'])
 
         encode_response(response,RPC.call(name,arguments))
       end
