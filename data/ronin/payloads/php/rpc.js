@@ -11,7 +11,7 @@ var PHP_RPC = {
   },
 
   decodeResponse: function(body) {
-    var extractor = new RegExp("<rpc-response>([^<]+)<\/rpc-response>");
+    var extractor = new RegExp("<response>([^<]+)<\/response>");
     var match     = body.match(extractor);
 
     if (match == null || match[1] == null) {
@@ -41,7 +41,7 @@ var PHP_RPC = {
 
     $.ajax({
       type: PHP_RPC.requestMethod,
-      data: {rpc_request: encodeRequest(request)},
+      data: {_request: encodeRequest(request)},
 
       success: function(data) {
         value = decodeResponse(data);

