@@ -186,11 +186,10 @@ RPC.HTTP.prototype.start = function(callback) {
 }
 
 RPC.HTTP.prototype.decode_request = function(request,callback) {
-  var url  = URL.parse(request.url);
-  var name = url.pathname.slice(1,url.pathname.length).split('/').join('.');
-  var args = (url.query ? this.deserialize(url.query) : []);
+  var url     = URL.parse(request.url,true);
+  var message = this.deserialize(url.query['_request']);
 
-  callback(name,args);
+  callback(message['name'],message['arguments'] || []);
 }
 
 RPC.HTTP.prototype.encode_response = function(response,message) {
