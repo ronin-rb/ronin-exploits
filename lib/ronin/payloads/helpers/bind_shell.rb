@@ -23,6 +23,7 @@
 require 'ronin/payloads/helpers/shell'
 require 'ronin/extensions/string'
 
+require 'digest/md5'
 require 'socket'
 
 module Ronin
@@ -121,32 +122,33 @@ module Ronin
         def shell_exec(program,*arguments)
           command = ([program] + arguments).join(' ')
           
-          # generate a random id for the command
-          id = (rand(1_000_000) + 10_000_000).to_s
-          header = "#{self.host}:#{self.port} [#{id}]"
-          output_entered = false
+          # generate a random nonce for the command deliminators
+          nonce = (rand(1_000_000) + 10_000_000)
 
-          print_debug "#{header} Sending command: #{command}"
+          start = Digest::MD5.hexdigest(nonce.to_s)
+          stop  = Digest::MD5.hexdigest((nonce + 1).to_s)
+
+          print_debug "[#{self.host}:#{self.port}] Sending command: #{command}"
 
           # send the command
-          @bind_shell.puts("echo #{id}; #{command}; echo #{id}")
+          @bind_shell.puts("echo #{start}; (#{command}); echo #{stop}")
 
+          # read any excess output
           @bind_shell.each_line do |line|
-            if line.chomp == id
-              if output_entered
-                # leaving command output
-                break
-              else
-                # command output has been entered
-                output_entered = true
-              end
-            elsif output_entered
-              print_debug "#{header}   #{line.dump}"
-              yield line
-            end
+            break if line.chomp == start
           end
 
-          print_debug "#{header} Command finished."
+          @bind_shell.each_line do |line|
+            line.chomp!
+
+            # EOS reached
+            break if line == stop
+
+            print_debug "[#{self.host}:#{self.port}]   #{line.dump}"
+            yield line
+          end
+
+          print_debug "[#{self.host}:#{self.port}] Command finished: #{command}"
         end
 
         #
