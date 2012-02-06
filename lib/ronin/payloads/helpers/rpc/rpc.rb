@@ -140,7 +140,7 @@ module Ronin
         protected
 
         def rpc_serialize(message)
-          Base64.decode64(message.to_json)
+          Base64.encode64(message.to_json)
         end
 
         def rpc_deserialize(data)
