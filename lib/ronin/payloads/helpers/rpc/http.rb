@@ -36,9 +36,17 @@ module Ronin
             object.extend Network::HTTP
 
             object.instance_eval do
+              parameter :query_param_field, :type        => String,
+                                   :default     => '',
+                                   :description => 'Query parameter field to use rpc value'
+
               parameter :base_url, :type        => String,
                                    :default     => '/',
                                    :description => 'Base URL of the RPC Server'
+
+              parameter :response_tag, :type        => String,
+                                   :default     => '',
+                                   :description => 'The tag that the rpc response will be embedded in'
             end
           end
 
@@ -54,10 +62,31 @@ module Ronin
             name      = message[:name]
             arguments = message[:arguments]
 
-            base_url.path  = self.base_url + name.gsub('.','/')
-            base_url.query = unless (arguments.nil? || arguments.empty?)
-                          URI.escape(rpc_serialize(arguments))
-                        end
+            base_url.path  = self.base_url
+
+            # If we recieve have a query_param_field we are not using a REST interface
+            if self.query_param_field
+              arguments = Hash.new
+              arguments[:name] = name
+              arguments[:arguments] = message[:arguments]
+
+              if defined?(self.cwd) 
+                arguments[:cwd] = self.cwd
+              end
+
+              if defined?(self.env)
+                arguments[:env] = self.env
+              end
+
+              base_url.query = 
+                URI.escape( self.query_param_field + '=' + rpc_serialize(arguments))
+            else
+              base_url.path  = name.gsub('.','/')
+              base_url.query = unless (arguments.nil? || arguments.empty?)
+                URI.escape(rpc_serialize(arguments))
+              end
+            end
+
 
             return base_url
           end
@@ -65,7 +94,12 @@ module Ronin
           protected
 
           def rpc_send(message)
-            rpc_deserialize(http_get_body(:url => rpc_url_for(message)))
+            body = http_get_body(:url => rpc_url_for(message))
+            if self.response_tag && body =~ /<rpc-response>([^<]+)<\/rpc-response>/
+              body = $1
+            end
+
+            rpc_deserialize(body)
           end
         end
       end
