@@ -296,7 +296,6 @@ function rpc_deserialize($data) {
 function rpc_lookup($names) { return "rpc_" . join($names,'_'); }
 function rpc_call($request)
 {
-  error_log(print_r($request, 1));
   if (isset($request->cwd)) { chdir($request->cwd); }
 
   if (is_array($request->env))
