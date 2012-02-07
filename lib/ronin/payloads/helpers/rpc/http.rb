@@ -68,11 +68,17 @@ module Ronin
 
           def rpc_send(message)
             body = http_get_body(:url => rpc_url_for(message))
-            if self.response_tag && body =~ /<rpc-response>([^<]+)<\/rpc-response>/
-              body = $1
+
+            if self.response_tag
+              # regexp to extract the response from within HTTP output
+              response_extractor = /<#{self.response_tag}>([^<]+)<\/#{self.response_tag}>/
+
+              if (match = body.match(response_extractor))
+                body = match[1]
+              end
             end
 
-            rpc_deserialize(body)
+            return rpc_deserialize(body)
           end
         end
       end
