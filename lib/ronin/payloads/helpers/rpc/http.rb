@@ -36,17 +36,17 @@ module Ronin
             object.extend Network::HTTP
 
             object.instance_eval do
-              parameter :base_url, :type        => String,
+              parameter :rpc_path, :type        => String,
                                    :default     => '/',
                                    :description => 'Base URL of the RPC Server'
 
-              parameter :query_param_field, :type        => String,
+              parameter :rpc_query_param, :type        => String,
                                    :default     => '_request',
                                    :description => 'Query parameter field to use rpc value'
 
-              parameter :response_tag, :type        => String,
-                                       :default     => 'rpc-response',
-                                       :description => 'The tag that the rpc response will be embedded in'
+              parameter :rpc_response_tag, :type        => String,
+                                           :default     => 'rpc-response',
+                                           :description => 'The tag that the rpc response will be embedded in'
             end
           end
 
@@ -59,7 +59,9 @@ module Ronin
 
           def rpc_url_for(message)
             url  = rpc_url
-            url.query_params[self.query_param_field] = rpc_serialize(message)
+
+            url.path = rpc_base_path
+            url.query_params[self.rpc_query_param] = rpc_serialize(message)
 
             return url
           end
@@ -69,9 +71,9 @@ module Ronin
           def rpc_send(message)
             body = http_get_body(:url => rpc_url_for(message))
 
-            if self.response_tag
+            if self.rpc_response_tag
               # regexp to extract the response from within HTTP output
-              response_extractor = /<#{self.response_tag}>([^<]+)<\/#{self.response_tag}>/
+              response_extractor = /<#{self.rpc_response_tag}>([^<]+)<\/#{self.rpc_response_tag}>/
 
               if (match = body.match(response_extractor))
                 body = match[1]
