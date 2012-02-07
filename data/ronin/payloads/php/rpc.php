@@ -306,7 +306,7 @@ function rpc_call($request)
     }
   }
 
-  $method    = rpc_lookup(split($request->name,'.'));
+  $method    = rpc_lookup(split('\.', $request->name));
   $arguments = $request->arguments;
 
   set_error_handler('rpc_error_handler');
