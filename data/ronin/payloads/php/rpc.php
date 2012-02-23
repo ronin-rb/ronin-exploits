@@ -369,7 +369,7 @@ function start_standalone_http_server($port = NULL, $addr = NULL) {
         print "recieved an invalid query string ($request)\n";
         continue;
       }
-      $request = uridecode($matches[2]);
+      $request = urldecode($matches[2]);
 
       $response = rpc_serialize(rpc_call(rpc_deserialize($request)));
       $body = "<!-- <rpc-response>{$response}</rpc-response> -->";
