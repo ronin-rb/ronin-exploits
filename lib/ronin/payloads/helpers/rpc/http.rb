@@ -61,7 +61,7 @@ module Ronin
           def rpc_url_for(message)
             url  = rpc_url
 
-            url.path = self.rpc_base_path
+            url.path = self.rpc_path
             url.query_params[self.rpc_query_param] = rpc_serialize(message)
 
             return url
