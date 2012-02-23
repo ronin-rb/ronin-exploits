@@ -298,7 +298,7 @@ function rpc_call($request)
 {
   if (isset($request->cwd)) { chdir($request->cwd); }
 
-  if (is_array($request->env))
+  if (isset($request->env) && is_array($request->env))
   {
     foreach ($request->env as $name => $value)
     {
