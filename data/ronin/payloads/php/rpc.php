@@ -364,7 +364,7 @@ function start_standalone_http_server($port = NULL, $addr = NULL) {
 
       // We expect only one query parameter and we do not care what its called
       if (!preg_match(
-        '|[A-Z]+ /[^\?]*(?:([^=]+)=([^\s]+))?(?: HTTP/\d.\d)?|', 
+        '|[A-Z]+ /[^\?]*(?:([^=]+)=([^\s]+))? HTTP/\d.\d|', 
         $request, $matches)) {
         print "recieved an invalid query string ($request)\n";
         continue;
