@@ -44,7 +44,7 @@ module Ronin
     #         }
     #     
     #         targets_arch :x86
-    #         targets_os   :linux
+    #         targets_os   'Linux'
     #       end
     #     
     #       build do
