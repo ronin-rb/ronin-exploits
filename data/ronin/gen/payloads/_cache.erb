@@ -8,5 +8,5 @@
 
     <% if options[:arch] %>targets_arch <%= options[:arch].to_sym.inspect %><% end %>
     <% if options[:os] %>
-    targets_os :name => <%= options[:os].dump %><% if options[:os_version] %>, :version => <%= options[:os_version].dump %><% end %>
+    targets_os <%= options[:os].dump %><% if options[:os_version] %>, <%= options[:os_version].dump %><% end %>
     <% end %>
