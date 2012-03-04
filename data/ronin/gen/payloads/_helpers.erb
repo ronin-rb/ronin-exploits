@@ -1,5 +1,5 @@
-<% unless options[:helpers].empty?
-    options[:helpers].each do |name|
-%>  helper <%= name.to_sym.inspect %>
+<% unless @helpers.empty?
+    @helpers.each do |name|
+%>  helper <%= name.inspect %>
 <%   end
    end %>

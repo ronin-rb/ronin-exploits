@@ -1,15 +1,15 @@
-<%= erb '_header.erb' %>
+<%= template '_header.erb' %>
 
 require 'ronin/payloads/binary_payload'
 
 Ronin::Payloads::BinaryPayload.object do
 
-<%= erb '_helpers.erb' %>
+<%= template '_helpers.erb' %>
   #
   # Cacheable data.
   #
   cache do
-<%= erb '_cache.erb' %>
+<%= template '_cache.erb' %>
   end
-<%= erb '_body.erb' %>
+<%= template '_body.erb' %>
 end

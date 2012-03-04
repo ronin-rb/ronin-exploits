@@ -37,7 +37,7 @@ module Ronin
 
           template 'payload.erb'
 
-          parameter :helpers, :type => Array,
+          parameter :helpers, :type => Array[Symbol],
                               :default => []
 
           parameter :name, :type => String,
@@ -52,7 +52,7 @@ module Ronin
           parameter :authors, :type => Array,
                               :default => []
 
-          parameter :arch, :type => String
+          parameter :arch, :type => Symbol
 
           parameter :os, :type => String
 

@@ -1,12 +1,12 @@
-    self.name = <%= options[:name].inspect %>
-    self.version = <%= options[:version].inspect %>
-    self.description = %{<%= options[:description] %>}
+    self.name = <%= @name.inspect %>
+    self.version = <%= @version.inspect %>
+    self.description = %{<%= @description %>}
 
-    <% options[:authors].each do |author| %>
+    <% @authors.each do |author| %>
     author :name => <%= author.inspect %>
     <% end %>
 
-    <% if options[:arch] %>targets_arch <%= options[:arch].to_sym.inspect %><% end %>
-    <% if options[:os] %>
-    targets_os <%= options[:os].dump %><% if options[:os_version] %>, <%= options[:os_version].dump %><% end %>
+    <% if @arch %>targets_arch <%= @arch.inspect %><% end %>
+    <% if @os %>
+    targets_os <%= @os.inspect %><% if @os_version %>, <%= @os_version.inspect %><% end %>
     <% end %>

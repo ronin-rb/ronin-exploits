@@ -7,16 +7,13 @@ require 'tmpdir'
 require 'fileutils'
 
 describe Gen::Generators::Payloads::Web do
-  before(:all) do
-    @path = File.join(Dir.tmpdir,'generated_web_payload.rb')
+  let(:path) { File.join(Dir.tmpdir,'generated_web_payload.rb') }
 
-    Gen::Generators::Payloads::Web.generate(
-      {:leverages => ['shell']},
-      [@path]
-    )
+  before(:all) do
+    described_class.generate(path, :edit => false)
   end
 
-  subject { Payloads::Web.load_object(@path) }
+  subject { Payloads::Web.load_object(path) }
 
   it_should_behave_like "a generated Payload"
 
@@ -24,5 +21,5 @@ describe Gen::Generators::Payloads::Web do
     subject.class.should == Payloads::Web
   end
 
-  after(:all) { FileUtils.rm(@path) }
+  after(:all) { FileUtils.rm(path) }
 end
