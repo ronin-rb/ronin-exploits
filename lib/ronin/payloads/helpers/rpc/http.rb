@@ -69,6 +69,10 @@ module Ronin
 
           protected
 
+          def rpc_serialize(message)
+            super(message).gsub("\n",'')
+          end
+
           def rpc_send(message)
             body = http_get_body(:url => rpc_url_for(message))
 
