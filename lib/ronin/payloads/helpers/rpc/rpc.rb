@@ -52,7 +52,7 @@ module Ronin
                                    :description => 'Local RPC port'
 
             build do
-              extend Ronin::Payloads::Helpers::RPC.require_const(self.transport)
+              helper "rpc/#{self.transport}"
             end
 
             deploy do
