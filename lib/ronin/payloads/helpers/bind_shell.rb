@@ -107,7 +107,7 @@ module Ronin
         # @param [String] program
         #   The program to run remotely.
         #
-        # @param [Array<String>] program
+        # @param [Array<String>] arguments
         #   Additional arguments for the program.
         #
         # @yield [line]
