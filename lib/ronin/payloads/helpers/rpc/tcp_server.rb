@@ -20,7 +20,7 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/network/tcp'
+require 'ronin/network/mixins/tcp'
 
 module Ronin
   module Payloads
@@ -31,13 +31,13 @@ module Ronin
         #
         module TCPServer
           def self.extended(object)
-            object.extend Network::TCP
+            object.extend Network::Mixins::TCP
           end
 
           protected
 
           def rpc_connect
-            @connection = tcp_connect(self.host,self.port)
+            @connection = tcp_connect
           end
 
           def rpc_disconnect
