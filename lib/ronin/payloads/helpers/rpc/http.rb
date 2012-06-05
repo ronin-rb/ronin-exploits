@@ -51,6 +51,10 @@ module Ronin
             end
           end
 
+          #
+          # @return [URI::HTTP]
+          #   The URL to the HTTP RPC Server.
+          #
           def rpc_url
             URI::HTTP.build(
               :host => self.host,
@@ -58,6 +62,12 @@ module Ronin
             )
           end
 
+          #
+          # Creates a URL for the RPC message.
+          #
+          # @return [URI::HTTP]
+          #   The URL including the RPC message.
+          #
           def rpc_url_for(message)
             url  = rpc_url
 
@@ -69,10 +79,28 @@ module Ronin
 
           protected
 
+          #
+          # Encodes an RPC message.
+          #
+          # @param [Hash] message
+          #   The message to encode.
+          #
+          # @return [String]
+          #   The encoded message.
+          #
           def rpc_serialize(message)
             super(message).gsub("\n",'')
           end
 
+          #
+          # Sends the message to the HTTP RPC Server.
+          #
+          # @param [Hash] message
+          #   The RPC message to send.
+          #
+          # @return [Hash]
+          #   The response RPC message.
+          #
           def rpc_send(message)
             body = http_get_body(:url => rpc_url_for(message))
 

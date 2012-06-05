@@ -65,6 +65,21 @@ module Ronin
           end
         end
 
+        #
+        # Performs an RPC method call.
+        #
+        # @param [String] name
+        #   The RPC method name.
+        #
+        # @param [Array] arguments
+        #   Additional arguments.
+        #
+        # @return [Object]
+        #   The return value.
+        #
+        # @raise [RuntimeError]
+        #   The exception raised.
+        #
         def rpc_call(name,*arguments)
           response = rpc_send(:name => name, :arguments => arguments)
 
@@ -139,10 +154,28 @@ module Ronin
 
         protected
 
+        #
+        # Encodes an RPC message.
+        #
+        # @param [Hash] message
+        #   The message to encode.
+        #
+        # @return [String]
+        #   The encoded message.
+        #
         def rpc_serialize(message)
           Base64.encode64(message.to_json)
         end
 
+        #
+        # Decodes an RPC message.
+        #
+        # @param [String] data
+        #   The message to decode.
+        #
+        # @return [Hash]
+        #   The decoded message.
+        #
         def rpc_deserialize(data)
           JSON.parse(Base64.decode64(data))
         end

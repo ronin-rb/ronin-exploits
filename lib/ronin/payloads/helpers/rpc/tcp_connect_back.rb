@@ -37,11 +37,17 @@ module Ronin
 
           protected
 
+          #
+          # Opens up a TCP Server for the Client to connect to.
+          #
           def rpc_connect
             @server     = tcp_server
             @connection = @server.accept
           end
 
+          #
+          # Closes the connection to the Client and the TCP Server.
+          #
           def rpc_disconnect
             if @connection
               @connection.close
@@ -52,6 +58,15 @@ module Ronin
             @server = nil
           end
 
+          #
+          # Sends the RPC message to the Client.
+          #
+          # @param [Hash] message
+          #   The RPC message to send.
+          #
+          # @return [Hash]
+          #   The response RPC message.
+          #
           def rpc_send(message)
             @connection.write(rpc_serialize(message) + "\0")
 
