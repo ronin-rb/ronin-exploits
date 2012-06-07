@@ -21,7 +21,7 @@
 #
 
 require 'ronin/network/mixins/tcp'
-require 'ronin/network/http'
+require 'ronin/network/mixins/http'
 
 require 'base64'
 require 'json'
@@ -39,7 +39,8 @@ module Ronin
         include OpenNamespace
 
         def self.extended(object)
-          object.extend Network::Mixins::TCP
+          object.extend Network::TCP
+          object.extend Network::HTTP
 
           object.instance_eval do
             parameter :transport, :type        => Symbol,
@@ -59,6 +60,7 @@ module Ronin
                                    :description => 'Local RPC port'
 
             parameter :rpc, :type        => Hash[Symbol => String],
+                            :default     => {},
                             :description => 'RPC options'
 
             deploy { rpc_connect }
@@ -90,8 +92,9 @@ module Ronin
           if transport == :http
             url  = rpc_url
 
-            url.path  = self.rpc_path
-            url.query = "#{self.rpc_query_param}=#{rpc_serialize(message)}"
+            url.path  = rpc.fetch(:path,'/')
+            url.query = rpc.fetch(:query_param,'_request') + '=' +
+                        rpc_serialize(message)
 
             return url
           end
@@ -218,9 +221,9 @@ module Ronin
         def rpc_connect
           case transport
           when :tcp_server
-            @connection = tcp_connect
+            @connection = tcp_connect(self.host,self.port)
           when :tcp_connect_back
-            @server     = tcp_server
+            @server     = tcp_server(self.port,self.host)
             @connection = @server.accept
           end
         end
@@ -260,11 +263,12 @@ module Ronin
 
             response = @connection.readline("\0").chomp("\0")
           when :http
-            response = http_get_body(:url => rpc_url_for(message))
+            response_tag = rpc.fetch(:response_tag,'rpc-response')
+            response     = http_get_body(:url => rpc_url_for(message))
 
-            if self.rpc_response_tag
+            if response_tag
               # regexp to extract the response from within HTTP output
-              response_extractor = /<#{self.rpc_response_tag}>([^<]+)<\/#{self.rpc_response_tag}>/
+              response_extractor = /<#{response_tag}>([^<]+)<\/#{response_tag}>/
 
                 if (match = response.match(response_extractor))
                   response = match[1]
