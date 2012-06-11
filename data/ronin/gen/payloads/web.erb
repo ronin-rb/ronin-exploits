@@ -3,7 +3,6 @@
 require 'ronin/payloads/web'
 
 Ronin::Payloads::Web.object do
-
 <%= template '_helpers.erb' %>
   #
   # Cacheable data.
@@ -11,5 +10,7 @@ Ronin::Payloads::Web.object do
   cache do
 <%= template '_cache.erb' %>
   end
+
 <%= template '_body.erb' %>
+
 end

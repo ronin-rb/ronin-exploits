@@ -3,7 +3,6 @@
 require 'ronin/payloads/binary_payload'
 
 Ronin::Payloads::BinaryPayload.object do
-
 <%= template '_helpers.erb' %>
   #
   # Cacheable data.
@@ -11,5 +10,7 @@ Ronin::Payloads::BinaryPayload.object do
   cache do
 <%= template '_cache.erb' %>
   end
+
 <%= template '_body.erb' %>
+
 end
