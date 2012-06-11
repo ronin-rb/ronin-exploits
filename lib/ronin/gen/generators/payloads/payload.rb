@@ -50,7 +50,7 @@ module Ronin
                                   :default => 'This is a payload.'
 
           parameter :authors, :type    => Array,
-                              :default => []
+                              :default => ['Anonymous']
 
           parameter :arch, :type => Symbol
 
