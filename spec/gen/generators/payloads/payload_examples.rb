@@ -10,7 +10,7 @@ shared_examples_for "a generated Payload" do
     subject.description.should == Gen::Generators::Payloads::Payload.description
   end
 
-  it "should not define any authors by default" do
-    subject.authors.should be_empty
+  it "should define a default author" do
+    subject.authors.length.should == 1
   end
 end
