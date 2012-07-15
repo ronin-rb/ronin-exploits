@@ -22,7 +22,6 @@
 
 require 'ronin/network/mixins/tcp'
 require 'ronin/network/mixins/http'
-require 'ronin/formatting/extensions/binary/base64'
 
 require 'uri/http'
 require 'uri/query_params'
@@ -198,7 +197,7 @@ module Ronin
         #   The encoded message.
         #
         def rpc_serialize(message)
-          Base64.urlsafe_encode64(message.to_json)
+          Base64.encode64(message.to_json)
         end
 
         #
@@ -211,7 +210,7 @@ module Ronin
         #   The decoded message.
         #
         def rpc_deserialize(data)
-          JSON.parse(Base64.urlsafe_decode64(data))
+          JSON.parse(Base64.decode64(data))
         end
 
         #
