@@ -77,7 +77,8 @@ module Ronin
           if transport == :http
             URI::HTTP.build(
               :host => self.host,
-              :port => self.port
+              :port => self.port,
+              :path => rpc.fetch(:path,'/')
             )
           end
         end
@@ -90,11 +91,10 @@ module Ronin
         #
         def rpc_url_for(message)
           if transport == :http
-            url  = rpc_url
-
-            url.path  = rpc.fetch(:path,'/')
-            url.query = rpc.fetch(:query_param,'_request') + '=' +
-                        rpc_serialize(message)
+            url = rpc_url
+            url.query_params = {
+              rpc.fetch(:query_param,'_request') => rpc_serialize(message)
+            }
 
             return url
           end
