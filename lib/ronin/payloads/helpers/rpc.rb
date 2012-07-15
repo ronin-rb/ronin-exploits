@@ -211,7 +211,7 @@ module Ronin
         #   The decoded message.
         #
         def rpc_deserialize(data)
-          JSON.parse(Base64.decode64(data))
+          JSON.parse(Base64.urlsafe_decode64(data))
         end
 
         #
