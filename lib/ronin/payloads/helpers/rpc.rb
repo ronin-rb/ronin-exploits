@@ -22,12 +22,11 @@
 
 require 'ronin/network/mixins/tcp'
 require 'ronin/network/mixins/http'
-
-require 'base64'
-require 'json'
+require 'ronin/formatting/extensions/binary/base64'
 
 require 'uri/http'
 require 'uri/query_params'
+require 'json'
 
 module Ronin
   module Payloads
@@ -199,7 +198,7 @@ module Ronin
         #   The encoded message.
         #
         def rpc_serialize(message)
-          Base64.encode64(message.to_json).gsub("\n",'')
+          Base64.urlsafe_encode64(message.to_json)
         end
 
         #
