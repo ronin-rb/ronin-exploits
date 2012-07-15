@@ -269,9 +269,9 @@ module Ronin
               # regexp to extract the response from within HTTP output
               response_extractor = /<#{response_tag}>([^<]+)<\/#{response_tag}>/
 
-                if (match = response.match(response_extractor))
-                  response = match[1]
-                end
+              if (match = response.match(response_extractor))
+                response = match[1]
+              end
             end
           end
 
