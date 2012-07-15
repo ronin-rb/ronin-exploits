@@ -372,7 +372,7 @@ function start_standalone_http_server($port = NULL, $addr = NULL) {
       $request = urldecode($matches[2]);
 
       $response = rpc_serialize(rpc_call(rpc_deserialize($request)));
-      $body = "<!-- <rpc-response>{$response}</rpc-response> -->";
+      $body = "<!-- <rpc:response>{$response}</rpc:response> -->";
       $header = "Content-Type: text/html\r\n";
       $header .= "Server: PHP ". phpversion() ."\r\n";
       $header .= "Content-Length: ". strlen($body) ."\r\n";
@@ -394,7 +394,7 @@ if (isset($_REQUEST['_request']))
   $request  = rpc_deserialize(rawurldecode($_REQUEST['_request']));
   $response = rpc_serialize(rpc_call($request));
 
-  echo "<!-- <response>{$response}</response> -->";
+  echo "<!-- <rpc:response>{$response}</rpc:response> -->";
 }
 else if (PHP_SAPI === 'cli')
 {

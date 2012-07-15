@@ -11,7 +11,7 @@ var PHP_RPC = {
   },
 
   decodeResponse: function(body) {
-    var extractor = new RegExp("<response>([^<]+)<\/response>");
+    var extractor = new RegExp("<rpc:response>([^<]+)<\/rpc:response>");
     var match     = body.match(extractor);
 
     if (match == null || match[1] == null) {
