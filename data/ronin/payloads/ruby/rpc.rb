@@ -19,7 +19,7 @@ module RPC
       file = File.for_fd(fd)
       file.seek(position)
 
-      return file.read(BLOCK_SIZE)
+      return (file.read(BLOCK_SIZE) || '')
     end
 
     def self.write(fd,position,data)
