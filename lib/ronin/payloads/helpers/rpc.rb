@@ -36,6 +36,12 @@ module Ronin
       module RPC
         include OpenNamespace
 
+        class MissingResponse < Net::ProtocolError
+        end
+
+        class CorruptedResponse < Net::ProtocolError
+        end
+
         def self.extended(object)
           object.extend Network::TCP
           object.extend Network::HTTP
@@ -219,8 +225,15 @@ module Ronin
         # @return [Hash]
         #   The decoded message.
         #
+        # @raise [CorruptedResponse]
+        #   Corrupted RPC response detected.
+        #
         def rpc_deserialize(data)
-          JSON.parse(Base64.decode64(data))
+          begin
+            JSON.parse(Base64.decode64(data))
+          rescue JSON::ParseError => error
+            raise(CorruptedResponse,error.message)
+          end
         end
 
         #
@@ -277,6 +290,9 @@ module Ronin
         # @raise [NotImplementedError]
         #   Transport not supported.
         #
+        # @raise [MissingResponse]
+        #   No RPC response received.
+        #
         def rpc_send(message)
           case transport
           when :tcp_server, :tcp_connect_back
@@ -287,14 +303,14 @@ module Ronin
             response_tag = rpc.fetch(:response_tag,'rpc-response')
             response     = http_get_body(:url => rpc_url_for(message))
 
-            if response_tag
-              # regexp to extract the response from within HTTP output
-              response_extractor = /<#{response_tag}>([^<]+)<\/#{response_tag}>/
+            # regexp to extract the response from within HTTP output
+            response_extractor = /<#{response_tag}>([^<]+)<\/#{response_tag}>/
 
-              if (match = response.match(response_extractor))
-                response = match[1]
-              end
+            unless (match = response.match(response_extractor))
+              raise(MissingResponse,"no RPC response detected")
             end
+
+            response = match[1]
           else
             raise(NotImplementedError,"transport not supported: #{transport}")
           end
