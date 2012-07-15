@@ -71,14 +71,19 @@ module Ronin
         # @return [URI::HTTP]
         #   The URL to the HTTP RPC Server.
         #
+        # @raise [NotImplementedError]
+        #   {#rpc_url} was called when `transport` was not set to `:http`.
+        #
         def rpc_url
-          if transport == :http
-            URI::HTTP.build(
-              :host => self.host,
-              :port => self.port,
-              :path => rpc.fetch(:path,'/')
-            )
+          unless transport == :http
+            raise(NotImplementedError,"#rpc_url requires a http transport")
           end
+
+          return URI::HTTP.build(
+            :host => self.host,
+            :port => self.port,
+            :path => rpc.fetch(:path,'/')
+          )
         end
 
         #
@@ -87,15 +92,20 @@ module Ronin
         # @return [URI::HTTP]
         #   The URL including the RPC message.
         #
+        # @raise [NotImplementedError]
+        #   {#rpc_url_for} was called when `transport` was not set to `:http`.
+        #
         def rpc_url_for(message)
-          if transport == :http
-            url = rpc_url
-            url.query_params = {
-              rpc.fetch(:query_param,'_request') => rpc_serialize(message)
-            }
-
-            return url
+          unless transport == :http
+            raise(NotImplementedError,"#rpc_url_for requires a http transport")
           end
+
+          url = rpc_url
+          url.query_params = {
+            rpc.fetch(:query_param,'_request') => rpc_serialize(message)
+          }
+
+          return url
         end
 
         #
@@ -216,6 +226,9 @@ module Ronin
         #
         # Connects to the TCP Server.
         #
+        # @raise [NotImplementedError]
+        #   Transport not supported.
+        #
         def rpc_connect
           case transport
           when :tcp_server
@@ -223,11 +236,16 @@ module Ronin
           when :tcp_connect_back
             @server     = tcp_server(self.port,self.host)
             @connection = @server.accept
+          else
+            raise(NotImplementedError,"transport not supported: #{transport}")
           end
         end
 
         #
         # Disconnects from the TCP Server.
+        #
+        # @raise [NotImplementedError]
+        #   Transport not supported.
         #
         def rpc_disconnect
           case transport
@@ -242,6 +260,8 @@ module Ronin
 
             @server.close
             @server = nil
+          else
+            raise(NotImplementedError,"transport not supported: #{transport}")
           end
         end
 
@@ -253,6 +273,9 @@ module Ronin
         #
         # @return [Hash]
         #   The response RPC message.
+        #
+        # @raise [NotImplementedError]
+        #   Transport not supported.
         #
         def rpc_send(message)
           case transport
@@ -272,6 +295,8 @@ module Ronin
                 response = match[1]
               end
             end
+          else
+            raise(NotImplementedError,"transport not supported: #{transport}")
           end
 
           return rpc_deserialize(response)
