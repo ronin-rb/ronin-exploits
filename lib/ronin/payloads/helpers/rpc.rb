@@ -25,6 +25,7 @@ require 'ronin/network/mixins/http'
 
 require 'uri/http'
 require 'uri/query_params'
+require 'base64'
 require 'json'
 
 module Ronin
@@ -36,10 +37,10 @@ module Ronin
       module RPC
         include OpenNamespace
 
-        class MissingResponse < Net::ProtocolError
+        class InvalidResponse < Net::ProtocolError
         end
 
-        class CorruptedResponse < Net::ProtocolError
+        class Exception < Net::ProtocolError
         end
 
         def self.extended(object)
@@ -63,9 +64,13 @@ module Ronin
             parameter :local_port, :type        => Integer,
                                    :description => 'Local RPC port'
 
-            parameter :rpc, :type        => Hash[Symbol => String],
-                            :default     => {},
-                            :description => 'RPC options'
+            parameter :url_path, :type        => String,
+                                 :default     => '/',
+                                 :description => 'Path to the HTTP RPC Server'
+
+            parameter :url_query_params, :type        => Hash[String => String],
+                                         :default     => {},
+                                         :description => 'Additional URL query params'
 
             deploy { rpc_connect }
 
@@ -85,11 +90,14 @@ module Ronin
             raise(NotImplementedError,"#rpc_url requires a http transport")
           end
 
-          return URI::HTTP.build(
+          url = URI::HTTP.build(
             :host => self.host,
             :port => self.port,
-            :path => rpc.fetch(:path,'/')
+            :path => url_path
           )
+          url.query_params = url_query_params
+
+          return url
         end
 
         #
@@ -107,9 +115,7 @@ module Ronin
           end
 
           url = rpc_url
-          url.query_params = {
-            rpc.fetch(:query_param,'_request') => rpc_serialize(message)
-          }
+          url.query_params[URL_QUERY_PARAM] = rpc_serialize(message)
 
           return url
         end
@@ -133,7 +139,7 @@ module Ronin
           response = rpc_send(:name => name, :arguments => arguments)
 
           if response['exception']
-            raise(response['exception'])
+            raise(Exception,response['exception'])
           end
 
           return response['return']
@@ -203,6 +209,12 @@ module Ronin
 
         protected
 
+        # URL query-param to send RPC Requests via
+        URL_QUERY_PARAM = '_request'
+
+        # Regular expression to extract RPC Responses embeded in HTML
+        HTML_EXTRACTOR = /<rpc:response>([^<]+)<\/rpc:response>/
+
         #
         # Encodes an RPC message.
         #
@@ -232,7 +244,7 @@ module Ronin
           begin
             JSON.parse(Base64.decode64(data))
           rescue JSON::ParseError => error
-            raise(CorruptedResponse,error.message)
+            raise(InvalidResponse,error.message)
           end
         end
 
@@ -249,6 +261,8 @@ module Ronin
           when :tcp_connect_back
             @server     = tcp_server(self.port,self.host)
             @connection = @server.accept
+          when :http
+            # no-op
           else
             raise(NotImplementedError,"transport not supported: #{transport}")
           end
@@ -290,9 +304,6 @@ module Ronin
         # @raise [NotImplementedError]
         #   Transport not supported.
         #
-        # @raise [MissingResponse]
-        #   No RPC response received.
-        #
         def rpc_send(message)
           case transport
           when :tcp_server, :tcp_connect_back
@@ -300,17 +311,12 @@ module Ronin
 
             response = @connection.readline("\0").chomp("\0")
           when :http
-            response_tag = rpc.fetch(:response_tag,'rpc-response')
-            response     = http_get_body(:url => rpc_url_for(message))
+            response = http_get_body(:url => rpc_url_for(message))
 
-            # regexp to extract the response from within HTTP output
-            response_extractor = /<#{response_tag}>([^<]+)<\/#{response_tag}>/
-
-            unless (match = response.match(response_extractor))
-              raise(MissingResponse,"no RPC response detected")
+            # attempt to extract the RPC response from the HTTP response
+            response.match(HTML_EXTRACTOR) do |match|
+              response = match
             end
-
-            response = match[1]
           else
             raise(NotImplementedError,"transport not supported: #{transport}")
           end
