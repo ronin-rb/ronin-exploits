@@ -20,4 +20,28 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/encoders/encoders'
+require 'ronin/database/migrations'
+
+module Ronin
+  module Database
+    module Migrations
+      migration :create_author_payloads_table,
+                :needs => [
+                  :create_authors_table,
+                  :create_payloads_table
+                ] do
+        up do
+          create_table :ronin_author_payloads do
+            column :id, Serial
+            column :author_id, Integer, :not_null => true
+            column :payload_id, Integer, :not_null => true
+          end
+        end
+
+        down do
+          drop_table :ronin_author_payloads
+        end
+      end
+    end
+  end
+end

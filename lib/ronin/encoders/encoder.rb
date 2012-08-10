@@ -20,6 +20,7 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
+require 'ronin/database/migrations/encoders/encoder'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
 require 'ronin/script'

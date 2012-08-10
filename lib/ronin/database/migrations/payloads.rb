@@ -20,4 +20,5 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/encoders/encoders'
+require 'ronin/database/migrations/payloads/payload'
+require 'ronin/database/migrations/payloads/author_payload'
