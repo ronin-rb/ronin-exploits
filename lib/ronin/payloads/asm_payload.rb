@@ -21,7 +21,7 @@
 #
 
 require 'ronin/payloads/binary_payload'
-require 'ronin/code/asm/program'
+require 'ronin/asm/program'
 
 module Ronin
   module Payloads
