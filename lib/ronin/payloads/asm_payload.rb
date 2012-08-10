@@ -39,8 +39,8 @@ module Ronin
       #   The given block represents the instructions of the ASM Program.
       #
       # @param [Hash] options
-      #   Options for {Code::ASM::Program#initialize} and
-      #   {Code::ASM::Program#assemble}.
+      #   Options for `Ronin::ASM::Program#initialize` and
+      #   `Ronin::ASM::Program#assemble`.
       #
       # @option options [Symbol, String] :arch (self.arch.name)
       #   The architecture for the ASM Program.
@@ -54,9 +54,6 @@ module Ronin
       # @raise [Script::BuildFailed]
       #   An Arch must be targeted for the Assembly payload.
       #
-      # @see Code::ASM::Program#initialize
-      # @see Code::ASM::Program#assemble
-      #
       def assemble(options={},&block)
         unless self.arch
           build_failed! "Must target an Arch for Assembly payload"
@@ -68,7 +65,7 @@ module Ronin
           program_options[:os] = self.os.name.to_sym
         end
 
-        return Code::ASM::Program.new(program_options,&block).assemble(options)
+        return ASM::Program.new(program_options,&block).assemble(options)
       end
 
     end
