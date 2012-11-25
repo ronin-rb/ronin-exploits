@@ -197,15 +197,6 @@ module Ronin
         super(options,&block)
       end
 
-      #
-      # Builds the payload.
-      #
-      # @since 1.0.0
-      #
-      def run(*arguments)
-        build!(*arguments)
-      end
-
       protected
 
       #

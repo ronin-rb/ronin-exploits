@@ -52,22 +52,6 @@ module Ronin
       end
 
       #
-      # Runs the encoder.
-      #
-      # @see #encode
-      #
-      # @since 1.0.0
-      #
-      def run(data)
-        print_info "Encoding #{data.inspect}"
-
-        result = encode(data)
-
-        print_info "Encoded #{result.inspect}"
-        return result
-      end
-
-      #
       # Converts the encoder to a String.
       #
       # @return [String]
