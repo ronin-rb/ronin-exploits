@@ -131,9 +131,7 @@ module Ronin
             elsif fs?
               @payload.fs.console
             elsif console?
-              print_info 'Starting the console with @payload set ...'
-
-              UI::Console.start(:payload => @payload)
+              UI::Console.start(@payload)
             end
 
             @payload.evacuate!
