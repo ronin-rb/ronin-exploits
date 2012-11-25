@@ -126,12 +126,9 @@ module Ronin
               exit -1
             end
 
-            if shell?
-              @payload.shell.console
-            elsif fs?
-              @payload.fs.console
-            elsif console?
-              UI::Console.start(@payload)
+            if shell?      then @payload.shell.console
+            elsif fs?      then @payload.fs.console
+            elsif console? then UI::Console.start(@payload)
             end
 
             @payload.evacuate!
