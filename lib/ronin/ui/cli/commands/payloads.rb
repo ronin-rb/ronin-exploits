@@ -65,35 +65,46 @@ module Ronin
               return
             end
 
-            attributes = payload.humanize_attributes(
-              :exclude => [:description]
-            )
             attributes['Arch'] = payload.arch if payload.arch
             attributes['OS'] = payload.os if payload.os
 
             print_hash attributes, :title => "Payload: #{payload}"
 
             indent do
+              puts "Name: #{payload.name}"
+              puts "Version: #{payload.version}"
+              puts "Type: #{payload.type}" if verbose?
+              puts "Status: #{payload.status}"
+              puts "Released: #{payload.released}"
+              puts "Reported: #{payload.reported}"
+              puts "License: #{payload.license}" if payload.license
+              puts "Arch: #{payload.arch}"       if payload.arch
+              puts "OS: #{payload.os}"           if payload.os
+
+              puts "\n\n"
+
               if payload.description
                 puts "Description:\n\n"
+
                 indent do
                   payload.description.each_line { |line| puts line }
                 end
+
                 puts "\n"
               end
 
               unless payload.authors.empty?
-                payload.authors.each do |author|
-                  print_hash author.humanize_attributes, :title => 'Author'
+                print_title "Authors"
+
+                indent do
+                  payload.authors.each do |author|
+                    payload.authors.each { |author| puts author }
+                  end
                 end
               end
 
-              unless payload.behaviors.empty?
-                print_array payload.behaviors, :title => 'Exploits'
-              end
-
               begin
-                payload.load_code!
+                payload.load_script!
               rescue Exception => error
                 print_exception error
               end

@@ -64,28 +64,39 @@ module Ronin
               return
             end
 
-            print_hash(
-              encoder.humanize_attributes(:exclude => [:description]),
-              :title => "Encoder: #{exploit}"
-            )
+            print_title "Encoder: #{encoder}"
 
             indent do
-              if exploit.description
+              puts "Name: #{encoder.name}"
+              puts "Version: #{encoder.version}"
+              puts "Type: #{encoder.type}"       if verbose?
+              puts "License: #{encoder.license}" if encoder.license
+
+              puts "Targets Arch: #{encoder.arch}" if encoder.arch
+              puts "Targets OS: #{encoder.os}"     if encoder.os
+
+              puts "\n\n"
+
+              if encoder.description
                 puts "Description:\n\n"
+
                 indent do
-                  exploit.description.each_line { |line| puts line }
+                  encoder.description.each_line { |line| puts line }
                 end
+
                 puts "\n"
               end
 
-              unless exploit.authors.empty?
-                exploit.authors.each do |author|
-                  print_hash author.humanize_attributes, :title => 'Author'
+              unless encoder.authors.empty?
+                print_title "Authors"
+
+                indent do
+                  encoder.authors.each { |author| puts author }
                 end
               end
 
               begin
-                encoder.load_original!
+                encoder.load_script!
               rescue Exception => error
                 print_exception error
               end
