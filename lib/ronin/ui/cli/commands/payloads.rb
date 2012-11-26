@@ -76,16 +76,17 @@ module Ronin
               puts "Arch: #{payload.arch}"       if payload.arch
               puts "OS: #{payload.os}"           if payload.os
 
-              puts "\n\n"
+              spacer
 
               if payload.description
-                puts "Description:\n\n"
+                puts "Description:"
+                spacer
 
                 indent do
                   payload.description.each_line { |line| puts line }
                 end
 
-                puts "\n"
+                spacer
               end
 
               unless payload.authors.empty?

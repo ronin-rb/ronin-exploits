@@ -73,16 +73,17 @@ module Ronin
               puts "Targets Arch: #{encoder.arch}" if encoder.arch
               puts "Targets OS: #{encoder.os}"     if encoder.os
 
-              puts "\n\n"
+              spacer
 
               if encoder.description
-                puts "Description:\n\n"
+                puts "Description:"
+                spacer
 
                 indent do
                   encoder.description.each_line { |line| puts line }
                 end
 
-                puts "\n"
+                spacer
               end
 
               unless encoder.authors.empty?
