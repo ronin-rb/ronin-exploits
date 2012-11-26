@@ -64,9 +64,7 @@ module Ronin
               return
             end
 
-            print_title "Encoder: #{encoder}"
-
-            indent do
+            print_section "Encoder: #{encoder}" do
               puts "Name: #{encoder.name}"
               puts "Version: #{encoder.version}"
               puts "Type: #{encoder.type}"       if verbose?
@@ -88,9 +86,7 @@ module Ronin
               end
 
               unless encoder.authors.empty?
-                print_title "Authors"
-
-                indent do
+                print_section "Authors" do
                   encoder.authors.each { |author| puts author }
                 end
               end

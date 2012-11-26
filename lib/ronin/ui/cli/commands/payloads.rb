@@ -65,12 +65,7 @@ module Ronin
               return
             end
 
-            attributes['Arch'] = payload.arch if payload.arch
-            attributes['OS'] = payload.os if payload.os
-
-            print_hash attributes, :title => "Payload: #{payload}"
-
-            indent do
+            print_section "Payload: #{payload}" do
               puts "Name: #{payload.name}"
               puts "Version: #{payload.version}"
               puts "Type: #{payload.type}" if verbose?
@@ -94,9 +89,7 @@ module Ronin
               end
 
               unless payload.authors.empty?
-                print_title "Authors"
-
-                indent do
+                print_section "Authors" do
                   payload.authors.each do |author|
                     payload.authors.each { |author| puts author }
                   end
