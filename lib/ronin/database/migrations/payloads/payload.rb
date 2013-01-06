@@ -42,13 +42,6 @@ module Ronin
             column :script_path_id, Integer
             column :arch_id, Integer
             column :os_id, Integer
-
-            # needed by Exploits::RempteTCP and Exploits::RemoteUDP
-            column :default_port, Integer
-
-            # needed by Exploits::Web
-            column :url_path, String
-            column :url_query, String
           end
         end
 
