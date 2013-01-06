@@ -74,7 +74,7 @@ module Ronin
             open_input do |input|
               encoded = begin
                           @encoder.encode(input)
-                        rescue Script::Exception => e
+                        rescue Behaviors::Exception => e
                           print_exception(e)
                           exit -1
                         end

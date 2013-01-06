@@ -51,7 +51,7 @@ module Ronin
       # @return [String]
       #   The assembled program.
       #
-      # @raise [Script::BuildFailed]
+      # @raise [Behaviors::BuildFailed]
       #   An Arch must be targeted for the Assembly payload.
       #
       def assemble(options={},&block)

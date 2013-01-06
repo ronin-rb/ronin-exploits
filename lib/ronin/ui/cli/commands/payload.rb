@@ -82,7 +82,7 @@ module Ronin
             begin
               # Build the payload
               @payload.build!
-            rescue Script::Exception,
+            rescue Behaviors::Exception,
                    Payloads::Exception => error
               print_error error.message
               exit -1
@@ -121,7 +121,7 @@ module Ronin
           def deploy_payload
             begin
               @payload.deploy!
-            rescue Script::TestFailed, Payloads::Exception => e
+            rescue Behaviors::TestFailed, Payloads::Exception => e
               print_exception(e)
               exit -1
             end
