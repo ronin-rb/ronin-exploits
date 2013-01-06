@@ -20,7 +20,8 @@
 # along with Ronin.  If not, see <http://www.gnu.org/licenses/>
 #
 
-require 'ronin/database/migrations'
+require 'ronin/database/migrations/license'
+require 'ronin/database/migrations/script/path'
 
 module Ronin
   module Database
