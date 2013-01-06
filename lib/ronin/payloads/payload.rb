@@ -27,9 +27,9 @@ require 'ronin/payloads/helpers'
 require 'ronin/payloads/has_payload'
 require 'ronin/post_exploitation'
 require 'ronin/script'
-require 'ronin/script/testable'
-require 'ronin/script/buildable'
-require 'ronin/script/deployable'
+require 'ronin/behaviors/testable'
+require 'ronin/behaviors/buildable'
+require 'ronin/behaviors/deployable'
 require 'ronin/model/targets_arch'
 require 'ronin/model/targets_os'
 require 'ronin/extensions/kernel'
@@ -138,9 +138,9 @@ module Ronin
     class Payload
 
       include Script
-      include Script::Testable
-      include Script::Buildable
-      include Script::Deployable
+      include Behaviors::Testable
+      include Behaviors::Buildable
+      include Behaviors::Deployable
       include Model::TargetsArch
       include Model::TargetsOS
       include HasPayload
