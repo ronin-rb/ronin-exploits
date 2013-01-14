@@ -8,9 +8,9 @@
     author :name => <%= author.inspect %>
     <% end %>
 
-<%- if @arch -%>
+<%- if arch? -%>
     targets_arch <%= @arch.inspect %>
 <%- end -%>
-<%- if @os -%>
-    targets_os <%= @os.inspect %><% if @os_version %>, <%= @os_version.inspect %><% end %>
+<%- if os? -%>
+    targets_os <%= @os.inspect %><% if os_version? %>, <%= @os_version.inspect %><% end %>
 <%- end -%>
