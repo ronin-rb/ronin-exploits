@@ -95,17 +95,17 @@ module Ronin
           fields = shell.exec('stat','-t',path).strip.split(' ')
 
           return {
-            :path => path,
-            :size => fields[1].to_i,
-            :blocks => fields[2].to_i,
-            :uid => fields[4].to_i,
-            :gid => fields[5].to_i,
-            :inode => fields[7].to_i,
-            :links => fields[8].to_i,
-            :atime => Time.at(fields[11].to_i),
-            :mtime => Time.at(fields[12].to_i),
-            :ctime => Time.at(fields[13].to_i),
-            :blocksize => fields[14].to_i
+            path: path,
+            size: fields[1].to_i,
+            blocks: fields[2].to_i,
+            uid: fields[4].to_i,
+            gid: fields[5].to_i,
+            inode: fields[7].to_i,
+            links: fields[8].to_i,
+            atime: Time.at(fields[11].to_i),
+            mtime: Time.at(fields[12].to_i),
+            ctime: Time.at(fields[13].to_i),
+            blocksize: fields[14].to_i
           }
         end
 

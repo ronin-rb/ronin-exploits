@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ronin/encoders/encoder'
 
 describe Encoders::Encoder do
-  subject { described_class.new(:name => 'test') }
+  subject { described_class.new(name: 'test') }
 
   let(:data) { 'some data' }
 

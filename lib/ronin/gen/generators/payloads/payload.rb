@@ -37,26 +37,26 @@ module Ronin
 
           template 'payload.erb'
 
-          parameter :helpers, :type    => Array[Symbol],
-                              :default => []
+          parameter :helpers, type:    Array[Symbol],
+                              default: []
 
-          parameter :name, :type    => String,
-                           :default => 'Payload'
+          parameter :name, type:    String,
+                           default: 'Payload'
 
-          parameter :version, :type    => String,
-                              :default => '0.1'
+          parameter :version, type:    String,
+                              default: '0.1'
 
-          parameter :description, :type    => String,
-                                  :default => 'This is a payload.'
+          parameter :description, type:    String,
+                                  default: 'This is a payload.'
 
-          parameter :authors, :type    => Array,
-                              :default => ['Anonymous']
+          parameter :authors, type:    Array,
+                              default: ['Anonymous']
 
-          parameter :arch, :type => Symbol
+          parameter :arch, type: Symbol
 
-          parameter :os, :type => String
+          parameter :os, type: String
 
-          parameter :os_version, :type => String
+          parameter :os_version, type: String
 
         end
       end

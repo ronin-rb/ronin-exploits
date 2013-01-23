@@ -33,28 +33,28 @@ module Ronin
 
           model Ronin::Encoders::Encoder
 
-          query_option :named, :type  => String,
-                               :flag  => '-n',
-                               :usage => 'NAME'
+          query_option :named, type:  String,
+                               flag:  '-n',
+                               usage: 'NAME'
 
-          query_option :revision, :type  => String,
-                                  :flag  => '-V',
-                                  :usage => 'VERSION'
+          query_option :revision, type:  String,
+                                  flag:  '-V',
+                                  usage: 'VERSION'
 
-          query_option :describing, :type  => String,
-                                    :flag  => '-d',
-                                    :usage => 'TEXT'
+          query_option :describing, type:  String,
+                                    flag:  '-d',
+                                    usage: 'TEXT'
 
-          query_option :status, :type  => String,
-                                :flag  => '-s',
-                                :usage => 'potential|proven|weaponized'
+          query_option :status, type:  String,
+                                flag:  '-s',
+                                usage: 'potential|proven|weaponized'
 
-          query_option :licensed_under, :type  => String,
-                                        :flag  => '-l',
-                                        :usage => 'LICENSE'
+          query_option :licensed_under, type:  String,
+                                        flag:  '-l',
+                                        usage: 'LICENSE'
 
-          option :verbose, :type => true,
-                           :flag => '-v'
+          option :verbose, type: true,
+                           flag: '-v'
 
           protected
 
@@ -99,7 +99,7 @@ module Ronin
               end
 
               unless encoder.params.empty?
-                print_array encoder.params.values, :title => 'Parameters'
+                print_array encoder.params.values, title: 'Parameters'
               end
             end
           end

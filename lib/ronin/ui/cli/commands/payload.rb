@@ -34,36 +34,36 @@ module Ronin
 
           script_class Ronin::Payloads::Payload
 
-          query_option :targeting_arch, :type  => String,
-                                        :flag  => '-a',
-                                        :usage => 'ARCH'
+          query_option :targeting_arch, type:  String,
+                                        flag:  '-a',
+                                        usage: 'ARCH'
 
-          query_option :targeting_os, :type  => String,
-                                      :flag  => '-o',
-                                      :usage => 'OS'
+          query_option :targeting_os, type:  String,
+                                      flag:  '-o',
+                                      usage: 'OS'
 
-          option :print, :type        => true,
-                         :default     => true,
-                         :description => 'Prints the raw payload'
+          option :print, type:        true,
+                         default:     true,
+                         description: 'Prints the raw payload'
 
-          option :string, :type        => true,
-                          :default     => true,
-                          :flag        => '-s',
-                          :description => 'Prints the raw payload as a String'
+          option :string, type:        true,
+                          default:     true,
+                          flag:        '-s',
+                          description: 'Prints the raw payload as a String'
 
-          option :raw, :type        => true,
-                       :flag        => '-r',
-                       :description => 'Prints the raw payload'
+          option :raw, type:        true,
+                       flag:        '-r',
+                       description: 'Prints the raw payload'
 
-          option :hex, :type        => true,
-                       :flag        => '-x',
-                       :description => 'Prints the raw payload in hex'
+          option :hex, type:        true,
+                       flag:        '-x',
+                       description: 'Prints the raw payload in hex'
 
-          option :deploy, :type        => true,
-                          :description => 'Deploys the Payload'
+          option :deploy, type:        true,
+                          description: 'Deploys the Payload'
 
-          option :shell, :type => true
-          option :fs,    :type => true
+          option :shell, type: true
+          option :fs,    type: true
 
           #
           # Sets up the Payload command.
@@ -83,7 +83,7 @@ module Ronin
               # Build the payload
               @payload.build!
             rescue Behaviors::Exception,
-                   Payloads::Exception => error
+                   Payloads:Exception: error
               print_error error.message
               exit -1
             end

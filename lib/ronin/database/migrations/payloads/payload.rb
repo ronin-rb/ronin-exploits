@@ -27,17 +27,17 @@ module Ronin
   module Database
     module Migrations
       migration :create_payloads_table,
-                :needs => [
+                needs: [
                   :create_licenses_table,
                   :create_script_paths_table
                 ] do
         up do
           create_table :ronin_payloads_payloads do
             column :id, Serial
-            column :type, String, :not_null => true
-            column :name, String, :not_null => true
+            column :type, String, not_null: true
+            column :name, String, not_null: true
             column :description, Ronin::Model::Types::Description
-            column :version, String, :default => '0.1'
+            column :version, String, default: '0.1'
             column :license_id, Integer
             column :script_path_id, Integer
             column :arch_id, Integer

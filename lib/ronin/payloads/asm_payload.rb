@@ -59,7 +59,7 @@ module Ronin
           build_failed! "Must target an Arch for Assembly payload"
         end
 
-        program_options = {:arch => self.arch.name.to_sym}
+        program_options = {arch: self.arch.name.to_sym}
 
         if self.os
           program_options[:os] = self.os.name.to_sym

@@ -10,7 +10,7 @@ describe Gen::Generators::Payloads::Web do
   let(:path) { File.join(Dir.tmpdir,'generated_web_payload.rb') }
 
   before(:all) do
-    described_class.generate(path, :edit => false)
+    described_class.generate(path, edit: false)
   end
 
   subject { Payloads::Web.load_object(path) }

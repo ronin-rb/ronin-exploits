@@ -10,7 +10,7 @@ describe Gen::Generators::Payloads::Payload do
   let(:path) { File.join(Dir.tmpdir,'generated_payload.rb') }
 
   before(:all) do
-    described_class.generate(path, :edit => false)
+    described_class.generate(path, edit: false)
   end
 
   subject { Payloads::Payload.load_object(path) }

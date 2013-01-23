@@ -26,12 +26,12 @@ module Ronin
   module Database
     module Migrations
       migration :create_encoders_table,
-                :needs => :create_script_paths_table do
+                needs: :create_script_paths_table do
         up do
           create_table :ronin_encoders_encoders do
             column :id, Serial
-            column :type, String, :not_null => true
-            column :name, String, :not_null => true
+            column :type, String, not_null: true
+            column :name, String, not_null: true
             column :description, Ronin::Model::Types::Description
             column :arch_id, Integer
             column :os_id, Integer
@@ -40,8 +40,8 @@ module Ronin
 
           create_table :ronin_author_encoders_encoders do
             column :id, Serial
-            column :author_id, Integer, :not_null => true
-            column :encoder_id, Integer, :not_null => true
+            column :author_id, Integer, not_null: true
+            column :encoder_id, Integer, not_null: true
           end
         end
 

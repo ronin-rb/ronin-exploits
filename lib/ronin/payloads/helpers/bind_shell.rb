@@ -68,16 +68,16 @@ module Ronin
         def self.extended(base)
           base.instance_eval do
             # The host the bind-shell is running on
-            parameter :host, :type => String,
-                             :description => 'Host to connect to'
+            parameter :host, type: String,
+                             description: 'Host to connect to'
 
             # The port the bind-shell is listening on
-            parameter :port, :type => Integer,
-                             :description => 'Port to connect to'
+            parameter :port, type: Integer,
+                             description: 'Port to connect to'
 
             # The protocol to use (tcp/udp)
-            parameter :protocol, :default => :tcp,
-                                 :description => 'Protocol to connect with'
+            parameter :protocol, default: :tcp,
+                                 description: 'Protocol to connect with'
 
             test_set :host
             test_set :port

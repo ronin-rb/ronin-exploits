@@ -33,29 +33,29 @@ module Ronin
 
           model Ronin::Payloads::Payload
 
-          query_option :named, :type  => String,
-                               :flag  => '-n',
-                               :usage => 'NAME'
+          query_option :named, type:  String,
+                               flag:  '-n',
+                               usage: 'NAME'
 
-          query_option :revision, :type  => String,
-                                  :flag  => '-v',
-                                  :usage => 'VERSION'
+          query_option :revision, type:  String,
+                                  flag:  '-v',
+                                  usage: 'VERSION'
 
-          query_option :describing, :type  => String,
-                                    :flag  => '-d',
-                                    :usage => 'TEXT'
+          query_option :describing, type:  String,
+                                    flag:  '-d',
+                                    usage: 'TEXT'
 
-          query_option :licensed_under, :type  => String,
-                                        :flag  => '-l',
-                                        :usage => 'LICENSE'
+          query_option :licensed_under, type:  String,
+                                        flag:  '-l',
+                                        usage: 'LICENSE'
 
-          query_option :targeting_arch, :type  => String,
-                                        :flag  => '-a',
-                                        :usage => 'x86|x86_64|ia64|ppc|ppc64|sparc|sparc64|mips|mips_le|arm|arm_le'
+          query_option :targeting_arch, type:  String,
+                                        flag:  '-a',
+                                        usage: 'x86|x86_64|ia64|ppc|ppc64|sparc|sparc64|mips|mips_le|arm|arm_le'
 
-          query_option :targeting_os, :type  => String,
-                                      :flag  => '-o',
-                                      :usage => 'Linux|FreeBSD|OpenBSD|NetBSD|OSX|Solaris|Windows|UNIX'
+          query_option :targeting_os, type:  String,
+                                      flag:  '-o',
+                                      usage: 'Linux|FreeBSD|OpenBSD|NetBSD|OSX|Solaris|Windows|UNIX'
 
           protected
 
@@ -104,7 +104,7 @@ module Ronin
               end
 
               unless payload.params.empty?
-                print_array payload.params.values, :title => 'Parameters'
+                print_array payload.params.values, title: 'Parameters'
               end
             end
           end

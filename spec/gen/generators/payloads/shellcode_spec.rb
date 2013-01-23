@@ -10,7 +10,7 @@ describe Gen::Generators::Payloads::Shellcode do
   let(:path) { File.join(Dir.tmpdir,'generated_shellcode_payload.rb') }
 
   before(:all) do
-    described_class.generate(path, :edit => false)
+    described_class.generate(path, edit: false)
   end
 
   subject { Payloads::Shellcode.load_object(path) }

@@ -48,29 +48,29 @@ module Ronin
           object.extend Network::HTTP
 
           object.instance_eval do
-            parameter :transport, :type        => Symbol,
-                                  :description => 'RPC Transport [tcp_server, tcp_connect_back, http]'
+            parameter :transport, type:        Symbol,
+                                  description: 'RPC Transport [tcp_server, tcp_connect_back, http]'
 
-            parameter :host, :type        => String,
-                             :description => 'RPC host'
+            parameter :host, type:        String,
+                             description: 'RPC host'
 
-            parameter :port, :type        => Integer,
-                             :description => 'RPC port'
+            parameter :port, type:        Integer,
+                             description: 'RPC port'
 
-            parameter :local_host, :type        => String,
-                                   :default     => '0.0.0.0',
-                                   :description => 'Local RPC host'
+            parameter :local_host, type:        String,
+                                   default:     '0.0.0.0',
+                                   description: 'Local RPC host'
 
-            parameter :local_port, :type        => Integer,
-                                   :description => 'Local RPC port'
+            parameter :local_port, type:        Integer,
+                                   description: 'Local RPC port'
 
-            parameter :url_path, :type        => String,
-                                 :default     => '/',
-                                 :description => 'Path to the HTTP RPC Server'
+            parameter :url_path, type:        String,
+                                 default:     '/',
+                                 description: 'Path to the HTTP RPC Server'
 
-            parameter :url_query_params, :type        => Hash[String => String],
-                                         :default     => {},
-                                         :description => 'Additional URL query params'
+            parameter :url_query_params, type:        Hash[String => String],
+                                         default:     {},
+                                         description: 'Additional URL query params'
 
             deploy { rpc_connect }
 
@@ -91,9 +91,9 @@ module Ronin
           end
 
           url = URI::HTTP.build(
-            :host => self.host,
-            :port => self.port,
-            :path => url_path
+            host: self.host,
+            port: self.port,
+            path: url_path
           )
           url.query_params = url_query_params
 
@@ -136,7 +136,7 @@ module Ronin
         #   The exception raised.
         #
         def rpc_call(name,*arguments)
-          response = rpc_send(:name => name, :arguments => arguments)
+          response = rpc_send(name: name, arguments: arguments)
 
           if response['exception']
             raise(Exception,response['exception'])
@@ -243,7 +243,7 @@ module Ronin
         def rpc_deserialize(data)
           begin
             JSON.parse(Base64.decode64(data))
-          rescue JSON::ParseError => error
+          rescue JSON:ParseError: error
             raise(InvalidResponse,error.message)
           end
         end
@@ -311,7 +311,7 @@ module Ronin
 
             response = @connection.readline("\0").chomp("\0")
           when :http
-            response = http_get_body(:url => rpc_url_for(message))
+            response = http_get_body(url: rpc_url_for(message))
 
             # attempt to extract the RPC response from the HTTP response
             response.match(HTML_EXTRACTOR) do |match|

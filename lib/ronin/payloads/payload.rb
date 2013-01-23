@@ -82,8 +82,8 @@ module Ronin
     #     cache do
     #       # ...
     #
-    #       author :name => 'evoltech', :organization => 'HackBloc'
-    #       author :name => 'postmodern', :organization => 'SophSec'
+    #       author name: 'evoltech', organization: 'HackBloc'
+    #       author name: 'postmodern', organization: 'SophSec'
     #     end
     #
     # ## Targeting
@@ -96,7 +96,7 @@ module Ronin
     #       # ...
     #
     #       arch! :i686
-    #       os! :name => 'Linux'
+    #       os! name: 'Linux'
     #     end
     #
     # # Methods
@@ -128,7 +128,7 @@ module Ronin
     # To chain a cached payload, from the Ronin Database, simply use the
     # `use_payload!` method:
     #
-    #     payload.use_payload!(:name.like => '%Bind Shell%')
+    #     payload.use_payload!(:name.like '%Bind Shell%')
     #
     # In order to chain a payload, loaded directly from a file, call the 
     # `use_payload_from!` method:

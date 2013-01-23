@@ -27,15 +27,15 @@ module Ronin
   module Database
     module Migrations
       migration :create_author_payloads_table,
-                :needs => [
+                needs: [
                   :create_authors_table,
                   :create_payloads_table
                 ] do
         up do
           create_table :ronin_author_payloads do
             column :id, Serial
-            column :author_id, Integer, :not_null => true
-            column :payload_id, Integer, :not_null => true
+            column :author_id, Integer, not_null: true
+            column :payload_id, Integer, not_null: true
           end
         end
 

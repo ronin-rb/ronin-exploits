@@ -37,20 +37,20 @@ module Ronin
           script_class Ronin::Encoders::Encoder
 
           # encoder options
-          option :input, :type  => String,
-                         :flag  => '-I',
-                         :usage => 'DATA'
+          option :input, type:  String,
+                         flag:  '-I',
+                         usage: 'DATA'
 
-          option :input_file, :type  => String,
-                              :flag  => '-i',
-                              :usage => 'FILE'
+          option :input_file, type:  String,
+                              flag:  '-i',
+                              usage: 'FILE'
 
-          option :output, :type  => String,
-                          :flag  => '-o',
-                          :usage => 'FILE'
+          option :output, type:  String,
+                          flag:  '-o',
+                          usage: 'FILE'
 
-          option :raw, :type => true,
-                       :flag => '-r'
+          option :raw, type: true,
+                       flag: '-r'
 
           #
           # Sets up the Encoder command.
