@@ -83,7 +83,7 @@ module Ronin
               # Build the payload
               @payload.build!
             rescue Behaviors::Exception,
-                   Payloads:Exception: error
+                   Payloads::Exception => error
               print_error error.message
               exit -1
             end
