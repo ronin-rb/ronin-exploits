@@ -18,7 +18,7 @@ describe Gen::Generators::Payloads::Web do
   it_should_behave_like "a generated Payload"
 
   it "should define a Web payload" do
-    subject.class.should == Payloads::Web
+    expect(subject.class).to eq(Payloads::Web)
   end
 
   after(:all) { FileUtils.rm(path) }

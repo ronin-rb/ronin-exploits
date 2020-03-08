@@ -24,42 +24,42 @@ describe Payloads::Helpers::BindShell do
     it "should test the host is set" do
       subject.host = nil
 
-      lambda {
+      expect {
         subject.test!
-      }.should raise_error(Behaviors::TestFailed)
+      }.to raise_error(Behaviors::TestFailed)
 
       subject.host = 'localhost'
-      subject.test!.should == true
+      expect(subject.test!).to eq(true)
     end
 
     it "should test the port is set" do
       subject.port = nil
 
-      lambda {
+      expect {
         subject.test!
-      }.should raise_error(Behaviors::TestFailed)
+      }.to raise_error(Behaviors::TestFailed)
 
       subject.port = 9999
-      subject.test!.should == true
+      expect(subject.test!).to eq(true)
     end
 
     context "protocol" do
       it "should accept :tcp" do
         subject.protocol = :tcp
-        subject.test!.should == true
+        expect(subject.test!).to eq(true)
       end
 
       it "should accept :udp" do
         subject.protocol = :udp
-        subject.test!.should == true
+        expect(subject.test!).to eq(true)
       end
 
       it "should test that protocol is either :tcp or :udp" do
         subject.protocol = :fail
 
-        lambda {
+        expect {
           subject.test!
-        }.should raise_error(Behaviors::TestFailed)
+        }.to raise_error(Behaviors::TestFailed)
       end
     end
   end

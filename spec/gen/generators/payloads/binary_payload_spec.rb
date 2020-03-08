@@ -18,7 +18,7 @@ describe Gen::Generators::Payloads::BinaryPayload do
   it_should_behave_like "a generated Payload"
 
   it "should define a BinaryPayload" do
-    subject.class.should == Payloads::BinaryPayload
+    expect(subject.class).to eq(Payloads::BinaryPayload)
   end
 
   after(:all) { FileUtils.rm(path) }

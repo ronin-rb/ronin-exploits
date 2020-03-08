@@ -18,7 +18,7 @@ describe Gen::Generators::Payloads::Shellcode do
   it_should_behave_like "a generated Payload"
 
   it "should define a Shellcode payload" do
-    subject.class.should == Payloads::Shellcode
+    expect(subject.class).to eq(Payloads::Shellcode)
   end
 
   after(:all) { FileUtils.rm(path) }

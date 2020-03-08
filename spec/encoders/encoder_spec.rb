@@ -8,21 +8,21 @@ describe Encoders::Encoder do
 
   it "should require a name" do
     encoder = described_class.new
-    encoder.should_not be_valid
+    expect(encoder).not_to be_valid
 
     encoder = described_class.new(:name => 'encoder')
-    encoder.should be_valid
+    expect(encoder).to be_valid
   end
 
   describe "#encode" do
     it { should respond_to(:encode) }
 
     it "should return the data to be encoded by default" do
-      subject.encode(data).should == data
+      expect(subject.encode(data)).to eq(data)
     end
   end
 
   it "should have a custom inspect method" do
-    subject.inspect.should == '#<Ronin::Encoders::Encoder: test>'
+    expect(subject.inspect).to eq('#<Ronin::Encoders::Encoder: test>')
   end
 end

@@ -18,7 +18,7 @@ describe Gen::Generators::Payloads::Nops do
   it_should_behave_like "a generated Payload"
 
   it "should define a Nops payload" do
-    subject.class.should == Payloads::Nops
+    expect(subject.class).to eq(Payloads::Nops)
   end
 
   after(:all) { FileUtils.rm(path) }
