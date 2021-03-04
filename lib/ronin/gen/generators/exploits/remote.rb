@@ -1,5 +1,5 @@
 #
-# ronin-exploits - A Ruby library for Ronin that provides exploitation and
+# ronin-exploits - A Ruby library for ronin-rb that provides exploitation and
 # payload crafting functionality.
 #
 # Copyright (c) 2007-2013 Hal Brodigan (postmodern.mod3 at gmail.com)
