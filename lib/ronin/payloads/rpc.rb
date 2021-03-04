@@ -1,10 +1,10 @@
 #
-# Ronin Exploits - A Ruby library for Ronin that provides exploitation and
+# ronin-exploits - A Ruby library for Ronin that provides exploitation and
 # payload crafting functionality.
 #
 # Copyright (c) 2007-2013 Hal Brodigan (postmodern.mod3 at gmail.com)
 #
-# This file is part of Ronin Exploits.
+# This file is part of ronin-exploits.
 #
 # Ronin is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
